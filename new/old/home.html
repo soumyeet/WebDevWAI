@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="main.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Recruitment Helper - Home</title>
+</head>
+<body>
+    <header>
+        <h1><i>Conexio</i></h1>
+        <div class="nav-items">
+            <div class="tabs">
+                <div class="tab active">Home</div>
+                <div class="tab" onclick="window.location.href='perf.html'">Performance</div>
+                <div class="tab" onclick="window.location.href='jobs.html'">Jobs</div>
+            </div>
+            <div class="account-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+            </div>
+        </div>
+    </header>
+
+    <div class="profile-section">
+        <div class="profile-image">
+            <img src="https://placehold.co/200x200" alt="AI Assistant">
+        </div>
+        <div class="profile-info">
+            <h2>Your AI Career Assistant</h2>
+            <h3>Smart Recruitment Helper</h3>
+            <p class="profile-description">
+                Welcome to your personalized AI-powered career companion. We analyze your skills, 
+                match you with the perfect companies, and help optimize your job search journey. 
+                Get tailored recommendations and real-time insights to boost your career prospects.
+            </p>
+            <div class="profile-stats">
+                <div class="stat">
+                    <span class="stat-number">1M+</span>
+                    <span class="stat-label">Users Helped</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">500+</span>
+                    <span class="stat-label">Partner Companies</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">90%</span>
+                    <span class="stat-label">Success Rate</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="benefits-section">
+        <h2 class="benefits-heading">Benefits for Students</h2>
+        
+        <div class="benefit-item">
+            <div class="benefit-image">
+                <img src="https://placehold.co/300x200" alt="Skill Analysis">
+            </div>
+            <div class="benefit-content">
+                <h3>Smart Skill Analysis</h3>
+                <p>Our AI-powered system analyzes your skills and experience to create a comprehensive profile. 
+                Get detailed insights about your strengths and areas for improvement. The platform provides 
+                personalized recommendations to enhance your skillset and increase your chances of landing 
+                your dream job.</p>
+            </div>
+        </div>
+
+        <div class="benefit-item reverse">
+            <div class="benefit-image">
+                <img src="https://placehold.co/300x200" alt="Job Matching">
+            </div>
+            <div class="benefit-content">
+                <h3>Intelligent Job Matching</h3>
+                <p>Stop spending hours searching through job listings. Our AI matches you with positions that 
+                align with your skills and career goals. Get real-time comparisons between your profile and 
+                job requirements, along with specific recommendations to improve your qualifications for 
+                target positions.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="benefits-section">
+        <h2 class="benefits-heading">Benefits for Recruiters</h2>
+        
+        <div class="benefit-item">
+            <div class="benefit-image">
+                <img src="https://placehold.co/300x200" alt="Candidate Screening">
+            </div>
+            <div class="benefit-content">
+                <h3>Efficient Candidate Screening</h3>
+                <p>Save time and resources with our advanced candidate screening system. Our AI analyzes 
+                candidate profiles and matches them against your job requirements with high precision. 
+                Get detailed insights into each candidate's skills, experience, and potential cultural fit 
+                for your organization.</p>
+            </div>
+        </div>
+
+        <div class="benefit-item reverse">
+            <div class="benefit-image">
+                <img src="https://placehold.co/300x200" alt="Analytics Dashboard">
+            </div>
+            <div class="benefit-content">
+                <h3>Comprehensive Analytics</h3>
+                <p>Access powerful analytics and reporting tools to optimize your recruitment process. 
+                Track candidate pipeline metrics, identify skill gaps in your applicant pool, and get 
+                actionable insights to improve your hiring strategy. Make data-driven decisions with 
+                our intuitive dashboard.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="ai-section">
+        <h2 class="ai-heading">Powered by Advanced AI</h2>
+        <p>Our cutting-edge artificial intelligence works tirelessly to optimize your recruitment journey</p>
+        
+        <div class="ai-features">
+            <div class="ai-feature">
+                <h3>Natural Language Processing</h3>
+                <p>Advanced NLP algorithms analyze resumes and job descriptions to understand context and 
+                extract meaningful insights, ensuring precise matching between candidates and positions.</p>
+            </div>
+
+            <div class="ai-feature">
+                <h3>Machine Learning</h3>
+                <p>Our ML models continuously learn from successful placements and user feedback to improve 
+                matching accuracy and provide increasingly relevant recommendations.</p>
+            </div>
+
+            <div class="ai-feature">
+                <h3>Predictive Analytics</h3>
+                <p>AI-powered predictive models assess candidate success probability and identify skill gaps, 
+                helping both job seekers and recruiters make data-driven decisions.</p>
+            </div>
+
+            <div class="ai-feature">
+                <h3>Real-time Adaptation</h3>
+                <p>The system adapts to changing market trends and requirements in real-time, ensuring 
+                recommendations stay current with industry demands and opportunities.</p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const page = tab.textContent.toLowerCase();
+                if (page === 'performance') {
+                    window.location.href = 'perf.html';
+                } else if (page === 'jobs') {
+                    window.location.href = 'jobs.html';
+                } else if (page === 'home') {
+                    window.location.href = 'home.html';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Performance Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #40C9A2;
+            --secondary: #2EC4B6;
+            --accent: #20A4F3;
+            --light-bg: #F5F9F9;
+            --lighter-bg: #FFFFFF;
+            --text: #2A2D34;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: var(--text);
+        }
+
+        header {
+            background-color: var(--lighter-bg);
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 20px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            color: var(--text);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .tab:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .tab.active {
+            background-color: var(--secondary);
+            color: white;
+        }
+
+        .skills-section {
+            display: flex;
+            margin: 30px;
+            background: var(--lighter-bg);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            gap: 40px;
+        }
+
+        .chart-container {
+            width: 500px;
+            height: 500px;
+        }
+
+        .improvement-section {
+            flex: 1;
+            padding: 20px;
+        }
+
+        .improvement-section h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .improvement-point {
+            margin-bottom: 15px;
+            padding: 15px;
+            background-color: rgba(32, 164, 243, 0.1);
+            border-radius: 8px;
+            border-left: 4px solid var(--accent);
+        }
+
+        .companies-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+            margin: 30px;
+        }
+
+        .company-card {
+            background: var(--lighter-bg);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .company-logo {
+            width: 80px;
+            height: 80px;
+            background: var(--light-bg);
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .company-name {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .requirements {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+
+        .interview-date {
+            color: var(--accent);
+            font-weight: 500;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>AI Recruitment Helper</h1>
+        <div class="tabs">
+            <div class="tab">Resume</div>
+            <div class="tab active">Performance</div>
+            <div class="tab">Companies</div>
+        </div>
+    </header>
+
+    <div class="skills-section">
+        <div class="chart-container">
+            <canvas id="skillsChart"></canvas>
+        </div>
+        <div class="improvement-section">
+            <h2>Areas for Improvement</h2>
+            <div class="improvement-point">
+                <strong>Communication:</strong> Work on presenting technical concepts to non-technical stakeholders
+            </div>
+            <div class="improvement-point">
+                <strong>Leadership:</strong> Take more initiative in team projects and mentor junior developers
+            </div>
+            <div class="improvement-point">
+                <strong>Problem Solving:</strong> Practice more algorithmic challenges on LeetCode
+            </div>
+        </div>
+    </div>
+
+    <div class="companies-grid">
+        <div class="company-card">
+            <div class="company-logo"></div>
+            <div class="company-name">TechCorp Inc</div>
+            <ul class="requirements">
+                <li>5+ years React experience</li>
+                <li>Strong system design skills</li>
+                <li>AWS certification preferred</li>
+            </ul>
+            <div class="interview-date">Interview: Dec 15, 2023</div>
+        </div>
+        <div class="company-card">
+            <div class="company-logo"></div>
+            <div class="company-name">DataSoft Solutions</div>
+            <ul class="requirements">
+                <li>Python expertise</li>
+                <li>ML/AI experience</li>
+                <li>MS/PhD preferred</li>
+            </ul>
+            <div class="interview-date">Interview: Dec 18, 2023</div>
+        </div>
+        <div class="company-card">
+            <div class="company-logo"></div>
+            <div class="company-name">CloudScale</div>
+            <ul class="requirements">
+                <li>Kubernetes expertise</li>
+                <li>DevOps experience</li>
+                <li>Go programming</li>
+            </ul>
+            <div class="interview-date">Interview: Dec 20, 2023</div>
+        </div>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('skillsChart');
+        new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: [
+                    'Communication',
+                    'Technical Skills',
+                    'Problem Solving',
+                    'Leadership',
+                    'Creativity'
+                ],
+                datasets: [{
+                    label: 'Your Skills',
+                    data: [65, 85, 70, 60, 75],
+                    fill: true,
+                    backgroundColor: 'rgba(46, 196, 182, 0.2)',
+                    borderColor: '#40C9A2',
+                    pointBackgroundColor: '#20A4F3',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: '#20A4F3'
+                }]
+            },
+            options: {
+                elements: {
+                    line: {
+                        borderWidth: 3
+                    }
+                },
+                scales: {
+                    r: {
+                        angleLines: {
+                            color: 'rgba(0, 0, 0, 0.1)'
+                        },
+                        grid: {
+                            color: 'rgba(0, 0, 0, 0.1)'
+                        },
+                        pointLabels: {
+                            color: '#2A2D34'
+                        },
+                        ticks: {
+                            backdropColor: 'transparent'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

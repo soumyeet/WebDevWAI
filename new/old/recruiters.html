@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Company Dashboard | Conexio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #3cbac4;
+            --secondary: #298086;
+            --success: #4CAF50;
+            --warning: #FFC107;
+            --danger: #FF5252;
+            --text: #333;
+            --light-bg: #f8f9fa;
+            --border: #e0e0e0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: var(--light-bg);
+        }
+
+        /* Header Styles */
+        header {
+            background: white;
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .company-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .company-logo {
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Dashboard Grid */
+        .dashboard {
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .stat-card {
+            background: var(--light-bg);
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin: 0.5rem 0;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        /* Recent Applications */
+        .application-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .application-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .application-item:last-child {
+            border-bottom: none;
+        }
+
+        .applicant-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--light-bg);
+            margin-right: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Rating Component */
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .rating-value {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .rating-stars {
+            color: var(--warning);
+        }
+
+        /* Job Listings */
+        .job-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .job-item {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .job-status {
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+
+        .status-active {
+            background: rgba(76, 175, 80, 0.1);
+            color: var(--success);
+        }
+
+        .status-draft {
+            background: rgba(255, 193, 7, 0.1);
+            color: var(--warning);
+        }
+
+        /* Activity Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-bottom: 1.5rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -34px;
+            top: 0;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--primary);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="company-info">
+            <div class="company-logo">TC</div>
+            <div>
+                <h1 style="margin: 0;">TechCorp</h1>
+                <span style="color: #666;">Company Dashboard</span>
+            </div>
+        </div>
+        <div class="account-btn">
+            <span class="material-icons">account_circle</span>
+        </div>
+    </header>
+
+    <div class="dashboard">
+        <!-- Overview Stats -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Overview</h2>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value">127</div>
+                    <div class="stat-label">Total Applications</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">12</div>
+                    <div class="stat-label">Active Jobs</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">85%</div>
+                    <div class="stat-label">Response Rate</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value">24</div>
+                    <div class="stat-label">Interviews Scheduled</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Company Rating -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Company Rating</h2>
+            </div>
+            <div class="rating">
+                <div class="rating-value">4.8</div>
+                <div class="rating-stars">
+                    <span class="material-icons">star</span>
+                    <span class="material-icons">star</span>
+                    <span class="material-icons">star</span>
+                    <span class="material-icons">star</span>
+                    <span class="material-icons">star_half</span>
+                </div>
+            </div>
+            <p style="color: #666;">Based on 156 employee reviews</p>
+        </div>
+
+        <!-- Recent Applications -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Recent Applications</h2>
+                <a href="#" style="color: var(--primary); text-decoration: none;">View All</a>
+            </div>
+            <ul class="application-list">
+                <li class="application-item">
+                    <div class="applicant-avatar">
+                        <span class="material-icons">person</span>
+                    </div>
+                    <div style="flex: 1">
+                        <div style="font-weight: 500;">John Doe</div>
+                        <div style="font-size: 0.9rem; color: #666;">Senior Developer</div>
+                    </div>
+                    <div style="color: var(--primary)">New</div>
+                </li>
+                <!-- More application items -->
+            </ul>
+        </div>
+
+        <!-- Active Job Listings -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Job Listings</h2>
+            </div>
+            <ul class="job-list">
+                <li class="job-item">
+                    <div>
+                        <div style="font-weight: 500;">Senior Frontend Developer</div>
+                        <div style="font-size: 0.9rem; color: #666;">15 applications</div>
+                    </div>
+                    <span class="job-status status-active">Active</span>
+                </li>
+                <li class="job-item">
+                    <div>
+                        <div style="font-weight: 500;">UX Designer</div>
+                        <div style="font-size: 0.9rem; color: #666;">8 applications</div>
+                    </div>
+                    <span class="job-status status-draft">Draft</span>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Recent Activity</h2>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div style="font-weight: 500;">New Application Received</div>
+                    <div style="font-size: 0.9rem; color: #666;">John Doe applied for Senior Developer position</div>
+                    <div style="font-size: 0.8rem; color: #999;">2 hours ago</div>
+                </div>
+                <div class="timeline-item">
+                    <div style="font-weight: 500;">Interview Scheduled</div>
+                    <div style="font-size: 0.9rem; color: #666;">With Sarah Smith for UX Designer role</div>
+                    <div style="font-size: 0.8rem; color: #999;">Yesterday</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

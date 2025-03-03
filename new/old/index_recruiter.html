@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Recruiter Dashboard</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+  }
+  .container {
+    margin-top: 20px;
+  }
+  .header {
+    background-color: #007bff;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .dashboard-item {
+    background-color: white;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  .metric-value {
+    font-size: 2em;
+    font-weight: bold;
+  }
+  .metric-label {
+    font-size: 1.2em;
+    color: #6c757d;
+  }
+  .applicant-list {
+    list-style: none;
+    padding: 0;
+  }
+  .applicant-list li {
+    padding: 5px 0;
+    border-bottom: 1px solid #eee;
+  }
+  .job-listing {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  .activity-item {
+    padding: 5px 0;
+    border-bottom: 1px solid #eee;
+  }
+  .competitor-standing table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .competitor-standing th, .competitor-standing td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+
+    .competitor-standing th {
+        background-color: #f2f2f2;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <img src="company_logo.png" alt="Company Logo" height="50"> <!-- Replace with your actual logo -->
+    <h1>Acme Corp Recruiter Dashboard</h1>
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+      <div class="dashboard-item">
+        <div class="metric-value">50</div>
+        <div class="metric-label">Job Postings</div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="dashboard-item">
+        <div class="metric-value">250</div>
+        <div class="metric-label">Applicants</div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="dashboard-item">
+        <div class="metric-value">15</div>
+        <div class="metric-label">Active Jobs</div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="dashboard-item">
+        <div class="metric-value">20</div>
+        <div class="metric-label">Interviews Scheduled</div>
+      </div>
+    </div>
+  </div>
+
+     <div class="row">
+         <div class="col-md-3">
+             <div class="dashboard-item">
+                 <div class="metric-value">85%</div>
+                 <div class="metric-label">Response Rate</div>
+             </div>
+         </div>
+         <div class="col-md-3">
+             <div class="dashboard-item">
+                 <div class="metric-value">4.5/5</div>
+                 <div class="metric-label">Company Rating</div>
+             </div>
+         </div>
+     </div>
+
+
+  <div class="row">
+    <div class="col-md-8">
+      <div class="dashboard-item">
+        <h2>Applicants per Job Posting</h2>
+        <canvas id="applicantChart"></canvas>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="dashboard-item">
+        <h2>Recent Applicants</h2>
+        <ul class="applicant-list">
+          <li>John Doe</li>
+          <li>Jane Smith</li>
+          <li>Peter Jones</li>
+          <li>Alice Brown</li>
+          <li>Bob Williams</li>
+        </ul>
+        <a href="#">View All</a>
+      </div>
+    </div>
+  </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="dashboard-item">
+                <h2>Job Listings</h2>
+                <div class="job-listing">
+                    <h4>Software Engineer</h4>
+                    <p>Develop and maintain high-quality software...</p>
+                </div>
+                <div class="job-listing">
+                    <h4>Marketing Manager</h4>
+                    <p>Lead marketing campaigns and strategies...</p>
+                </div>
+                <!-- More job listings -->
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="dashboard-item">
+                <h2>Recent Activity</h2>
+                <ul class="activity-list">
+                    <li class="activity-item">Jane Smith applied for Software Engineer role.</li>
+                    <li class="activity-item">Interview scheduled with John Doe for Marketing Manager role.</li>
+                    <li class="activity-item">Updated job description for Data Analyst role.</li>
+                    <!-- More activity items -->
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="dashboard-item competitor-standing">
+                <h2>Competitor Standing</h2>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Competitor</th>
+                        <th>Job Title</th>
+                        <th>Salary Range</th>
+                        <th>Applicants</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>CompA</td>
+                        <td>Software Engineer</td>
+                        <td>$100k - $120k</td>
+                        <td>30</td>
+                    </tr>
+                    <tr>
+                        <td>CompB</td>
+                        <td>Software Engineer</td>
+                        <td>$110k - $130k</td>
+                        <td>25</td>
+                    </tr>
+                    <tr>
+                        <td>CompA</td>
+                        <td>Marketing Manager</td>
+                        <td>$80k - $100k</td>
+                        <td>40</td>
+                    </tr>
+                    <!-- More rows as needed -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div class="text-center">
+        <button class="btn btn-primary">Post New Job</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Sample data for the chart.  Replace with actual data from your backend.
+  const applicantData = {
+    labels: ['Software Engineer', 'Marketing Manager', 'Data Analyst'],
+    datasets: [{
+      label: 'Applicants',
+      data: [60, 40, 50], // Example data
+      backgroundColor: [
+        'rgba(255, 99, 132, 0.2)',
+        'rgba(54, 162, 235, 0.2)',
+        'rgba(255, 206, 86, 0.2)'
+      ],
+      borderColor: [
+        'rgba(255, 99, 132, 1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 206, 86, 1)'
+      ],
+      borderWidth: 1
+    }]
+  };
+
+  const ctx = document.getElementById('applicantChart').getContext('2d');
+  const applicantChart = new Chart(ctx, {
+    type: 'bar',
+    data: applicantData,
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+</script>
+
+</body>
+</html>

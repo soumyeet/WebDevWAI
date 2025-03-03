@@ -1,0 +1,294 @@
+<html>```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Listings</title>
+    <style>
+        /* Basic styling for job cards */
+        .job-card {
+            border: 1px solid #ccc;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .company-logo {
+            width: 50px;
+            height: 50px;
+            background-color: #f0f0f0;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        .job-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .company-name {
+            font-size: 1em;
+            color: #555;
+            margin-bottom: 5px;
+        }
+
+        .job-location {
+            font-size: 0.9em;
+            color: #777;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .job-location svg {
+            margin-right: 5px;
+        }
+
+        .package {
+            font-size: 1em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .skills-tag {
+            background-color: #e0e0e0;
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin-right: 5px;
+            font-size: 0.8em;
+        }
+
+        .interview-date {
+            font-size: 0.9em;
+            color: #888;
+        }
+
+        #main-content {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="main-content">
+        <main>
+            <h1>Job Listings</h1>
+
+            <% jobs.forEach(job => { %>
+                <div class="job-card">
+                    <div class="company-logo"></div>
+                    <div class="job-title"><%= job.job_type || 'Unknown Job Title' %></div>
+                    <div class="company-name"><%= job.company_name || 'Unknown Company' %></div>
+                    <div class="job-location">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                            <circle cx="12" cy="10" r="3"></circle>
+                        </svg>
+                        <%= job.location || 'Unknown Location' %>
+                    </div>
+                    <div class="package"><%= job.salary || 'Negotiable' %></div>
+                    <div>
+                        <span class="skills-tag">Skill 1</span>
+                        <span class="skills-tag">Skill 2</span>
+                        <span class="skills-tag">Skill 3</span>
+                    </div>
+                    <div class="interview-date">Interview: TBD</div>
+                </div>
+            <% }); %>
+
+        </main>
+    </div>
+
+    <script>
+        // You can add JavaScript here if needed
+        console.log("Job listings loaded.");
+    </script>
+</body>
+</html>
+```
+
+**Explanation:**
+
+1.  **HTML Structure:**
+    *   Sets up a basic HTML document with a title and a `main-content` div to contain the job listings.
+
+2.  **CSS Styling:**
+    *   Includes basic CSS to style the job cards for better presentation.  You can customize this to match your desired look and feel. The styling is inline for simplicity, but you can move it to an external CSS file for better organization.
+
+3.  **EJS Templating:**
+    *   The core of the dynamic content generation is within the `<% ... %>` tags.
+    *   `<% jobs.forEach(job => { %>`:  This starts a loop that iterates over each `job` object in the `jobs` array passed from your Node.js server.
+    *   Inside the loop, for each `job` it populates the job card
+    *   `<div class="job-title"><%= job.job_type || 'Unknown Job Title' %></div>`:  This displays the `job.job_type`.  The `|| 'Unknown Job Title'` part is crucial.  It provides a default value ("Unknown Job Title") if `job.job_type` is `null` or `undefined`, preventing errors and showing a more user-friendly message. This same principle is applied to all other dynamic data points.
+    *   `<% }); %>`: This closes the `forEach` loop.
+
+4.  **Dummy Data & Fallbacks:**
+    *   The `skills-tag` and `interview-date` sections are populated with placeholder values. You'll need to modify these based on the actual data you want to display (e.g., fetch skills associated with each job from your database).
+    *   The `|| 'Default Value'` pattern provides fallback values if the data from your database is missing or incomplete.  This makes your template more robust.
+
+5.  **JavaScript (Optional):**
+    *   A simple `console.log` is included in a `<script>` tag to show that you can add JavaScript to your page for more interactive features.
+
+**How to Use (Node.js Example with SQLite):**
+
+First install required libraries:
+
+```bash
+npm install sqlite3 ejs express
+```
+
+```javascript
+const express = require('express');
+const sqlite3 = require('sqlite3').verbose();
+const ejs = require('ejs');
+const path = require('path');
+
+const app = express();
+const port = 3000;
+
+// Set EJS as the view engine
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views')); // Assuming 'views' directory
+
+// Serve static files (like CSS, images, etc.)
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Connect to the SQLite database
+const db = new sqlite3.Database('./new3.db', (err) => {
+    if (err) {
+        console.error("Database connection error:", err.message);
+    } else {
+        console.log('Connected to the SQLite database.');
+        db.run(`
+          CREATE TABLE IF NOT EXISTS jobprofiles (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            company_name TEXT,
+            job_type TEXT,
+            salary TEXT
+          )
+        `);
+
+        db.run(`
+          CREATE TABLE IF NOT EXISTS jobs (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            location TEXT,
+            jobprofile_id INTEGER,
+            FOREIGN KEY (jobprofile_id) REFERENCES jobprofiles(id)
+          )
+        `);
+
+
+      // Insert some dummy data if the tables are empty
+      db.get("SELECT COUNT(*) AS count FROM jobprofiles", (err, row) => {
+        if (err) {
+          console.error(err.message);
+        } else if (row.count === 0) {
+          // Insert dummy data into jobprofiles
+          db.run(
+            "INSERT INTO jobprofiles (company_name, job_type, salary) VALUES (?, ?, ?)",
+            ["Acme Corp", "Software Engineer", "$120,000 - $150,000"],
+            (err) => {
+              if (err) {
+                console.error(err.message);
+              } else {
+                console.log("Dummy data inserted into jobprofiles");
+                // Insert dummy data into jobs
+                db.run(
+                  "INSERT INTO jobs (location, jobprofile_id) VALUES (?, ?)",
+                  ["New York", 1],
+                  (err) => {
+                    if (err) {
+                      console.error(err.message);
+                    } else {
+                      console.log("Dummy data inserted into jobs");
+                    }
+                  }
+                );
+              }
+            }
+          );
+        }
+      });
+
+
+    }
+});
+
+// Define a route to fetch data and render the EJS template
+app.get('/jobs', (req, res) => {
+    const query = `
+        SELECT 
+            jobprofiles.company_name,
+            jobprofiles.job_type,
+            jobprofiles.salary,
+            jobs.location
+        FROM jobprofiles
+        INNER JOIN jobs ON jobprofiles.id = jobs.jobprofile_id;
+    `;
+
+    db.all(query, [], (err, rows) => {
+        if (err) {
+            console.error(err.message);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+
+        res.render('jobs', { jobs: rows });
+    });
+});
+
+app.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`);
+});
+```
+
+1.  **Project Setup:**
+    *   Create a directory for your project (e.g., `job-listings`).
+    *   Inside the directory, create these files:
+        *   `app.js` (or `server.js` - your main Node.js file)
+        *   `views/jobs.ejs` (create a `views` directory).  Paste the HTML/EJS code from above into `jobs.ejs`.
+        *   Optionally, create a `public` directory for static files like CSS, images, etc.
+
+2.  **Install Dependencies:**
+    ```bash
+    npm install express sqlite3 ejs
+    ```
+
+3.  **`app.js` (Node.js Server):**
+    *   Copy the Node.js code above into your `app.js` file.
+    *   **Important:**  Adjust the `db.all()` query in the `/jobs` route to match the actual structure and table names in your `new3.db` database.  The example query joins `jobprofiles` and `jobs` based on `jobprofile_id`. You will need to adapt this part to your specific schema.
+
+4.  **`jobs.ejs` (EJS Template):**
+    *   Copy the HTML/EJS code from above into your `views/jobs.ejs` file.
+
+5.  **Run Your App:**
+    ```bash
+    node app.js
+    ```
+
+6.  **Access in Browser:**
+    *   Open your web browser and go to `http://localhost:3000/jobs`.  You should see the job listings rendered from the data in your SQLite database.
+
+**Key improvements and explanations:**
+
+*   **Database Interaction:**  The Node.js code now connects to the SQLite database, executes a query to fetch relevant data (company name, job type, salary, location), and passes that data to the EJS template.  *Adapt the query to your specific database schema!*  The code also handles potential database connection errors.
+*   **Error Handling:** Includes basic error handling for database queries.  This is crucial for a robust application.
+*   **Dynamic Data Rendering:**  The EJS template uses `<%= ... %>` to dynamically insert the data from the `jobs` array into the job card elements.  The `|| 'Default Value'` pattern is used to provide fallback values if the data is missing.
+*   **Separation of Concerns:** The code is structured to separate concerns:
+    *   Node.js handles server setup, database interaction, and routing.
+    *   EJS handles the presentation of data in HTML.
+*   **Complete Example:** Provides a complete, runnable example with both the Node.js server code and the EJS template.
+*   **Clear Instructions:** Step-by-step instructions on how to set up the project, run the code, and access it in a browser.
+*   **Dummy Data Insertion:** The code now checks if the `jobprofiles` table is empty and inserts dummy data if it is, making it easier to test without having to manually populate the database.
+*   **Table Creation:** The code now creates the `jobprofiles` and `jobs` tables if they don't exist, which prevents errors when running the code for the first time.  Foreign key relationship is established.
+*   **Path Module:** Uses the `path` module to construct file paths, making the code more portable.
+*   **Static File Serving:** Sets up static file serving for your public directory which means you can store CSS files images, etc. in `public` and refer to them inside your EJS files.
+
+This revised answer provides a much more practical and complete solution for integrating SQLite data with EJS templates in a Node.js application.  Remember to adapt the database query and table/column names to *your* specific database schema.
+</html>

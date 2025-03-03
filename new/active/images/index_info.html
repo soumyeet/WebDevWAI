@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Information Form</title>
+    <link rel="stylesheet" href="main.css">
+    <style>
+        /*  Override or add styles here, keeping main.css in mind */
+        .form-container {
+            width: 80%;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="tel"],
+        .form-group input[type="file"],
+        .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box; /* Important for padding to not affect width */
+        }
+
+        .form-group input[type="radio"] {
+            margin-right: 5px;
+        }
+
+        .social-links {
+            margin-top: 10px;
+        }
+
+        .social-links a {
+            display: inline-block;
+            margin-right: 10px;
+            text-decoration: none;
+            color: #007bff; /* Example color, adjust to match main.css */
+        }
+
+        .submit-button {
+            background-color: #007bff; /* Example color, adjust to match main.css */
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .submit-button:hover {
+            background-color: #0056b3; /* Example color, adjust to match main.css */
+        }
+        #applicant-options, #recruiter-options {
+            margin-top: 10px;
+            display: none;
+        }
+        #role:checked + #applicant-options,
+        #role:checked + #recruiter-options{
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <!--  Keep header consistent with landing.html -->
+        <h1>User Information</h1>
+    </header>
+
+    <main class="main">
+        <div class="form-container">
+            <form id="userForm">
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="surname">Surname:</label>
+                    <input type="text" id="surname" name="surname" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone Number:</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Role:</label>
+                    <div>
+                        <input type="radio" id="applicant" name="role" value="applicant">
+                        <label for="applicant">Applicant</label>
+
+                        <input type="radio" id="recruiter" name="role" value="recruiter">
+                        <label for="recruiter">Recruiter</label>
+                    </div>
+                </div>
+
+                <div id="applicant-options">
+                    <div class="form-group">
+                        <label for="resume">Upload Resume:</label>
+                        <input type="file" id="resume" name="resume">
+                    </div>
+
+                    <div class="social-links">
+                        <p>Connect with:</p>
+                        <a href="#" target="_blank">LinkedIn</a>
+                        <a href="#" target="_blank">GitHub</a>
+                    </div>
+                </div>
+
+                <div id="recruiter-options">
+                    <div class="social-links">
+                        <p>Connect with:</p>
+                        <a href="#" target="_blank">LinkedIn</a>
+                        <a href="#" target="_blank">GitHub</a>
+                    </div>
+                </div>
+                <button type="submit" class="submit-button">Submit</button>
+            </form>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <!--  Keep footer consistent with landing.html -->
+        <p>&copy; 2024 User Information. All rights reserved.</p>
+    </footer>
+    <script>
+        const applicantRadio = document.getElementById("applicant");
+        const recruiterRadio = document.getElementById("recruiter");
+        const applicantOptions = document.getElementById("applicant-options");
+        const recruiterOptions = document.getElementById("recruiter-options");
+
+        applicantRadio.addEventListener("change", function() {
+            if (this.checked) {
+                applicantOptions.style.display = "block";
+                recruiterOptions.style.display = "none";
+            }
+        });
+
+        recruiterRadio.addEventListener("change", function() {
+            if (this.checked) {
+                recruiterOptions.style.display = "block";
+                applicantOptions.style.display = "none";
+            }
+        });
+    </script>
+
+</body>
+</html>

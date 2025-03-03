@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Recruitment Helper</title>
+    <link rel="stylesheet" href="main.css">
+    <style>
+        /* Custom Styles */
+        .welcome-section {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            height: 100vh; /* Full viewport height */
+            background-color: #f0f0f0; /* Light gray background */
+        }
+
+        .welcome-heading {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        .get-started-button {
+            padding: 15px 30px;
+            font-size: 1.2em;
+            background-color: #4CAF50; /* Green */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .get-started-button:hover {
+            background-color: #367c39; /* Darker Green */
+        }
+
+        .about-section {
+            display: flex;
+            padding: 50px;
+            align-items: center;
+        }
+
+        .about-heading {
+            width: 30%;
+            text-align: left;
+            font-size: 2em;
+        }
+
+        .about-text {
+            width: 70%;
+            text-align: left;
+            margin-left: 20px;
+        }
+
+        .features-section {
+            padding: 50px;
+        }
+
+        .features-heading {
+            font-size: 2em;
+            text-align: left;
+            margin-bottom: 30px;
+        }
+
+        .features-list-container {
+            display: flex;
+            align-items: center;
+            height: 300px; /* Set a fixed height for the container */
+        }
+
+        .features-scroll-bar {
+            width: 5px;
+            height: 100%;
+            background-color: #ccc;
+            margin-right: 20px;
+            position: relative;
+        }
+
+        .features-scroll-thumb {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #4CAF50; /* Green */
+            cursor: pointer;
+        }
+
+        .features-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            width: 30%;
+            overflow-y: auto; /* Enable vertical scrolling */
+            height: 100%; /* Take up the full height of the container */
+        }
+
+        .features-list li {
+            margin-bottom: 20px;
+            opacity: 0; /* Initially hidden */
+            transform: translateY(20px); /* Move down slightly */
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .features-list li.visible {
+            opacity: 1; /* Make visible */
+            transform: translateY(0); /* Move to original position */
+        }
+
+        .features-images {
+            width: 70%;
+            height: 300px; /* Match the height of the features container */
+            position: relative;
+            overflow: hidden;
+        }
+
+        .features-images img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .features-images img.active {
+            opacity: 1;
+        }
+
+        .footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>AI Recruitment Helper</h1>
+        <div class="nav-items">
+            <div class="account-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+            </div>
+        </div>
+    </header>
+
+    <!-- Welcome Section -->
+    <section class="welcome-section">
+        <h1 class="welcome-heading">Connect. Upgrade. Recruit.</h1>
+        <button class="get-started-button" onclick="window.location.href='home.html'">Get Started Now</button>
+    </section>
+
+    <!-- About Section -->
+    <section class="about-section">
+        <h2 class="about-heading">About Us</h2>
+        <p class="about-text">AI Recruitment Helper is a platform that connects recruiters and job seekers. We use AI to match the right candidates with the right jobs.</p>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+        <h2 class="features-heading">What we provide</h2>
+        <div class="features-list-container">
+            <div class="features-scroll-bar">
+                <div class="features-scroll-thumb"></div>
+            </div>
+            <ul class="features-list">
+                <li>AI Matching</li>
+                <li>Job Recommendations</li>
+                <li>Resume Builder</li>
+                <li>Interview Prep</li>
+            </ul>
+            <div class="features-images">
+                <img src="ai_matching.jpg" alt="AI Matching" class="active">
+                <img src="job_recommendations.jpg" alt="Job Recommendations">
+                <img src="resume_builder.jpg" alt="Resume Builder">
+                <img src="interview_prep.jpg" alt="Interview Prep">
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        © 2022 AI Recruitment Helper. All rights reserved.
+    </footer>
+
+    <script>
+        const featuresList = document.querySelector('.features-list');
+        const featuresListItems = document.querySelectorAll('.features-list li');
+        const featuresImages = document.querySelectorAll('.features-images img');
+        const scrollBar = document.querySelector('.features-scroll-bar');
+        const scrollThumb = document.querySelector('.features-scroll-thumb');
+        let currentFeatureIndex = 0;
+        let scrolling = false;
+        let thumbHeight = 0;
+
+        function showFeature(index) {
+            // Hide all features
+            featuresListItems.forEach(item => item.classList.remove('visible'));
+            featuresImages.forEach(img => img.classList.remove('active'));
+
+            // Show the selected feature
+            featuresListItems[index].classList.add('visible');
+            featuresImages[index].classList.add('active');
+        }
+
+        function updateThumbPosition(index) {
+            const totalFeatures = featuresListItems.length;
+            const scrollableHeight = scrollBar.offsetHeight;
+            thumbHeight = scrollableHeight / totalFeatures;
+            scrollThumb.style.height = thumbHeight + 'px';
+            const thumbPosition = index * thumbHeight;
+            scrollThumb.style.top = thumbPosition + 'px';
+        }
+
+        function handleScroll() {
+            if (scrolling) {
+                return;
+            }
+            scrolling = true;
+            setTimeout(() => {
+                scrolling = false;
+                const scrollPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+                const sectionTop = document.querySelector('.features-section').offsetTop;
+                if(scrollPosition >= sectionTop - window.innerHeight / 2){
+                  const totalFeatures = featuresListItems.length;
+                  const featureIndex = Math.min(totalFeatures -1, Math.floor((scrollPosition - sectionTop + window.innerHeight / 2) / (window.innerHeight / totalFeatures)));
+                  if(featureIndex >=0 && featureIndex < totalFeatures && featureIndex !== currentFeatureIndex){
+                      currentFeatureIndex = featureIndex;
+                      showFeature(currentFeatureIndex);
+                      updateThumbPosition(currentFeatureIndex);
+                  }
+
+                } else {
+                  currentFeatureIndex = 0;
+                  showFeature(0);
+                  updateThumbPosition(0);
+                }
+
+            }, 100);
+        }
+
+        // Initial setup
+        showFeature(0);
+        updateThumbPosition(0);
+
+        // Event listener for scroll
+        window.addEventListener('scroll', handleScroll);
+
+        // Preload Images for smoother transition
+        const images = ["ai_matching.jpg", "job_recommendations.jpg", "resume_builder.jpg", "interview_prep.jpg"];
+        images.forEach(image => {
+            const img = new Image();
+            img.src = image;
+        });
+
+        // Make scroll bar interactive
+        let isDragging = false;
+        let startY = 0;
+
+        scrollThumb.addEventListener('mousedown', (e) => {
+          isDragging = true;
+          startY = e.clientY - scrollThumb.offsetTop;
+          scrollThumb.style.cursor = 'grabbing';
+        });
+
+        document.addEventListener('mousemove', (e) => {
+          if (!isDragging) return;
+          e.preventDefault();
+
+          const newY = e.clientY - startY;
+          const maxThumbPosition = scrollBar.offsetHeight - scrollThumb.offsetHeight;
+          const thumbPosition = Math.max(0, Math.min(newY, maxThumbPosition));
+
+          scrollThumb.style.top = thumbPosition + 'px';
+
+          const totalFeatures = featuresListItems.length;
+          currentFeatureIndex = Math.round(thumbPosition / thumbHeight);
+
+          showFeature(currentFeatureIndex);
+          updateThumbPosition(currentFeatureIndex);
+        });
+
+        document.addEventListener('mouseup', () => {
+          isDragging = false;
+          scrollThumb.style.cursor = 'grab';
+        });
+    </script>
+
+</body>
+</html>

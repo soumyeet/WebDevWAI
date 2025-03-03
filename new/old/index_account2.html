@@ -1,0 +1,118 @@
+<html>Okay, I need to see the contents of `index_account.html` and `main.css` to give you the best possible integration. However, I can provide a general approach and a template that should work in most cases.
+
+**Assumptions:**
+
+*   `index_account.html` contains the specific account-related content (profile details, settings, etc.).
+*   `main.css` contains the overall site styling, including layout, colors, typography, etc.
+*   You want to maintain a similar component structure (e.g., header, navigation, main content, footer) as in the rest of your site.
+*   You want to use the CSS classes defined in `main.css` consistently in `index_account.html`.
+
+**Steps:**
+
+1.  **Link `main.css` in `index_account.html`:** This is the most fundamental step.  Add the following line within the `<head>` section of `index_account.html`:
+
+    ```html
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Account</title>
+        <link rel="stylesheet" href="main.css">  <!-- Link to main.css -->
+    </head>
+    <body>
+        <!--  Rest of your HTML code -->
+    </body>
+    </html>
+    ```
+
+2.  **Structure `index_account.html` with Similar Components:**  Look at your other pages (that already use `main.css`) and identify the common components.  For example:
+
+    *   `header`: The site header (logo, maybe a navigation menu).
+    *   `nav`: Main navigation.
+    *   `main`:  The main content area.
+    *   `aside`:  (Optional) A sidebar.
+    *   `footer`: The site footer.
+
+    Structure `index_account.html` accordingly, using `<div>` elements (or semantic HTML5 elements like `<header>`, `<nav>`, `<main>`, `<footer>`, `<aside>`) and CSS classes defined in `main.css`.
+
+3.  **Apply CSS Classes:**  This is the most crucial step.  Go through the content in `index_account.html` and identify which elements should have which CSS classes from `main.css`.  This is where knowing your `main.css` is essential.  For example:
+
+    *   If you have a standard button style in `main.css` (e.g., `.button`, `.primary-button`), apply that class to your buttons in `index_account.html`.
+    *   If you have a style for headings (e.g., `h1`, `h2` with specific fonts and colors), make sure your headings in `index_account.html` use those.
+    *   Use the layout classes (e.g., for grid or flexbox layouts) to position elements correctly.
+
+4.  **Adjust Styles (If Necessary):** After applying the basic structure and CSS classes, you might need to add some specific CSS rules to `main.css` (or a separate `account.css` if you prefer) to fine-tune the appearance of `index_account.html`.  This might be necessary to handle elements unique to the account page.
+
+**Example Template for `index_account.html` (assuming common header, nav, main, and footer):**
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+
+    <header class="site-header">
+        <!--  Content of your header (logo, maybe a smaller menu) -->
+        <h1>Your Account</h1>
+    </header>
+
+    <nav class="main-nav">
+        <!--  Main navigation menu  -->
+        <ul>
+            <li><a href="#">Dashboard</a></li>
+            <li><a href="#">Profile</a></li>
+            <li><a href="#">Settings</a></li>
+        </ul>
+    </nav>
+
+    <main class="main-content">  <!-- or main with whatever styles are applied -->
+        <section class="profile">
+            <h2>Profile Information</h2>
+            <div class="profile-details">
+                <p><strong>Name:</strong> John Doe</p>
+                <p><strong>Email:</strong> john.doe@example.com</p>
+                <!-- Other profile details -->
+            </div>
+            <button class="button primary-button">Edit Profile</button>
+        </section>
+
+        <section class="settings">
+            <h2>Account Settings</h2>
+            <form>
+                <label for="password">New Password:</label>
+                <input type="password" id="password" name="password">
+                <button type="submit" class="button">Update Password</button>
+            </form>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <!-- Content of your footer (copyright, etc.) -->
+        <p>&copy; 2023 My Website</p>
+    </footer>
+
+</body>
+</html>
+```
+
+**Important Notes and Recommendations:**
+
+*   **CSS Class Naming:**  Maintain consistency in your CSS class naming.  Use a naming convention (e.g., BEM, SMACSS, OOCSS) to make your CSS more maintainable.
+*   **CSS Specificity:** Be mindful of CSS specificity.  Overly specific rules in `main.css` might make it difficult to override styles on the account page.
+*   **Consider a CSS Framework:** If you're starting from scratch, consider using a CSS framework like Bootstrap, Tailwind CSS, or Materialize.  They provide pre-built components and a responsive grid system, which can significantly speed up development.
+*   **Developer Tools:** Use your browser's developer tools (usually accessed by pressing F12) to inspect the elements on the page, see which CSS rules are being applied, and experiment with different styles.
+*   **Separate CSS (Optional):** If the account page requires a significant amount of custom styling that is not used elsewhere on the site, consider creating a separate `account.css` file and link it in `index_account.html` *after* `main.css`.  This will keep your `main.css` cleaner.
+
+**To give you the *best* solution, please provide:**
+
+1.  **The content of `index_account.html` (or a representative snippet).**
+2.  **The relevant parts of `main.css` (especially the styles for the header, navigation, main content area, buttons, headings, and any grid/layout classes).**
+
+With that information, I can tailor the template and provide more specific instructions.
+</html>

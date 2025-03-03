@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Recruitment Helper - Jobs</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: #007bff;
+            color: white;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 15px;
+        }
+        nav ul li {
+            display: inline;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 12px;
+        }
+        nav ul li a.active {
+            background: white;
+            color: #007bff;
+            border-radius: 5px;
+        }
+        .container {
+            display: flex;
+            margin: 20px;
+        }
+        .filters {
+            width: 20%;
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .filter-group {
+            margin-bottom: 15px;
+        }
+        .apply-filters {
+            width: 100%;
+            padding: 10px;
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .job-listings {
+            width: 75%;
+            padding: 15px;
+        }
+        .search-bar input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        .job-card {
+            background: white;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: white;
+            padding: 20px;
+            width: 50%;
+            border-radius: 5px;
+        }
+        .close-modal {
+            cursor: pointer;
+            float: right;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1 class="logo">Conexio</h1>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Performance</a></li>
+                <li><a class="active" href="#">Jobs</a></li>
+            </ul>
+        </nav>
+        <div class="account-icon">
+            <img src="profile.png" alt="Profile">
+        </div>
+    </header>
+
+    <div class="container">
+        <aside class="filters">
+            <h2>Filters</h2>
+            <div class="filter-group">
+                <h3>Job Type</h3>
+                <label><input type="checkbox" name="jobType" value="full-time"> Full-time</label>
+                <label><input type="checkbox" name="jobType" value="part-time"> Part-time</label>
+                <label><input type="checkbox" name="jobType" value="contract"> Contract</label>
+                <label><input type="checkbox" name="jobType" value="internship"> Internship</label>
+            </div>
+            <div class="filter-group">
+                <h3>Experience Level</h3>
+                <label><input type="checkbox" name="experience" value="entry"> Entry Level</label>
+                <label><input type="checkbox" name="experience" value="mid"> Mid Level</label>
+                <label><input type="checkbox" name="experience" value="senior"> Senior Level</label>
+            </div>
+            <button class="apply-filters">Apply Filters</button>
+        </aside>
+
+        <main class="job-listings">
+            <div class="search-bar">
+                <input type="text" id="search" placeholder="Search for jobs, companies, or skills...">
+            </div>
+            <div id="jobs-container">
+                <!-- Jobs will be loaded dynamically here -->
+            </div>
+        </main>
+    </div>
+
+    <div id="job-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 id="modal-job-title"></h2>
+            <p id="modal-company"></p>
+            <p id="modal-location"></p>
+            <p id="modal-salary"></p>
+            <p id="modal-description"></p>
+            <button class="apply-btn">Apply Now</button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            loadJobs();
+            setupModal();
+        });
+
+        async function loadJobs() {
+            const jobsContainer = document.getElementById('jobs-container');
+            jobsContainer.innerHTML = '<p>Loading jobs...</p>';
+
+            // Dummy job data (Replace with API call if needed)
+            const jobs = [
+                { title: "Frontend Developer", company: "TechCorp", location: "New York", salary: "$120k - $150k", description: "Work with React and JavaScript." },
+                { title: "Full Stack Developer", company: "DataSoft", location: "Remote", salary: "$90k - $120k", description: "Work with Django and React." },
+                { title: "DevOps Engineer", company: "CloudScale", location: "San Francisco", salary: "$130k - $160k", description: "Manage AWS and Kubernetes." },
+                { title: "UI/UX Designer", company: "DesignHub", location: "London", salary: "$80k - $100k", description: "Work with Figma and Adobe XD." },
+                { title: "Machine Learning Engineer", company: "AI Innovations", location: "Boston", salary: "$140k - $180k", description: "Use TensorFlow and PyTorch." }
+            ];
+
+            jobsContainer.innerHTML = ''; // Clear placeholder
+            jobs.forEach(job => {
+                const jobCard = document.createElement('div');
+                jobCard.classList.add('job-card');
+                jobCard.innerHTML = `
+                    <h3>${job.title}</h3>
+                    <p>${job.company}</p>
+                    <p>${job.location}</p>
+                    <p>Salary: ${job.salary}</p>
+                `;
+                jobCard.addEventListener('click', () => openModal(job));
+                jobsContainer.appendChild(jobCard);
+            });
+        }
+
+        function setupModal() {
+            const modal = document.getElementById('job-modal');
+            const closeModal = document.querySelector('.close-modal');
+            
+            closeModal.addEventListener('click', () => {
+                modal.style.display = 'none';
+            });
+
+            window.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        }
+
+        function openModal(job) {
+            document.getElementById('modal-job-title').innerText = job.title;
+            document.getElementById('modal-company').innerText = job.company;
+            document.getElementById('modal-location').innerText = job.location;
+            document.getElementById('modal-salary').innerText = job.salary;
+            document.getElementById('modal-description').innerText = job.description;
+            
+            document.getElementById('job-modal').style.display = 'flex';
+        }
+    </script>
+
+</body>
+</html>
