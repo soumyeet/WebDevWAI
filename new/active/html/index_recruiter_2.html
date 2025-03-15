@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recruiter Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="main.css">
+    <style>
+        :root {
+            --primary: #3cbac4;
+            --secondary: #298086;
+            --success: #4CAF50;
+            --warning: #FFC107;
+            --danger: #FF5252;
+            --purple: #6c5ce7;
+            --purple-light: #a29bfe;
+            --text: #333;
+            --light-bg: #f8f9fa;
+            --border: #e0e0e0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: var(--light-bg);
+        }
+
+        .dashboard-container {
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .metric-value {
+            font-size: 2em;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-label {
+            color: #666;
+            font-size: 0.9em;
+        }
+
+        .chart-container {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+
+        .applicant-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .applicant-list li {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .applicant-avatar {
+            width: 40px;
+            height: 40px;
+            background: var(--light-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .job-listing {
+            padding: 1rem;
+            border-radius: 10px;
+            background: var(--light-bg);
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .job-listing:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .competitor-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .competitor-table th,
+        .competitor-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .competitor-table th {
+            font-weight: 600;
+            color: var(--text);
+            background: var(--light-bg);
+        }
+
+        .post-job-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 2rem auto;
+        }
+
+        .post-job-btn:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .dashboard-container {
+                padding: 1rem;
+            }
+
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .company-header {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .company-logo {
+            width: 80px;
+            height: 80px;
+            background: var(--purple-light);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .icon-purple { background: var(--purple); }
+        .icon-primary { background: var(--primary); }
+        .icon-secondary { background: var(--secondary); }
+        .icon-success { background: var(--success); }
+
+        .review-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .review-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .review-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--purple-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .view-more-btn {
+            background: var(--purple-light);
+            color: white;
+            border: none;
+            padding: 0.8rem 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            transition: all 0.3s ease;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .view-more-btn:hover {
+            background: var(--purple);
+            transform: translateY(-2px);
+        }
+
+        .chart-container {
+            padding: 1rem;
+            height: 300px;  /* Fixed height for better control */
+        }
+
+        /* Update chart grid for better spacing */
+        .chart-grid {
+            gap: 1rem;
+        }
+
+        .applications-section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: var(--text);
+            margin-bottom: 1.5rem;
+        }
+
+        .applications-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .application-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .application-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+
+        .applicant-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .applicant-info h3 {
+            margin: 0;
+            font-size: 1.1rem;
+        }
+
+        .position-applied {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .application-status {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        .status-new {
+            background: rgba(108, 92, 231, 0.1);
+            color: var(--purple);
+        }
+
+        .status-interview {
+            background: rgba(76, 175, 80, 0.1);
+            color: var(--success);
+        }
+
+        .application-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .skill-tag {
+            background: var(--light-bg);
+            padding: 0.4rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            color: var(--text);
+        }
+
+        .application-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .action-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .view-btn {
+            background: var(--purple-light);
+            color: white;
+        }
+
+        .schedule-btn {
+            background: var(--primary);
+            color: white;
+        }
+
+        .message-btn {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.1);
+        }
+
+        .view-all-btn {
+            display: block;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            background: var(--purple);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .view-all-btn:hover {
+            background: var(--purple-light);
+            transform: translateY(-2px);
+        }
+
+        .events-list {
+            margin-top: 1rem;
+        }
+
+        .event-item {
+            padding: 1rem;
+            border-left: 3px solid var(--secondary);
+            background: var(--light-bg);
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .event-item:hover {
+            transform: translateX(5px);
+            background: rgba(41, 128, 134, 0.1);
+        }
+
+        .event-time {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .event-time .material-icons {
+            font-size: 1.1rem;
+        }
+
+        .event-details h4 {
+            margin: 0;
+            font-size: 1rem;
+            color: var(--text);
+        }
+
+        .event-details p {
+            margin: 0.2rem 0 0;
+            font-size: 0.85rem;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1><i>Conexio</i></h1>
+        <div class="nav-items">
+            <div class="tabs">
+                <div class="tab active">Dashboard</div>
+                <div class="tab" onclick="window.location.href='index_scout.html'">Scout</div>
+            </div>
+            <div class="account-btn">
+                <span class="material-icons">account_circle</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="dashboard-container">
+        <div class="company-header">
+            <div class="company-logo">
+                <span class="material-icons">business</span>
+            </div>
+            <div>
+                <h1 style="margin: 0;">TechCorp Dashboard</h1>
+                <p style="margin: 0.5rem 0 0; color: #666;">Enterprise Technology Solutions</p>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="dashboard-card">
+                <div class="metric-value">50</div>
+                <div class="metric-label">Job Postings</div>
+            </div>
+            <div class="dashboard-card">
+                <div class="metric-value">250</div>
+                <div class="metric-label">Total Applicants</div>
+            </div>
+            <div class="dashboard-card">
+                <div class="metric-value">85%</div>
+                <div class="metric-label">Response Rate</div>
+            </div>
+            <div class="dashboard-card">
+                <div class="metric-value">4.8</div>
+                <div class="metric-label">Company Rating</div>
+            </div>
+        </div>
+
+        <div class="chart-grid">
+            <div class="chart-container">
+                <h2>Applicants per Job</h2>
+                <canvas id="applicantChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <h2>Hiring Timeline</h2>
+                <canvas id="timelineChart"></canvas>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            <div class="feature-card">
+                <div class="feature-icon icon-purple">
+                    <span class="material-icons">groups</span>
+                </div>
+                <h3>Community Reviews</h3>
+                <div class="review-card">
+                    <div class="review-header">
+                        <div class="review-avatar">
+                            <span class="material-icons">person</span>
+                        </div>
+                        <div>
+                            <div style="font-weight: 500;">Sarah M.</div>
+                            <div style="color: var(--warning);">
+                                <span class="material-icons">star</span>
+                                <span class="material-icons">star</span>
+                                <span class="material-icons">star</span>
+                                <span class="material-icons">star</span>
+                                <span class="material-icons">star_half</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p>"Great work environment and culture!"</p>
+                </div>
+                <button class="view-more-btn">
+                    <span class="material-icons">visibility</span>
+                    View More Reviews
+                </button>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon icon-primary">
+                    <span class="material-icons">analytics</span>
+                </div>
+                <h3>Analytics</h3>
+                <canvas id="analyticsChart"></canvas>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon icon-secondary">
+                    <span class="material-icons">event</span>
+                </div>
+                <h3>Up Next</h3>
+                <div class="events-list">
+                    <div class="event-item">
+                        <div class="event-time">
+                            <span class="material-icons">schedule</span>
+                            Today, 2:00 PM
+                        </div>
+                        <div class="event-details">
+                            <h4>Interview: John Doe</h4>
+                            <p>Full Stack Developer Position</p>
+                        </div>
+                    </div>
+                    <div class="event-item">
+                        <div class="event-time">
+                            <span class="material-icons">schedule</span>
+                            Tomorrow, 10:00 AM
+                        </div>
+                        <div class="event-details">
+                            <h4>Team Review: Sarah Smith</h4>
+                            <p>UX Designer Application</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon icon-success">
+                    <span class="material-icons">business_center</span>
+                </div>
+                <h3>Employer Profile</h3>
+                <div style="margin-top: 1rem;">
+                    <div style="margin-bottom: 0.5rem;">
+                        <strong>Industry:</strong> Technology
+                    </div>
+                    <div style="margin-bottom: 0.5rem;">
+                        <strong>Size:</strong> 1000+ employees
+                    </div>
+                    <div style="margin-bottom: 0.5rem;">
+                        <strong>Location:</strong> Global
+                    </div>
+                    <button style="background: var(--purple); color: white; border: none; padding: 0.5rem 1rem; border-radius: 8px; margin-top: 1rem;">
+                        Edit Profile
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="applications-section">
+            <h2 class="section-title">Recent Applications</h2>
+            <div class="applications-grid">
+                <div class="application-card">
+                    <div class="application-header">
+                        <div class="applicant-info">
+                            <div class="applicant-avatar">
+                                <span class="material-icons">person</span>
+                            </div>
+                            <div>
+                                <h3>John Doe</h3>
+                                <span class="position-applied">Full Stack Developer</span>
+                            </div>
+                        </div>
+                        <div class="application-status status-new">New</div>
+                    </div>
+                    <div class="application-details">
+                        <div class="detail-item">
+                            <span class="material-icons">mail</span>
+                            john.doe@email.com
+                        </div>
+                        <div class="detail-item">
+                            <span class="material-icons">phone</span>
+                            +1 234 567 8900
+                        </div>
+                        <div class="detail-item">
+                            <span class="material-icons">school</span>
+                            Master's in Computer Science
+                        </div>
+                        <div class="detail-item">
+                            <span class="material-icons">work</span>
+                            5 years experience
+                        </div>
+                    </div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">React</span>
+                        <span class="skill-tag">Node.js</span>
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">AWS</span>
+                    </div>
+                    <div class="application-actions">
+                        <button class="action-btn view-btn">
+                            <span class="material-icons">visibility</span>
+                            View Profile
+                        </button>
+                        <button class="action-btn schedule-btn">
+                            <span class="material-icons">calendar_today</span>
+                            Schedule Interview
+                        </button>
+                    </div>
+                </div>
+
+                <div class="application-card">
+                    <div class="application-header">
+                        <div class="applicant-info">
+                            <div class="applicant-avatar">
+                                <span class="material-icons">person</span>
+                            </div>
+                            <div>
+                                <h3>Sarah Smith</h3>
+                                <span class="position-applied">UX Designer</span>
+                            </div>
+                        </div>
+                        <div class="application-status status-interview">Interview Scheduled</div>
+                    </div>
+                    <div class="application-details">
+                        <div class="detail-item">
+                            <span class="material-icons">mail</span>
+                            sarah.smith@email.com
+                        </div>
+                        <div class="detail-item">
+                            <span class="material-icons">phone</span>
+                            +1 234 567 8901
+                        </div>
+                        <div class="detail-item">
+                            <span class="material-icons">school</span>
+                            Bachelor's in Design
+                        </div>
+                        <div class="detail-item">
+                            <span class="material-icons">work</span>
+                            3 years experience
+                        </div>
+                    </div>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Figma</span>
+                        <span class="skill-tag">Adobe XD</span>
+                        <span class="skill-tag">UI/UX</span>
+                        <span class="skill-tag">Prototyping</span>
+                    </div>
+                    <div class="application-actions">
+                        <button class="action-btn view-btn">
+                            <span class="material-icons">visibility</span>
+                            View Profile
+                        </button>
+                        <button class="action-btn message-btn">
+                            <span class="material-icons">message</span>
+                            Message
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <button class="view-all-btn">View All Applications</button>
+        </div>
+
+        <button class="post-job-btn">Post New Job</button>
+    </div>
+
+    <script>
+        // Update chart options for better spacing
+        const chartOptions = {
+            maintainAspectRatio: false,
+            layout: {
+                padding: {
+                    left: 10,
+                    right: 10,
+                    top: 10,
+                    bottom: 10
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Number of Applications'
+                    }
+                },
+                x: {
+                    ticks: {
+                        maxRotation: 45,
+                        minRotation: 45
+                    }
+                }
+            }
+        };
+
+        // Update Applicant Chart
+        const ctx = document.getElementById('applicantChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Full Stack Developer', 'UX Designer', 'Product Manager', 'Data Scientist', 'DevOps Engineer'],
+                datasets: [{
+                    label: 'Applications Received',
+                    data: [84, 45, 62, 38, 56],
+                    backgroundColor: '#3cbac4',
+                    borderColor: '#298086',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                ...chartOptions,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Applications per Position (Last 30 Days)',
+                        padding: {
+                            top: 10,
+                            bottom: 20
+                        }
+                    }
+                }
+            }
+        });
+
+        // Update Timeline Chart
+        const timelineCtx = document.getElementById('timelineChart').getContext('2d');
+        new Chart(timelineCtx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Average Time to Hire (Days)',
+                    data: [42, 38, 35, 31, 28, 25],
+                    borderColor: '#6c5ce7',
+                    backgroundColor: 'rgba(108, 92, 231, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                ...chartOptions,
+                scales: {
+                    ...chartOptions.scales,
+                    y: {
+                        beginAtZero: false,
+                        title: {
+                            display: true,
+                            text: 'Days'
+                        }
+                    }
+                },
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Hiring Timeline Improvement',
+                        padding: {
+                            top: 10,
+                            bottom: 20
+                        }
+                    }
+                }
+            }
+        });
+
+        // Analytics Chart
+        const analyticsCtx = document.getElementById('analyticsChart').getContext('2d');
+        new Chart(analyticsCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Hired', 'In Process', 'Rejected', 'Withdrawn'],
+                datasets: [{
+                    data: [32, 45, 18, 5],
+                    backgroundColor: [
+                        '#4CAF50',  // Hired - Green
+                        '#6c5ce7',  // In Process - Purple
+                        '#FF5252',  // Rejected - Red
+                        '#95a5a6'   // Withdrawn - Gray
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Application Status Distribution'
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

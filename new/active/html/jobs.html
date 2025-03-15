@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="main.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Recruitment Helper - Jobs</title>
+</head>
+<body>
+    <header>
+        <h1><i>Conexio</i></h1>
+        <div class="nav-items">
+            <div class="tabs">
+                <div class="tab" onclick="window.location.href='perf.html'">Performance</div>
+                <div class="tab active">Jobs</div>
+            </div>
+            <div class="account-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <button class="filter-toggle">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" 
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="4" y1="21" x2="4" y2="14"></line>
+                <line x1="4" y1="10" x2="4" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12" y2="3"></line>
+                <line x1="20" y1="21" x2="20" y2="16"></line>
+                <line x1="20" y1="12" x2="20" y2="3"></line>
+                <line x1="1" y1="14" x2="7" y2="14"></line>
+                <line x1="9" y1="8" x2="15" y2="8"></line>
+                <line x1="17" y1="16" x2="23" y2="16"></line>
+            </svg>
+            Filters
+        </button>
+
+        <aside class="filter-section">
+            <div class="filter-heading">
+                <span>Filters</span>
+                <div class="filter-actions">
+                    <button class="filter-btn filter-clear">Clear all</button>
+                    <button class="filter-btn filter-apply">Apply</button>
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <div class="filter-group-title">Job Type</div>
+                <label class="filter-option">
+                    <input type="checkbox"> Full-time
+                </label>
+                <label class="filter-option">
+                    <input type="checkbox"> Part-time
+                </label>
+                <label class="filter-option">
+                    <input type="checkbox"> Contract
+                </label>
+                <label class="filter-option">
+                    <input type="checkbox"> Internship
+                </label>
+            </div>
+
+            <div class="filter-group">
+                <div class="filter-group-title">Experience Level</div>
+                <label class="filter-option">
+                    <input type="checkbox"> Entry Level
+                </label>
+                <label class="filter-option">
+                    <input type="checkbox"> Mid Level
+                </label>
+                <label class="filter-option">
+                    <input type="checkbox"> Senior Level
+                </label>
+            </div>
+
+            <div class="filter-group">
+                <div class="filter-group-title">Location</div>
+                <label class="filter-option">
+                    <input type="checkbox"> Remote
+                </label>
+                <label class="filter-option">
+                    <input type="checkbox"> On-site
+                </label>
+                <label class="filter-option">
+                    <input type="checkbox"> Hybrid
+                </label>
+            </div>
+
+            <div class="filter-group">
+                <div class="filter-group-title">Salary Range</div>
+                <label class="filter-option">
+                    <input type="checkbox"> $0 - $50k
+                </label>
+                <label class="filter-option">
+                    <input type="checkbox"> $50k - $100k
+                </label>
+                <label class="filter-option">
+                    <input type="checkbox"> $100k - $150k
+                </label>
+                <label class="filter-option">
+                    <input type="checkbox"> $150k+
+                </label>
+            </div>
+        </aside>
+
+        <main class="jobs-section">
+            <div class="search-bar">
+                <input type="text" class="search-input" placeholder="Search for jobs, companies, or skills...">
+            </div>
+            <div class="jobs-grid">
+                <div class="job-card">
+                    <div class="company-logo"></div>
+                    <div class="job-title">Senior Frontend Developer</div>
+                    <div class="company-name">TechCorp Inc</div>
+                    <div class="job-location">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                            <circle cx="12" cy="10" r="3"></circle>
+                        </svg>
+                        New York (Hybrid)
+                    </div>
+                    <div class="package">$120,000 - $150,000</div>
+                    <div>
+                        <span class="skills-tag">React</span>
+                        <span class="skills-tag">TypeScript</span>
+                        <span class="skills-tag">Node.js</span>
+                        <span class="skills-tag">AWS</span>
+                    </div>
+                    <div class="interview-date">Interview: Dec 15, 2023</div>
+                </div>
+
+                <div class="job-card">
+                    <div class="company-logo"></div>
+                    <div class="job-title">Full Stack Developer</div>
+                    <div class="company-name">DataSoft Solutions</div>
+                    <div class="job-location">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                            <circle cx="12" cy="10" r="3"></circle>
+                        </svg>
+                        Remote
+                    </div>
+                    <div class="package">$90,000 - $120,000</div>
+                    <div>
+                        <span class="skills-tag">Python</span>
+                        <span class="skills-tag">Django</span>
+                        <span class="skills-tag">React</span>
+                        <span class="skills-tag">PostgreSQL</span>
+                    </div>
+                    <div class="interview-date">Interview: Dec 18, 2023</div>
+                </div>
+
+                <div class="job-card">
+                    <div class="company-logo"></div>
+                    <div class="job-title">DevOps Engineer</div>
+                    <div class="company-name">CloudScale</div>
+                    <div class="job-location">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                            <circle cx="12" cy="10" r="3"></circle>
+                        </svg>
+                        San Francisco (On-site)
+                    </div>
+                    <div class="package">$130,000 - $160,000</div>
+                    <div>
+                        <span class="skills-tag">Kubernetes</span>
+                        <span class="skills-tag">Docker</span>
+                        <span class="skills-tag">AWS</span>
+                        <span class="skills-tag">CI/CD</span>
+                    </div>
+                    <div class="interview-date">Interview: Dec 20, 2023</div>
+                </div>
+
+                <div class="job-card">
+                    <div class="company-logo"></div>
+                    <div class="job-title">UI/UX Designer</div>
+                    <div class="company-name">DesignHub</div>
+                    <div class="job-location">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                            <circle cx="12" cy="10" r="3"></circle>
+                        </svg>
+                        London (Hybrid)
+                    </div>
+                    <div class="package">$80,000 - $100,000</div>
+                    <div>
+                        <span class="skills-tag">Figma</span>
+                        <span class="skills-tag">Adobe XD</span>
+                        <span class="skills-tag">Prototyping</span>
+                        <span class="skills-tag">User Research</span>
+                    </div>
+                    <div class="interview-date">Interview: Dec 22, 2023</div>
+                </div>
+
+                <div class="job-card">
+                    <div class="company-logo"></div>
+                    <div class="job-title">Machine Learning Engineer</div>
+                    <div class="company-name">AI Innovations</div>
+                    <div class="job-location">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                            <circle cx="12" cy="10" r="3"></circle>
+                        </svg>
+                        Boston (Remote)
+                    </div>
+                    <div class="package">$140,000 - $180,000</div>
+                    <div>
+                        <span class="skills-tag">Python</span>
+                        <span class="skills-tag">TensorFlow</span>
+                        <span class="skills-tag">PyTorch</span>
+                        <span class="skills-tag">Computer Vision</span>
+                    </div>
+                    <div class="interview-date">Interview: Jan 5, 2024</div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div class="filter-modal">
+        <div class="filter-modal-header">
+            <span class="filter-modal-title">Filter Jobs</span>
+            <button class="filter-modal-close">&times;</button>
+        </div>
+        
+        <div class="filter-modal-content">
+            <div class="filter-group">
+                <div class="filter-group-title">Job Type</div>
+                <label class="filter-option">
+                    <input type="checkbox"> Full-time
+                </label>
+                <label class="filter-option">
+                    <input type="checkbox"> Part-time
+                </label>
+                <label class="filter-option">
+                    <input type="checkbox"> Contract
+                </label>
+                <label class="filter-option">
+                    <input type="checkbox"> Internship
+                </label>
+            </div>
+
+            <div class="filter-group">
+                <div class="filter-group-title">Experience Level</div>
+                <label class="filter-option">
+                    <input type="checkbox"> Entry Level
+                </label>
+                <label class="filter-option">
+                    <input type="checkbox"> Mid Level
+                </label>
+                <label class="filter-option">
+                    <input type="checkbox"> Senior Level
+                </label>
+            </div>
+
+            <div class="filter-group">
+                <div class="filter-group-title">Location</div>
+                <label class="filter-option">
+                    <input type="checkbox"> Remote
+                </label>
+                <label class="filter-option">
+                    <input type="checkbox"> On-site
+                </label>
+                <label class="filter-option">
+                    <input type="checkbox"> Hybrid
+                </label>
+            </div>
+
+            <div class="filter-group">
+                <div class="filter-group-title">Salary Range</div>
+                <label class="filter-option">
+                    <input type="checkbox"> $0 - $50k
+                </label>
+                <label class="filter-option">
+                    <input type="checkbox"> $50k - $100k
+                </label>
+                <label class="filter-option">
+                    <input type="checkbox"> $100k - $150k
+                </label>
+                <label class="filter-option">
+                    <input type="checkbox"> $150k+
+                </label>
+            </div>
+        </div>
+
+        <div class="filter-modal-footer">
+            <button class="filter-button filter-reset">Reset</button>
+            <button class="filter-button filter-apply">Apply Filters</button>
+        </div>
+    </div>
+
+    <div class="job-modal">
+        <div class="job-modal-content">
+            <div class="job-modal-header">
+                <div>
+                    <h2 class="job-title">Senior Frontend Developer</h2>
+                    <div class="job-modal-company">
+                        <div class="company-logo"></div>
+                        <div>
+                            <div class="company-name">TechCorp Inc</div>
+                            <div class="job-location">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                    <circle cx="12" cy="10" r="3"></circle>
+                                </svg>
+                                New York (Hybrid)
+                            </div>
+                            <div class="package">$120,000 - $150,000</div>
+                        </div>
+                    </div>
+                </div>
+                <button class="job-modal-close">&times;</button>
+            </div>
+
+            <div class="job-description">
+                <h3>About the Role</h3>
+                <p>We are seeking an experienced Frontend Developer to join our dynamic team. 
+                You will be responsible for building scalable web applications, implementing user 
+                interfaces, and collaborating with cross-functional teams.</p>
+            </div>
+
+            <div class="requirements">
+                <h3>Requirements</h3>
+                <ul class="requirements-list">
+                    <li>5+ years of experience with React and modern JavaScript</li>
+                    <li>Strong understanding of TypeScript and state management</li>
+                    <li>Experience with Node.js and RESTful APIs</li>
+                    <li>Knowledge of AWS services and cloud architecture</li>
+                </ul>
+            </div>
+            <div class="action-buttons">
+                <button class="action-button watchlist-btn">Add to Watchlist</button>
+                <button class="action-button apply-btn">Apply Now</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab navigation
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const page = tab.textContent.toLowerCase();
+                if (page === 'performance') {
+                    window.location.href = 'perf.html';
+                } else if (page === 'jobs') {
+                    window.location.href = 'jobs.html';
+                } else if (page === 'home') {
+                    window.location.href = 'home.html';
+                }
+            });
+        });
+
+        // Filter functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            const filterToggle = document.querySelector('.filter-toggle');
+            const filterModal = document.querySelector('.filter-modal');
+            const filterModalClose = document.querySelector('.filter-modal-close');
+            const filterApply = document.querySelector('.filter-apply');
+            const filterReset = document.querySelector('.filter-reset');
+
+            if (filterToggle) {
+                filterToggle.addEventListener('click', () => {
+                    console.log('Filter toggle clicked');
+                    if (filterModal) {
+                        filterModal.style.display = 'block';
+                        document.body.style.overflow = 'hidden';
+                    }
+                });
+            }
+
+            if (filterModalClose) {
+                filterModalClose.addEventListener('click', () => {
+                    filterModal.style.display = 'none';
+                    document.body.style.overflow = '';
+                });
+            }
+
+            if (filterApply) {
+                filterApply.addEventListener('click', () => {
+                    filterModal.style.display = 'none';
+                    document.body.style.overflow = '';
+                });
+            }
+
+            if (filterReset) {
+                filterReset.addEventListener('click', () => {
+                    const checkboxes = filterModal.querySelectorAll('input[type="checkbox"]');
+                    checkboxes.forEach(checkbox => checkbox.checked = false);
+                });
+            }
+        });
+
+        document.querySelectorAll('.job-card').forEach(card => {
+            card.addEventListener('click', () => {
+                document.querySelector('.job-modal').style.display = 'block';
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        document.querySelector('.job-modal-close').addEventListener('click', () => {
+            document.querySelector('.job-modal').style.display = 'none';
+            document.body.style.overflow = '';
+        });
+
+        document.querySelector('.watchlist-btn').addEventListener('click', function() {
+            this.classList.toggle('active');
+            this.textContent = this.classList.contains('active') ? 
+                'Remove from Watchlist' : 'Add to Watchlist';
+        });
+
+        window.addEventListener('click', (e) => {
+            const modal = document.querySelector('.job-modal');
+            if (e.target === modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = '';
+            }
+        });
+    </script>
+</body>
+</html>

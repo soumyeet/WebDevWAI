@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .account-container {
+            max-width: 800px;
+            margin: 30px auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .section-title {
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 10px;
+            font-weight: bold;
+        }
+        .info-label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .resume-download {
+            margin-top: 20px;
+        }
+        .edit-button {
+            margin-top: 20px;
+        }
+        .privacy-section {
+            margin-top: 30px;
+            border-top: 1px solid #e9ecef;
+            padding-top: 20px;
+        }
+        .data-request{
+            margin-top: 10px;
+        }
+
+        .security-section {
+            margin-top: 30px;
+            border-top: 1px solid #e9ecef;
+            padding-top: 20px;
+        }
+
+        .alert{
+            margin-top: 20px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .account-container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="account-container">
+            <h2 class="section-title">My Account Information</h2>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="name" class="info-label">Name:</label>
+                        <p id="name">John Doe</p>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="info-label">Email:</label>
+                        <p id="email">john.doe@example.com</p>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="phone" class="info-label">Phone Number:</label>
+                        <p id="phone">123-456-7890</p>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <label for="location" class="info-label">Location:</label>
+                        <p id="location">New York, NY</p>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="joinDate" class="info-label">Join Date:</label>
+                        <p id="joinDate">2023-10-27</p>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="membershipLevel" class="info-label">Membership Level:</label>
+                        <p id="membershipLevel">Premium</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="resume-download">
+                <label class="info-label">Resume:</label><br>
+                <a href="/path/to/your/resume.pdf" download="JohnDoe_Resume.pdf" class="btn btn-primary btn-sm"><i class="fas fa-download"></i> Download Resume</a>
+            </div>
+
+            <div class="edit-button">
+                <button type="button" class="btn btn-secondary"><i class="fas fa-edit"></i> Edit Information</button>
+            </div>
+
+            <div class="security-section">
+                <h3 class="section-title">Security</h3>
+                <p>Manage your account security settings.</p>
+                <button type="button" class="btn btn-outline-secondary btn-sm"><i class="fas fa-key"></i> Change Password</button>
+                <button type="button" class="btn btn-outline-secondary btn-sm"><i class="fas fa-shield-alt"></i> Two-Factor Authentication (Coming Soon)</button>
+            </div>
+
+
+            <div class="privacy-section">
+                <h3 class="section-title">Privacy</h3>
+                <p>Manage your privacy settings and data.</p>
+
+                <div class="mb-3">
+                    <label class="info-label">Data Sharing Preferences:</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="dataSharingCheckbox" checked>
+                        <label class="form-check-label" for="dataSharingCheckbox">
+                            Allow anonymized data sharing for service improvement.
+                        </label>
+                    </div>
+                </div>
+
+                <div class="data-request">
+                    <p>You can request a copy of your personal data or request account deletion.</p>
+                    <button type="button" class="btn btn-outline-secondary btn-sm"><i class="fas fa-file-download"></i> Request Data Export</button>
+                    <button type="button" class="btn btn-outline-danger btn-sm"><i class="fas fa-trash-alt"></i> Request Account Deletion</button>
+                </div>
+
+                <div class="alert alert-warning" role="alert">
+                    Deleting your account is permanent and cannot be undone.  All your data will be permanently removed from our systems.
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <script>
+        //  Placeholder JavaScript - This would typically be populated dynamically from a server-side language.
+        //  For demonstration, it uses static data.  You'd replace these values with data fetched from your backend.
+
+        // Simulate fetching user data (replace with actual API call)
+        const userData = {
+            name: "Jane Smith",
+            email: "jane.smith@example.com",
+            phone: "987-654-3210",
+            location: "Los Angeles, CA",
+            joinDate: "2023-05-15",
+            membershipLevel: "Standard"
+        };
+
+
+        document.getElementById("name").textContent = userData.name;
+        document.getElementById("email").textContent = userData.email;
+        document.getElementById("phone").textContent = userData.phone;
+        document.getElementById("location").textContent = userData.location;
+        document.getElementById("joinDate").textContent = userData.joinDate;
+        document.getElementById("membershipLevel").textContent = userData.membershipLevel;
+
+        //  Button functionality (example - replace with real navigation or modal launch)
+        const editButton = document.querySelector(".edit-button button");
+        editButton.addEventListener("click", () => {
+            alert("Navigating to Edit Profile Page (Implementation Needed)");
+        });
+
+        const dataExportButton = document.querySelector(".data-request .btn-outline-secondary");
+        dataExportButton.addEventListener("click", () => {
+            alert("Requesting Data Export (Implementation Needed)");
+        });
+
+        const accountDeletionButton = document.querySelector(".data-request .btn-outline-danger");
+        accountDeletionButton.addEventListener("click", () => {
+            if (confirm("Are you sure you want to delete your account? This cannot be undone!")) {
+                alert("Account Deletion Requested (Implementation Needed)");
+            }
+        });
+
+        const changePasswordButton = document.querySelector(".security-section .btn-outline-secondary:first-child");
+        changePasswordButton.addEventListener("click", () => {
+            alert("Navigating to Change Password Page (Implementation Needed)");
+        });
+
+
+
+    </script>
+</body>
+</html>
+
+<!-- 
+
+Key improvements and explanations:
+
+* **Clear Visual Structure:** Uses Bootstrap 4 for consistent and responsive layout.  The `account-container` class keeps the content nicely framed.  Clear section titles (`section-title`) with visual separation.
+* **Font Awesome Icons:**  Uses Font Awesome for visually appealing icons to enhance the user experience and provide quick visual cues for button actions.  Imported the CDN link for easy integration.
+* **Semantic HTML:** Uses `<label>` elements correctly associated with their respective `<p>` or other form elements using `for` and `id` attributes.
+* **Responsive Design:** The `<meta name="viewport">` tag and Bootstrap's responsive classes (`col-md-6`, `container`) ensure the page looks good on various screen sizes.  The CSS `@media` query adjusts padding for smaller screens.
+* **Resume Download:**  Provides a clear "Resume" section with a download link.  The `download` attribute forces the browser to download the file with a user-friendly filename.  The file path `/path/to/your/resume.pdf` *must* be changed to the actual location of the user's resume on your server.
+* **Edit Information Button:**  A button is included to take the user to an "Edit Information" page (which you would need to implement).
+* **Privacy Section:**  Crucially includes a "Privacy" section that's essential for user trust and legal compliance.
+    * **Data Sharing Preferences:** A checkbox allows users to control data sharing.
+    * **Data Export and Deletion:**  Provides options for users to request a copy of their data or to delete their account. *Important:*  Make sure you have a robust process for handling these requests.
+    * **Account Deletion Warning:** An alert warns the user about the consequences of account deletion.
+* **Security Section:** Includes links for password changes and a placeholder for two-factor authentication.  Good security practices are paramount.
+* **Clear Information Display:** Uses `<label>` elements with `info-label` class to highlight the labels, making the information easier to scan.
+* **Placeholder JavaScript:**  Includes JavaScript that *simulates* fetching data from a server.  This is *essential* for understanding how to dynamically populate the page.  **You *must* replace this with your server-side logic to retrieve the user's information from your database.**
+* **Error Handling (Implicit):** While no explicit error handling is in the HTML/CSS, the JavaScript alerts serve as placeholders.  In a real application, you'd have more robust error handling, especially for data export and account deletion requests.
+* **Maintainability:** The CSS is well-organized with comments and consistent naming conventions.
+* **Accessibility:**  Using labels correctly improves accessibility.  Consider adding `alt` attributes to images and ensuring sufficient color contrast.
+* **Professional Tone:**  The language used is professional and informative.
+
+**Important Implementation Details and Security Considerations:**
+
+1. **Server-Side Integration (Critical):**  The most important step is to replace the placeholder JavaScript with code that retrieves the user's data from your server-side database.  This typically involves:
+   * **Authentication:**  The user must be authenticated to access their account page.  You need a secure authentication system (e.g., using sessions, tokens, or a framework like Passport.js).
+   * **Database Query:**  Once authenticated, your server-side code (e.g., in Node.js, Python/Django, PHP) queries the database to retrieve the user's information based on their user ID.
+   * **Data Population:** The server-side code then sends this data to the client-side JavaScript, which populates the HTML elements.
+   * **Example (Conceptual - Node.js with Express and a MongoDB database):**
+
+     ```javascript
+     // Server-side (Node.js with Express)
+     const express = require('express');
+     const mongoose = require('mongoose');
+     const app = express();
+
+     // Assume you have a User model defined with Mongoose
+     const User = mongoose.model('User', {
+       name: String,
+       email: String,
+       phone: String,
+       location: String,
+       joinDate: Date,
+       membershipLevel: String,
+       resumePath: String // Path to the resume file
+     });
+
+     app.get('/account', async (req, res) => { // Requires authentication middleware
+       try {
+         // Assuming you have user information in req.user from authentication
+         const user = await User.findById(req.user._id);
+
+         if (!user) {
+           return res.status(404).send('User not found');
+         }
+
+         // Send the user data as JSON
+         res.json({
+           name: user.name,
+           email: user.email,
+           phone: user.phone,
+           location: user.location,
+           joinDate: user.joinDate,
+           membershipLevel: user.membershipLevel,
+           resumePath: user.resumePath
+         });
+       } catch (error) {
+         console.error(error);
+         res.status(500).send('Server error');
+       }
+     });
+
+     // Client-side JavaScript (Fetch API) - Replace placeholder JavaScript
+     fetch('/account')
+       .then(response => response.json())
+       .then(data => {
+         document.getElementById("name").textContent = data.name;
+         document.getElementById("email").textContent = data.email;
+         // ... etc.
+       })
+       .catch(error => {
+         console.error("Error fetching user data:", error);
+         alert("Failed to load account information.");  // User-friendly error message
+       });
+
+     ```
+
+2. **Security (Crucial):**
+   * **Authentication and Authorization:**  Implement a robust authentication system to verify the user's identity.  Use authorization to ensure users can only access their own data.  Do *not* rely solely on client-side checks.
+   * **Data Validation:**  Validate all user input on both the client-side and server-side to prevent injection attacks (SQL injection, XSS).
+   * **Password Hashing:** Store passwords securely using a strong hashing algorithm (bcrypt, Argon2) with salting.  *Never* store passwords in plain text.
+   * **HTTPS:**  Use HTTPS to encrypt all communication between the client and server.
+   * **CORS (Cross-Origin Resource Sharing):** Configure CORS properly to prevent unauthorized requests from other domains.
+   * **CSRF (Cross-Site Request Forgery) Protection:** Protect against CSRF attacks, especially when handling sensitive operations like account deletion.
+   * **Rate Limiting:** Implement rate limiting to prevent brute-force attacks.
+   * **Regular Security Audits:**  Perform regular security audits of your code and infrastructure.
+   * **Principle of Least Privilege:** Grant users only the minimum necessary privileges.
+   * **Input Sanitization:** Sanitize user input to prevent XSS attacks.
+   * **Output Encoding:** Encode data before displaying it on the page to prevent XSS attacks.
+
+3. **Resume Handling:**
+   * **Secure Storage:** Store resumes securely on your server, ideally outside of the web root, so they cannot be directly accessed.
+   * **Access Control:**  Ensure only the owner of the resume can access it.
+   * **File Type Validation:**  Strictly validate the file type of uploaded resumes to prevent malicious files.
+   * **Content Scanning:**  Consider scanning uploaded resumes for viruses or malware.
+   * **File Naming:** Use unique, unpredictable filenames to prevent unauthorized access through guessing.
+   * **Download Handling:**  Implement proper download handling to prevent directory traversal attacks.  The `/path/to/your/resume.pdf` in the `href` attribute of the download link must be generated dynamically based on the user's ID and the location of their resume on the server.
+
+4. **Data Export and Deletion:**
+   * **Verification:**  Implement a multi-factor verification process to ensure that data export and deletion requests are legitimate (e.g., email confirmation, SMS code).
+   * **Compliance:**  Ensure your data export and deletion processes comply with relevant privacy regulations (GDPR, CCPA).
+   * **Data Masking/Anonymization:**  Consider masking or anonymizing data before providing it to the user in a data export.
+   * **Audit Logging:**  Log all data export and deletion requests for auditing purposes.
+   * **Complete Deletion:**  Ensure that account deletion completely removes all of the user's data from your systems (including backups).
+
+5. **Error Handling:**
+    * Implement proper error handling on the client-side and server-side.  Display user-friendly error messages to the user.  Log errors to a central logging system for debugging and monitoring.
+
+6. **User Experience:**
+    * Provide clear and concise instructions to the user.
+    * Use a consistent design and layout.
+    * Ensure the page is responsive and accessible.
+    * Use clear and concise error messages.
+
+7. **Testing:**
+   * Thoroughly test all aspects of the account page, including data retrieval, editing, privacy settings, data export, account deletion, and security.
+
+This comprehensive example provides a solid foundation for creating a professional and secure "My Account" page.  Remember to adapt the code to your specific requirements and security policies.  Pay close attention to the server-side integration and security considerations.
+ -->
