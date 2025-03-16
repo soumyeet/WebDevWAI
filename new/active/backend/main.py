@@ -5,6 +5,7 @@ import sqlite3
 from typing import List
 from pathlib import Path
 import logging
+import json
 
 # Set up logging
 logging.basicConfig(level=logging.INFO)
@@ -48,6 +49,16 @@ class Applicant(BaseModel):
     college_name: str
     photo_filename: str
     skills: str
+
+class WatchlistJob(BaseModel):
+    profile_id: str
+    applicant_name: str
+    current_role: str
+    college_name: str
+    salary_range: str
+    skills: str
+    photo_filename: str
+    availability: str
 
 def get_db_connection():
     try:
@@ -212,6 +223,49 @@ async def get_applicant_details(profile_id: int):
         if 'conn' in locals():
             conn.close()
 
+@app.post("/api/watchlist/add")
+async def add_to_watchlist(job: WatchlistJob):
+    try:
+        # Load existing watchlist from file (if it exists)
+        watchlist_file = Path("watchlist.json")
+        if (watchlist_file.exists()):
+            with open(watchlist_file, "r") as f:
+                watchlist = json.load(f)
+        else:
+            watchlist = []
+
+        # Check if job is already in watchlist
+        if not any(j["profile_id"] == job.profile_id for j in watchlist):
+            # Add job to watchlist
+            watchlist.append(job.dict())
+
+            # Save updated watchlist to file
+            with open(watchlist_file, "w") as f:
+                json.dump(watchlist, f)
+
+            return {"status": "success", "message": "Job added to watchlist!"}
+        else:
+            return {"status": "info", "message": "Job already in watchlist!"}
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/watchlist/get")
+async def get_watchlist():
+    try:
+        # Load watchlist from file (if it exists)
+        watchlist_file = Path("watchlist.json")
+        if watchlist_file.exists():
+            with open(watchlist_file, "r") as f:
+                watchlist = json.load(f)
+        else:
+            watchlist = []
+
+        return {"status": "success", "data": watchlist}
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)  # Changed port to 8001
+    uvicorn.run(app, host="0.0.0.0", port=8000)

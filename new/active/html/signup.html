@@ -2,12 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Join Conexio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Supabase JS (for auth) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <link rel="stylesheet" href="main.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
   <style>
+    :root {
+      --primary: #3cbac4;
+      --secondary: #298086;
+      --text: #333;
+    }
+
     body {
       font-family: 'Poppins', sans-serif;
       margin: 0;
@@ -215,20 +226,17 @@
         flex-direction: column;
         padding: 20px;
       }
-
       .login-content {
         padding-right: 0;
         margin-bottom: 40px;
         text-align: center;
       }
-
       .login-card {
         flex: none;
         width: 100%;
         max-width: 400px;
         margin: 0 auto;
       }
-
       .feature-item {
         justify-content: center;
       }
@@ -236,6 +244,23 @@
   </style>
 </head>
 <body>
+  <!-- Replace with your actual Supabase project credentials -->
+  <script>
+    // Alternative initialization method
+    const { createClient } = supabase;
+    const supabaseClient = createClient(
+        "https://ialndgfbbtnbccqrcara.supabase.co",
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlhbG5kZ2ZiYnRuYmNjcXJjYXJhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDIxNTQ3MTgsImV4cCI6MjA1NzczMDcxOH0.sj7fMwpRvBqrPT1w3jCyeil2oZBDWc-BCxZ3edWlD7M"
+    );
+
+    // Verify Supabase initialization
+    if (!supabaseClient) {
+        console.error('Supabase client not initialized');
+    } else {
+        console.log('Supabase client initialized successfully');
+    }
+  </script>
+
   <div class="background-shapes">
     <div class="shape shape-1"></div>
     <div class="shape shape-2"></div>
@@ -267,7 +292,7 @@
       <h2>Create Account</h2>
       
       <div class="social-login">
-        <button class="social-btn">
+        <button class="social-btn" onclick="signInWithGoogle()">
           <img src="assets/google-logo.svg" alt="Google">
           Google
         </button>
@@ -285,8 +310,7 @@
           <input type="password" id="password" placeholder="Password" required>
           <i class="far fa-eye" id="togglePassword"></i>
         </div>
-          <button type="submit" class="primary-button" onclick="window.location.href='index_info2.html'">Get Started</button>
-
+        <button type="submit" class="primary-button">Get Started</button>
       </form>
 
       <p class="login-link">
@@ -296,6 +320,7 @@
   </div>
 
   <script>
+    // Toggle password visibility
     document.getElementById('togglePassword').addEventListener('click', function() {
       const password = document.getElementById('password');
       const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
@@ -303,11 +328,94 @@
       this.classList.toggle('fa-eye-slash');
     });
 
-    document.getElementById('signup-form').addEventListener('submit', function(e) {
+    // Handle form submission for Email+Password sign-up
+    document.getElementById('signup-form').addEventListener('submit', async function(e) {
       e.preventDefault();
-      // Add your form submission logic here
+      
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      
+      // Add loading state
+      const submitButton = this.querySelector('button[type="submit"]');
+      const originalButtonText = submitButton.textContent;
+      submitButton.textContent = 'Signing up...';
+      submitButton.disabled = true;
+
+      try {
+          console.log('Attempting to sign up with:', { email }); // Don't log password
+          
+          const { data, error } = await supabaseClient.auth.signUp({
+              email,
+              password,
+              options: {
+                  emailRedirectTo: `${window.location.origin}/index_info2.html`
+              }
+          });
+
+          console.log('Signup response:', { data, error });
+
+          if (error) {
+              console.error('Signup error:', error);
+              alert(`Signup failed: ${error.message}`);
+              return;
+          }
+
+          if (data?.user) {
+              console.log('Signup successful:', data.user);
+              alert(`Success! Please check your email (${email}) to confirm your account.`);
+              // Store user info in localStorage if needed
+              localStorage.setItem('userEmail', email);
+              window.location.href = "index_info2.html";
+          } else {
+              console.warn('No user data received');
+              alert('Signup completed but no user data received. Please try logging in.');
+          }
+
+      } catch (err) {
+          console.error('Unexpected error during signup:', err);
+          alert(`An unexpected error occurred: ${err.message}`);
+      } finally {
+          // Reset button state
+          submitButton.textContent = originalButtonText;
+          submitButton.disabled = false;
+      }
     });
+
+    // Add this helper function to validate email
+    function isValidEmail(email) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      return emailRegex.test(email);
+    }
+
+    // Add form validation
+    document.getElementById('email').addEventListener('input', function() {
+      if (!isValidEmail(this.value)) {
+          this.setCustomValidity('Please enter a valid email address');
+      } else {
+          this.setCustomValidity('');
+      }
+    });
+
+    // Add password validation
+    document.getElementById('password').addEventListener('input', function() {
+      if (this.value.length < 6) {
+          this.setCustomValidity('Password must be at least 6 characters long');
+      } else {
+          this.setCustomValidity('');
+      }
+    });
+
+    // Optional: Google sign-in if you have it configured in Supabase
+    async function signInWithGoogle() {
+      const { data, error } = await supabaseClient.auth.signInWithOAuth({
+        provider: 'google',
+        // Optionally set a redirectTo URL
+        // redirectTo: 'https://yourdomain.com/afterlogin'
+      });
+      if (error) {
+        console.error("Google Sign-In Error:", error.message);
+      }
+    }
   </script>
 </body>
 </html>
-

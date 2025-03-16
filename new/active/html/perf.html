@@ -247,6 +247,38 @@
                 min-width: calc(100% - 20px);
             }
         }
+
+        .watchlist-section {
+            padding: 2rem;
+        }
+
+        .watchlist-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .watchlist-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.2s ease;
+        }
+
+        .watchlist-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .remove-from-watchlist {
+            color: var(--danger);
+            background: none;
+            border: none;
+            cursor: pointer;
+            float: right;
+            padding: 5px;
+        }
     </style>
 </head>
 <body>
@@ -558,6 +590,13 @@
         </div>
     </div>
 
+    <!-- Add this section where you want to display the watchlist -->
+    <div class="watchlist-section">
+        <h2>My Watchlist</h2>
+        <div class="watchlist-grid" id="watchlistGrid">
+            <!-- Watchlist items will be inserted here -->
+        </div>
+    </div>
 
     <div class="modal" id="comparison-modal">
         <div class="modal-content">
@@ -753,6 +792,80 @@
                 }
             });
         });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            displayWatchlist();
+        });
+
+        function displayWatchlist() {
+            const watchlistGrid = document.getElementById('watchlistGrid');
+
+            // Fetch watchlist from FastAPI endpoint
+            fetch("http://localhost:8000/api/watchlist/get")
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "success") {
+                    const watchlist = data.data;
+
+                    // Sort by most recently added
+                    watchlist.sort((a, b) => new Date(b.added_to_watchlist) - new Date(a.added_to_watchlist));
+
+                    watchlistGrid.innerHTML = watchlist.map(job => `
+                        <div class="watchlist-card" data-job-id="${job.job_id}">
+                            <button class="remove-from-watchlist" onclick="removeFromWatchlist('${job.job_id}')">
+                                <span class="material-icons">close</span>
+                            </button>
+                            <div class="job-title">${job.job_type}</div>
+                            <div class="company-name">${job.company_name}</div>
+                            <div class="job-location">
+                                <span class="material-icons">location_on</span>
+                                ${job.location}
+                            </div>
+                            <div class="package">${job.salary_range}</div>
+                            <div class="skills-tags">
+                                ${job.requirements.split(',').slice(0, 3).map(skill => 
+                                    `<span class="skill-tag">${skill.trim()}</span>`
+                                ).join('')}
+                            </div>
+                            <div class="added-date">
+                                Added ${new Date(job.added_to_watchlist).toLocaleDateString()}
+                            </div>
+                        </div>
+                    `).join('');
+                } else {
+                    console.error("Failed to fetch watchlist:", data.message);
+                    watchlistGrid.innerHTML = "<p>Failed to load watchlist.</p>";
+                }
+            })
+            .catch(error => {
+                console.error("Error fetching watchlist:", error);
+                watchlistGrid.innerHTML = "<p>Failed to load watchlist.</p>";
+            });
+        }
+
+        function removeFromWatchlist(jobId) {
+            try {
+                let watchlist = JSON.parse(localStorage.getItem('userWatchlist')) || [];
+                watchlist = watchlist.filter(job => job.job_id !== jobId);
+                localStorage.setItem('userWatchlist', JSON.stringify(watchlist));
+                displayWatchlist();
+                showNotification('Job removed from watchlist', 'success');
+            } catch (error) {
+                console.error('Error removing from watchlist:', error);
+                showNotification('Failed to remove job', 'error');
+            }
+        }
+
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
     </script>
 </body>
 </html>

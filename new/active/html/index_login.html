@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login to Conexio</title>
-  <link rel="stylesheet" href="main.css">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
@@ -198,6 +197,40 @@
       font-weight: 500;
     }
 
+    .error-message {
+      color: #ff4444;
+      margin-top: 10px;
+      text-align: center;
+      display: none;
+    }
+
+    .success-message {
+      color: #00C851;
+      margin-top: 10px;
+      text-align: center;
+      display: none;
+    }
+
+    .divider {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      border-bottom: 1px solid #eee;
+    }
+
+    .divider span {
+      padding: 0 10px;
+      color: #666;
+      font-size: 0.9em;
+    }
+
     @keyframes fadeInUp {
       to {
         opacity: 1;
@@ -240,6 +273,7 @@
       }
     }
   </style>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
   <div class="background-shapes">
@@ -273,14 +307,18 @@
       <h2>Login</h2>
 
       <div class="social-login">
-        <button class="social-btn">
-          <img src="assets/google-logo.svg" alt="Google">
+        <button class="social-btn" id="google-login">
+          <img src="https://www.google.com/favicon.ico" alt="Google">
           Google
         </button>
-        <button class="social-btn">
-          <img src="assets/linkedin-logo.svg" alt="LinkedIn">
+        <button class="social-btn" id="linkedin-login">
+          <img src="https://www.linkedin.com/favicon.ico" alt="LinkedIn">
           LinkedIn
         </button>
+      </div>
+
+      <div class="divider">
+        <span>or continue with email</span>
       </div>
 
       <form id="login-form">
@@ -291,41 +329,115 @@
           <input type="password" id="password" placeholder="Password" required>
           <i class="far fa-eye" id="togglePassword"></i>
         </div>
-        <button type="submit" class="primary-button" onclick="window.location.href='perf.html'">Login</button>
+        <div id="error-message" class="error-message"></div>
+        <div id="success-message" class="success-message"></div>
+        <button type="submit" class="primary-button">Login</button>
       </form>
 
       <p class="login-link">
-        Don't have an account? <a href="signup.html">Sign up</a>
+        Don't have an account? <a href="#" id="signup-link">Sign up</a>
       </p>
     </div>
   </div>
 
   <script>
-    document.getElementById('togglePassword').addEventListener('click', function() {
-      const password = document.getElementById('password');
-      const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-      password.setAttribute('type', type);
-      this.classList.toggle('fa-eye-slash');
+    // Initialize Supabase client
+    const supabase = window.supabase.createClient(
+        'https://ialndgfbbtnbccqrcara.supabase.co',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlhbG5kZ2ZiYnRuYmNjcXJjYXJhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDIxNTQ3MTgsImV4cCI6MjA1NzczMDcxOH0.sj7fMwpRvBqrPT1w3jCyeil2oZBDWc-BCxZ3edWlD7M'
+    );
+
+    // Handle Google login
+    document.getElementById('google-login').addEventListener('click', async function(e) {
+        e.preventDefault();
+        handleSocialLogin('google');
     });
 
-    document.getElementById('login-form').addEventListener('submit', function(e) {
-      e.preventDefault();
-      // Add your login form submission logic here.  You'll likely want to:
-      // 1. Get the email and password values from the form.
-      // 2. Validate the credentials (e.g., against a server).
-      // 3. If successful, redirect the user to the application.
-      // 4. If not successful, display an error message.
+    // Handle LinkedIn login
+    document.getElementById('linkedin-login').addEventListener('click', async function(e) {
+        e.preventDefault();
+        handleSocialLogin('linkedin');
+    });
 
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
+    // Generic social login handler
+    async function handleSocialLogin(provider) {
+        const errorMessage = document.getElementById('error-message');
+        const successMessage = document.getElementById('success-message');
+        
+        try {
+            const { data, error } = await supabase.auth.signInWithOAuth({
+                provider: provider,
+                options: {
+                    queryParams: {
+                        access_type: 'offline',
+                        prompt: 'consent',
+                    },
+                    redirectTo: `${window.location.origin}/index_info2.html`
+                }
+            });
 
-      // Placeholder for demonstration - replace with actual logic
-      if (email === 'test@example.com' && password === 'password') {
-        alert('Login Successful!'); // Replace with actual redirection
-      } else {
-        alert('Invalid credentials.');
-      }
+            if (error) throw error;
 
+            successMessage.style.display = 'block';
+            errorMessage.style.display = 'none';
+            successMessage.textContent = `Redirecting to ${provider.charAt(0).toUpperCase() + provider.slice(1)} login...`;
+
+        } catch (error) {
+            console.error(`${provider} login error:`, error);
+            errorMessage.style.display = 'block';
+            successMessage.style.display = 'none';
+            errorMessage.textContent = error.message || `Failed to initiate ${provider} login`;
+        }
+    }
+
+    // Handle form login
+    document.getElementById('login-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const errorMessage = document.getElementById('error-message');
+        const successMessage = document.getElementById('success-message');
+
+        try {
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email: email,
+                password: password
+            });
+
+            if (error) throw error;
+
+            successMessage.style.display = 'block';
+            errorMessage.style.display = 'none';
+            successMessage.textContent = 'Login successful! Redirecting...';
+            
+            // Store user session
+            localStorage.setItem('supabaseSession', JSON.stringify(data.session));
+            
+            // Redirect to dashboard
+            window.location.href = 'index_info2.html';
+
+        } catch (error) {
+            errorMessage.style.display = 'block';
+            successMessage.style.display = 'none';
+            errorMessage.textContent = error.message || 'Invalid login credentials';
+        }
+    });
+
+    // Check if user is already logged in
+    window.addEventListener('load', async () => {
+        const { data: { session }, error } = await supabase.auth.getSession();
+        if (session) {
+            window.location.href = 'index_info2.html';
+        }
+    });
+
+    // Toggle password visibility
+    document.getElementById('togglePassword').addEventListener('click', function() {
+        const password = document.getElementById('password');
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+        this.classList.toggle('fa-eye-slash');
     });
   </script>
 </body>

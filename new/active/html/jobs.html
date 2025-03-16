@@ -204,6 +204,7 @@
         jobs.forEach(job => {
           const jobCard = document.createElement('div');
           jobCard.className = 'job-card';
+          jobCard.dataset.jobId = job.profile_id; // Add profile_id as data attribute
           jobCard.innerHTML = `
             <div class="company-logo">
               <img src="${job.logo_filename || 'default-logo.png'}" alt="${job.company_name}" onerror="this.src='default-logo.png'">
@@ -311,6 +312,93 @@
         hideComparisonModal();
       }
     }
+
+    function addToWatchlist(job) {
+      try {
+          // Send job data to FastAPI endpoint
+          fetch("http://localhost:8000/api/watchlist/add", {
+              method: "POST",
+              headers: {
+                  "Content-Type": "application/json",
+              },
+              body: JSON.stringify(job),
+          })
+          .then(response => {
+              if (!response.ok) {
+                  throw new Error(`HTTP error! Status: ${response.status}`);
+              }
+              return response.json();
+          })
+          .then(data => {
+              showNotification(data.message, data.status);
+          })
+          .catch(error => {
+              console.error("Error adding to watchlist:", error);
+              showNotification("Failed to add job to watchlist", "error");
+          });
+      } catch (error) {
+          console.error("Error adding to watchlist:", error);
+          showNotification("Failed to add job to watchlist", "error");
+      }
+  }
+
+  function showNotification(message, type) {
+      const notification = document.createElement('div');
+      notification.className = `notification ${type}`;
+      notification.textContent = message;
+      document.body.appendChild(notification);
+      
+      // Remove notification after 3 seconds
+      setTimeout(() => {
+          notification.remove();
+      }, 3000);
+  }
+
+  // Update the watchlist button click handler
+  document.querySelector('.watchlist-btn').addEventListener('click', function() {
+      const jobId = this.closest('.job-card').dataset.jobId;
+      const job = allJobs.find(j => j.job_id === jobId);
+      if (job) {
+          addToWatchlist(job);
+      }
+  });
   </script>
+
+  <style>
+  .notification {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 15px 25px;
+      border-radius: 8px;
+      color: white;
+      font-weight: 500;
+      z-index: 1000;
+      animation: slideIn 0.3s ease;
+  }
+
+  .notification.success {
+      background-color: var(--success);
+  }
+
+  .notification.error {
+      background-color: var(--danger);
+  }
+
+  .notification.info {
+      background-color: var(--primary);
+  }
+
+  @keyframes slideIn {
+      from {
+          transform: translateX(100%);
+          opacity: 0;
+      }
+      to {
+          transform: translateX(0);
+          opacity: 1;
+      }
+  }
+  </style>
 </body>
 </html>
