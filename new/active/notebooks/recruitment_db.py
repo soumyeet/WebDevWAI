@@ -162,11 +162,11 @@ def create_db_schema():
         cursor.execute('''
             INSERT INTO companies (name, industry, location, website, logo_filename, contact_number, linkedin_link, github_link)
             VALUES
-            ('TechCorp', 'Technology', 'New York', 'techcorp.com', 'techcorp_logo.png', '1234567890', 'linkedin.com/techcorp', 'github.com/techcorp'),
-            ('DataSoft', 'Software', 'San Francisco', 'datasoft.com', 'datasoft_logo.png', '2345678901', 'linkedin.com/datasoft', 'github.com/datasoft'),
-            ('AITech', 'AI/ML', 'Seattle', 'aitech.com', 'aitech_logo.png', '3456789012', 'linkedin.com/aitech', 'github.com/aitech'),
-            ('WebSolutions', 'Web Development', 'Austin', 'websolutions.com', 'websolutions_logo.png', '4567890123', 'linkedin.com/websolutions', 'github.com/websolutions'),
-            ('CloudTech', 'Cloud Computing', 'Boston', 'cloudtech.com', 'cloudtech_logo.png', '5678901234', 'linkedin.com/cloudtech', 'github.com/cloudtech')
+            ('TechCorp', 'Technology', 'New York', 'techcorp.com', 'images\logo.jpg', '1234567890', 'linkedin.com/techcorp', 'github.com/techcorp'),
+            ('DataSoft', 'Software', 'San Francisco', 'datasoft.com', 'images\logo.jpg', '2345678901', 'linkedin.com/datasoft', 'github.com/datasoft'),
+            ('AITech', 'AI/ML', 'Seattle', 'aitech.com', 'images\logo.jpg', '3456789012', 'linkedin.com/aitech', 'github.com/aitech'),
+            ('WebSolutions', 'Web Development', 'Austin', 'images\logo.jpg', 'websolutions_logo.png', '4567890123', 'linkedin.com/websolutions', 'github.com/websolutions'),
+            ('CloudTech', 'Cloud Computing', 'Boston', 'images\logo.jpg', 'cloudtech_logo.png', '5678901234', 'linkedin.com/cloudtech', 'github.com/cloudtech')
         ''')
 
         # Insert sample applicant profiles with skills

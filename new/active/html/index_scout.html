@@ -423,6 +423,16 @@
                 document.body.style.overflow = '';
             }
         });
+
+        // Update the fetch URL in the fetchApplicants function
+        async function fetchApplicants() {
+            try {
+                const response = await fetch('http://localhost:8001/api/applicants');
+                // ...rest of the function
+            } catch (err) {
+                // ...error handling
+            }
+        }
     </script>
 </body>
 </html>

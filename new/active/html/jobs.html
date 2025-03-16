@@ -1,430 +1,347 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="main.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Recruitment Helper - Jobs</title>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="main.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Recruitment Helper - Jobs</title>
+  <!-- New styles for job cards and modal popup -->
+  <style>
+    :root {
+      --lighter-bg: #f8f9fa;
+    }
+    /* Job Card Styles (similar dimensions to your dashboard cards) */
+    .job-card {
+      background: var(--lighter-bg);
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      margin: 10px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+    .job-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    /* Modal Popup Styles (matching your dashboard popup dimensions) */
+    .job-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 1000;
+      overflow-y: auto;
+    }
+    .job-modal-content {
+      position: relative;
+      background: white;
+      margin: 50px auto;
+      padding: 30px;
+      width: 90%;
+      max-width: 800px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    .job-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .job-modal-close {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+    }
+    .job-modal-body {
+      margin-top: 20px;
+    }
+    .job-modal-body .company-logo {
+      width: 80px;
+      height: 80px;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+    .job-modal-body .company-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .job-modal-body ul {
+      list-style-type: disc;
+      padding-left: 20px;
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1><i>Conexio</i></h1>
-        <div class="nav-items">
-            <div class="tabs">
-                <div class="tab" onclick="window.location.href='perf.html'">Performance</div>
-                <div class="tab active">Jobs</div>
-            </div>
-            <div class="account-btn">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                </svg>
-            </div>
-        </div>
-    </header>
-
-    <div class="main-container">
-        <button class="filter-toggle">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" 
-            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="4" y1="21" x2="4" y2="14"></line>
-                <line x1="4" y1="10" x2="4" y2="3"></line>
-                <line x1="12" y1="21" x2="12" y2="12"></line>
-                <line x1="12" y1="8" x2="12" y2="3"></line>
-                <line x1="20" y1="21" x2="20" y2="16"></line>
-                <line x1="20" y1="12" x2="20" y2="3"></line>
-                <line x1="1" y1="14" x2="7" y2="14"></line>
-                <line x1="9" y1="8" x2="15" y2="8"></line>
-                <line x1="17" y1="16" x2="23" y2="16"></line>
-            </svg>
-            Filters
-        </button>
-
-        <aside class="filter-section">
-            <div class="filter-heading">
-                <span>Filters</span>
-                <div class="filter-actions">
-                    <button class="filter-btn filter-clear">Clear all</button>
-                    <button class="filter-btn filter-apply">Apply</button>
-                </div>
-            </div>
-
-            <div class="filter-group">
-                <div class="filter-group-title">Job Type</div>
-                <label class="filter-option">
-                    <input type="checkbox"> Full-time
-                </label>
-                <label class="filter-option">
-                    <input type="checkbox"> Part-time
-                </label>
-                <label class="filter-option">
-                    <input type="checkbox"> Contract
-                </label>
-                <label class="filter-option">
-                    <input type="checkbox"> Internship
-                </label>
-            </div>
-
-            <div class="filter-group">
-                <div class="filter-group-title">Experience Level</div>
-                <label class="filter-option">
-                    <input type="checkbox"> Entry Level
-                </label>
-                <label class="filter-option">
-                    <input type="checkbox"> Mid Level
-                </label>
-                <label class="filter-option">
-                    <input type="checkbox"> Senior Level
-                </label>
-            </div>
-
-            <div class="filter-group">
-                <div class="filter-group-title">Location</div>
-                <label class="filter-option">
-                    <input type="checkbox"> Remote
-                </label>
-                <label class="filter-option">
-                    <input type="checkbox"> On-site
-                </label>
-                <label class="filter-option">
-                    <input type="checkbox"> Hybrid
-                </label>
-            </div>
-
-            <div class="filter-group">
-                <div class="filter-group-title">Salary Range</div>
-                <label class="filter-option">
-                    <input type="checkbox"> $0 - $50k
-                </label>
-                <label class="filter-option">
-                    <input type="checkbox"> $50k - $100k
-                </label>
-                <label class="filter-option">
-                    <input type="checkbox"> $100k - $150k
-                </label>
-                <label class="filter-option">
-                    <input type="checkbox"> $150k+
-                </label>
-            </div>
-        </aside>
-
-        <main class="jobs-section">
-            <div class="search-bar">
-                <input type="text" class="search-input" placeholder="Search for jobs, companies, or skills...">
-            </div>
-            <div class="jobs-grid">
-                <div class="job-card">
-                    <div class="company-logo"></div>
-                    <div class="job-title">Senior Frontend Developer</div>
-                    <div class="company-name">TechCorp Inc</div>
-                    <div class="job-location">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
-                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                            <circle cx="12" cy="10" r="3"></circle>
-                        </svg>
-                        New York (Hybrid)
-                    </div>
-                    <div class="package">$120,000 - $150,000</div>
-                    <div>
-                        <span class="skills-tag">React</span>
-                        <span class="skills-tag">TypeScript</span>
-                        <span class="skills-tag">Node.js</span>
-                        <span class="skills-tag">AWS</span>
-                    </div>
-                    <div class="interview-date">Interview: Dec 15, 2023</div>
-                </div>
-
-                <div class="job-card">
-                    <div class="company-logo"></div>
-                    <div class="job-title">Full Stack Developer</div>
-                    <div class="company-name">DataSoft Solutions</div>
-                    <div class="job-location">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
-                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                            <circle cx="12" cy="10" r="3"></circle>
-                        </svg>
-                        Remote
-                    </div>
-                    <div class="package">$90,000 - $120,000</div>
-                    <div>
-                        <span class="skills-tag">Python</span>
-                        <span class="skills-tag">Django</span>
-                        <span class="skills-tag">React</span>
-                        <span class="skills-tag">PostgreSQL</span>
-                    </div>
-                    <div class="interview-date">Interview: Dec 18, 2023</div>
-                </div>
-
-                <div class="job-card">
-                    <div class="company-logo"></div>
-                    <div class="job-title">DevOps Engineer</div>
-                    <div class="company-name">CloudScale</div>
-                    <div class="job-location">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
-                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                            <circle cx="12" cy="10" r="3"></circle>
-                        </svg>
-                        San Francisco (On-site)
-                    </div>
-                    <div class="package">$130,000 - $160,000</div>
-                    <div>
-                        <span class="skills-tag">Kubernetes</span>
-                        <span class="skills-tag">Docker</span>
-                        <span class="skills-tag">AWS</span>
-                        <span class="skills-tag">CI/CD</span>
-                    </div>
-                    <div class="interview-date">Interview: Dec 20, 2023</div>
-                </div>
-
-                <div class="job-card">
-                    <div class="company-logo"></div>
-                    <div class="job-title">UI/UX Designer</div>
-                    <div class="company-name">DesignHub</div>
-                    <div class="job-location">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
-                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                            <circle cx="12" cy="10" r="3"></circle>
-                        </svg>
-                        London (Hybrid)
-                    </div>
-                    <div class="package">$80,000 - $100,000</div>
-                    <div>
-                        <span class="skills-tag">Figma</span>
-                        <span class="skills-tag">Adobe XD</span>
-                        <span class="skills-tag">Prototyping</span>
-                        <span class="skills-tag">User Research</span>
-                    </div>
-                    <div class="interview-date">Interview: Dec 22, 2023</div>
-                </div>
-
-                <div class="job-card">
-                    <div class="company-logo"></div>
-                    <div class="job-title">Machine Learning Engineer</div>
-                    <div class="company-name">AI Innovations</div>
-                    <div class="job-location">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
-                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                            <circle cx="12" cy="10" r="3"></circle>
-                        </svg>
-                        Boston (Remote)
-                    </div>
-                    <div class="package">$140,000 - $180,000</div>
-                    <div>
-                        <span class="skills-tag">Python</span>
-                        <span class="skills-tag">TensorFlow</span>
-                        <span class="skills-tag">PyTorch</span>
-                        <span class="skills-tag">Computer Vision</span>
-                    </div>
-                    <div class="interview-date">Interview: Jan 5, 2024</div>
-                </div>
-            </div>
-        </main>
+  <header>
+    <h1><i>Conexio</i></h1>
+    <div class="nav-items">
+      <div class="tabs">
+        <div class="tab" onclick="window.location.href='perf.html'">Performance</div>
+        <div class="tab active">Jobs</div>
+      </div>
+      <div class="account-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+        </svg>
+      </div>
     </div>
+  </header>
 
-    <div class="filter-modal">
-        <div class="filter-modal-header">
-            <span class="filter-modal-title">Filter Jobs</span>
-            <button class="filter-modal-close">&times;</button>
+  <div class="main-container">
+    <button class="filter-toggle">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" 
+           stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="4" y1="21" x2="4" y2="14"></line>
+        <line x1="4" y1="10" x2="4" y2="3"></line>
+        <line x1="12" y1="21" x2="12" y2="12"></line>
+        <line x1="12" y1="8" x2="12" y2="3"></line>
+        <line x1="20" y1="21" x2="20" y2="16"></line>
+        <line x1="20" y1="12" x2="20" y2="3"></line>
+        <line x1="1" y1="14" x2="7" y2="14"></line>
+        <line x1="9" y1="8" x2="15" y2="8"></line>
+        <line x1="17" y1="16" x2="23" y2="16"></line>
+      </svg>
+      Filters
+    </button>
+
+    <aside class="filter-section">
+      <div class="filter-heading">
+        <span>Filters</span>
+        <div class="filter-actions">
+          <button class="filter-btn filter-clear">Clear all</button>
+          <button class="filter-btn filter-apply">Apply</button>
         </div>
-        
-        <div class="filter-modal-content">
-            <div class="filter-group">
-                <div class="filter-group-title">Job Type</div>
-                <label class="filter-option">
-                    <input type="checkbox"> Full-time
-                </label>
-                <label class="filter-option">
-                    <input type="checkbox"> Part-time
-                </label>
-                <label class="filter-option">
-                    <input type="checkbox"> Contract
-                </label>
-                <label class="filter-option">
-                    <input type="checkbox"> Internship
-                </label>
-            </div>
+      </div>
 
-            <div class="filter-group">
-                <div class="filter-group-title">Experience Level</div>
-                <label class="filter-option">
-                    <input type="checkbox"> Entry Level
-                </label>
-                <label class="filter-option">
-                    <input type="checkbox"> Mid Level
-                </label>
-                <label class="filter-option">
-                    <input type="checkbox"> Senior Level
-                </label>
-            </div>
+      <div class="filter-group">
+        <div class="filter-group-title">Job Type</div>
+        <label class="filter-option">
+          <input type="checkbox"> Full-time
+        </label>
+        <label class="filter-option">
+          <input type="checkbox"> Part-time
+        </label>
+        <label class="filter-option">
+          <input type="checkbox"> Contract
+        </label>
+        <label class="filter-option">
+          <input type="checkbox"> Internship
+        </label>
+      </div>
 
-            <div class="filter-group">
-                <div class="filter-group-title">Location</div>
-                <label class="filter-option">
-                    <input type="checkbox"> Remote
-                </label>
-                <label class="filter-option">
-                    <input type="checkbox"> On-site
-                </label>
-                <label class="filter-option">
-                    <input type="checkbox"> Hybrid
-                </label>
-            </div>
+      <div class="filter-group">
+        <div class="filter-group-title">Experience Level</div>
+        <label class="filter-option">
+          <input type="checkbox"> Entry Level
+        </label>
+        <label class="filter-option">
+          <input type="checkbox"> Mid Level
+        </label>
+        <label class="filter-option">
+          <input type="checkbox"> Senior Level
+        </label>
+      </div>
 
-            <div class="filter-group">
-                <div class="filter-group-title">Salary Range</div>
-                <label class="filter-option">
-                    <input type="checkbox"> $0 - $50k
-                </label>
-                <label class="filter-option">
-                    <input type="checkbox"> $50k - $100k
-                </label>
-                <label class="filter-option">
-                    <input type="checkbox"> $100k - $150k
-                </label>
-                <label class="filter-option">
-                    <input type="checkbox"> $150k+
-                </label>
-            </div>
+      <div class="filter-group">
+        <div class="filter-group-title">Location</div>
+        <label class="filter-option">
+          <input type="checkbox"> Remote
+        </label>
+        <label class="filter-option">
+          <input type="checkbox"> On-site
+        </label>
+        <label class="filter-option">
+          <input type="checkbox"> Hybrid
+        </label>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-group-title">Salary Range</div>
+        <label class="filter-option">
+          <input type="checkbox"> $0 - $50k
+        </label>
+        <label class="filter-option">
+          <input type="checkbox"> $50k - $100k
+        </label>
+        <label class="filter-option">
+          <input type="checkbox"> $100k - $150k
+        </label>
+        <label class="filter-option">
+          <input type="checkbox"> $150k+
+        </label>
+      </div>
+    </aside>
+
+    <!-- Main container for job cards -->
+    <main class="jobs-section" id="root">
+      <!-- Feedback elements for loading and errors -->
+      <div id="loading" style="display: none;">Loading...</div>
+      <div id="error" style="display: none;"></div>
+      <button id="retry-btn" style="display: none;">Retry</button>
+    </main>
+  </div>
+
+  <!-- Modal Popup for Job Details -->
+  <div class="job-modal" id="job-details-modal">
+    <div class="job-modal-content">
+      <div class="job-modal-header">
+        <h2 id="job-modal-title">Job Title</h2>
+        <button class="job-modal-close" onclick="hideJobDetails()">&times;</button>
+      </div>
+      <div class="job-modal-body">
+        <div class="company-logo">
+          <img id="job-modal-logo" src="default-logo.png" alt="Company Logo">
         </div>
-
-        <div class="filter-modal-footer">
-            <button class="filter-button filter-reset">Reset</button>
-            <button class="filter-button filter-apply">Apply Filters</button>
+        <p class="company-name" id="job-modal-company">Company Name</p>
+        <p class="job-location" id="job-modal-location">Location</p>
+        <p class="package" id="job-modal-salary">Salary Range</p>
+        <p class="job-description" id="job-modal-description">Job Description</p>
+        <p class="job-availability" id="job-modal-availability">Availability</p>
+        <div class="job-requirements">
+          <h3>Requirements:</h3>
+          <ul id="job-modal-requirements"></ul>
         </div>
+      </div>
     </div>
+  </div>
 
-    <div class="job-modal">
-        <div class="job-modal-content">
-            <div class="job-modal-header">
-                <div>
-                    <h2 class="job-title">Senior Frontend Developer</h2>
-                    <div class="job-modal-company">
-                        <div class="company-logo"></div>
-                        <div>
-                            <div class="company-name">TechCorp Inc</div>
-                            <div class="job-location">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                                    <circle cx="12" cy="10" r="3"></circle>
-                                </svg>
-                                New York (Hybrid)
-                            </div>
-                            <div class="package">$120,000 - $150,000</div>
-                        </div>
-                    </div>
-                </div>
-                <button class="job-modal-close">&times;</button>
+  <script>
+    console.log('js component is running...');
+    document.addEventListener('DOMContentLoaded', () => {
+      // The 'root' element will contain our job cards along with feedback elements.
+      const jobsGrid = document.getElementById('root');
+      const loadingDiv = document.getElementById('loading');
+      const errorDiv = document.getElementById('error');
+      const retryButton = document.getElementById('retry-btn');
+
+      async function fetchJobs() {
+        try {
+          loadingDiv.style.display = 'block';
+          errorDiv.style.display = 'none';
+          retryButton.style.display = 'none';
+          console.log('Fetching jobs data...');
+          const response = await fetch('http://localhost:8000/api/jobs');
+          const data = await response.json();
+          console.log(data);
+          if (data.status === 'success') {
+            displayJobs(data.data);
+          } else {
+            showError('Failed to load jobs data');
+          }
+        } catch (err) {
+          showError('Failed to connect to the server');
+        } finally {
+          loadingDiv.style.display = 'none';
+        }
+      }
+
+      function displayJobs(jobs) {
+        // Remove any previously added job cards while preserving the loading/error elements.
+        Array.from(jobsGrid.children).forEach(child => {
+          if (!['loading', 'error', 'retry-btn'].includes(child.id)) {
+            jobsGrid.removeChild(child);
+          }
+        });
+
+        if (jobs.length === 0) {
+          const noJobsDiv = document.createElement('div');
+          noJobsDiv.className = 'no-jobs';
+          noJobsDiv.textContent = 'No jobs found';
+          jobsGrid.appendChild(noJobsDiv);
+          return;
+        }
+
+        jobs.forEach(job => {
+          const jobCard = document.createElement('div');
+          jobCard.className = 'job-card';
+          jobCard.innerHTML = `
+            <div class="company-logo">
+              <img src="${job.logo_filename || 'default-logo.png'}" alt="${job.company_name}" onerror="this.src='default-logo.png'">
             </div>
-
-            <div class="job-description">
-                <h3>About the Role</h3>
-                <p>We are seeking an experienced Frontend Developer to join our dynamic team. 
-                You will be responsible for building scalable web applications, implementing user 
-                interfaces, and collaborating with cross-functional teams.</p>
+            <div class="job-title">${job.job_type}</div>
+            <div class="company-name">${job.company_name}</div>
+            <div class="job-location">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+              ${job.location}
             </div>
-
-            <div class="requirements">
-                <h3>Requirements</h3>
-                <ul class="requirements-list">
-                    <li>5+ years of experience with React and modern JavaScript</li>
-                    <li>Strong understanding of TypeScript and state management</li>
-                    <li>Experience with Node.js and RESTful APIs</li>
-                    <li>Knowledge of AWS services and cloud architecture</li>
-                </ul>
+            <div class="package">${job.salary_range}</div>
+            <div class="skills-container">
+              ${job.requirements.split(',').slice(0, 3).map(skill => `<span class="skills-tag">${skill.trim()}</span>`).join('')}
             </div>
-            <div class="action-buttons">
-                <button class="action-button watchlist-btn">Add to Watchlist</button>
-                <button class="action-button apply-btn">Apply Now</button>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // Tab navigation
-        document.querySelectorAll('.tab').forEach(tab => {
-            tab.addEventListener('click', () => {
-                const page = tab.textContent.toLowerCase();
-                if (page === 'performance') {
-                    window.location.href = 'perf.html';
-                } else if (page === 'jobs') {
-                    window.location.href = 'jobs.html';
-                } else if (page === 'home') {
-                    window.location.href = 'home.html';
-                }
-            });
+            <div class="availability">${job.availability_needed}</div>
+          `;
+          // Add click event to show the modal with detailed job info.
+          jobCard.addEventListener('click', () => showJobDetails(job));
+          jobsGrid.appendChild(jobCard);
         });
+      }
 
-        // Filter functionality
-        document.addEventListener('DOMContentLoaded', () => {
-            const filterToggle = document.querySelector('.filter-toggle');
-            const filterModal = document.querySelector('.filter-modal');
-            const filterModalClose = document.querySelector('.filter-modal-close');
-            const filterApply = document.querySelector('.filter-apply');
-            const filterReset = document.querySelector('.filter-reset');
+      function showError(message) {
+        errorDiv.style.display = 'block';
+        errorDiv.innerHTML = `Error: ${message}`;
+        retryButton.style.display = 'block';
+      }
 
-            if (filterToggle) {
-                filterToggle.addEventListener('click', () => {
-                    console.log('Filter toggle clicked');
-                    if (filterModal) {
-                        filterModal.style.display = 'block';
-                        document.body.style.overflow = 'hidden';
-                    }
-                });
-            }
+      retryButton.addEventListener('click', () => {
+        retryButton.style.display = 'none';
+        fetchJobs();
+      });
 
-            if (filterModalClose) {
-                filterModalClose.addEventListener('click', () => {
-                    filterModal.style.display = 'none';
-                    document.body.style.overflow = '';
-                });
-            }
+      fetchJobs();
+      // Refresh jobs every 30 seconds.
+      setInterval(fetchJobs, 30000);
+    });
 
-            if (filterApply) {
-                filterApply.addEventListener('click', () => {
-                    filterModal.style.display = 'none';
-                    document.body.style.overflow = '';
-                });
-            }
+    // Function to show job details in the modal popup
+    function showJobDetails(job) {
+      const modal = document.getElementById('job-details-modal');
+      document.getElementById('job-modal-title').textContent = job.job_type;
+      document.getElementById('job-modal-company').textContent = job.company_name;
+      document.getElementById('job-modal-location').textContent = job.location;
+      document.getElementById('job-modal-salary').textContent = job.salary_range;
+      // Use job.description if available, otherwise fallback text.
+      document.getElementById('job-modal-description').textContent = job.description || 'No description available';
+      document.getElementById('job-modal-availability').textContent = job.availability_needed;
+      const logoImg = document.getElementById('job-modal-logo');
+      logoImg.src = job.logo_filename || 'default-logo.png';
+      
+      // Populate requirements list.
+      const reqList = document.getElementById('job-modal-requirements');
+      reqList.innerHTML = '';
+      job.requirements.split(',').forEach(req => {
+        const li = document.createElement('li');
+        li.textContent = req.trim();
+        reqList.appendChild(li);
+      });
+      
+      modal.style.display = 'block';
+      document.body.style.overflow = 'hidden';
+    }
 
-            if (filterReset) {
-                filterReset.addEventListener('click', () => {
-                    const checkboxes = filterModal.querySelectorAll('input[type="checkbox"]');
-                    checkboxes.forEach(checkbox => checkbox.checked = false);
-                });
-            }
-        });
+    // Function to hide the modal popup
+    function hideJobDetails() {
+      document.getElementById('job-details-modal').style.display = 'none';
+      document.body.style.overflow = '';
+    }
 
-        document.querySelectorAll('.job-card').forEach(card => {
-            card.addEventListener('click', () => {
-                document.querySelector('.job-modal').style.display = 'block';
-                document.body.style.overflow = 'hidden';
-            });
-        });
-
-        document.querySelector('.job-modal-close').addEventListener('click', () => {
-            document.querySelector('.job-modal').style.display = 'none';
-            document.body.style.overflow = '';
-        });
-
-        document.querySelector('.watchlist-btn').addEventListener('click', function() {
-            this.classList.toggle('active');
-            this.textContent = this.classList.contains('active') ? 
-                'Remove from Watchlist' : 'Add to Watchlist';
-        });
-
-        window.addEventListener('click', (e) => {
-            const modal = document.querySelector('.job-modal');
-            if (e.target === modal) {
-                modal.style.display = 'none';
-                document.body.style.overflow = '';
-            }
-        });
-    </script>
+    // Hide modal when clicking outside of it.
+    window.onclick = function(event) {
+      const jobModal = document.getElementById('job-details-modal');
+      if (event.target === jobModal) {
+        hideJobDetails();
+      }
+    }
+  </script>
 </body>
 </html>
