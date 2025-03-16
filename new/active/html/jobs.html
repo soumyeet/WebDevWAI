@@ -5,78 +5,8 @@
   <link rel="stylesheet" href="main.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI Recruitment Helper - Jobs</title>
-  <!-- New styles for job cards and modal popup -->
-  <style>
-    :root {
-      --lighter-bg: #f8f9fa;
-    }
-    /* Job Card Styles (similar dimensions to your dashboard cards) */
-    .job-card {
-      background: var(--lighter-bg);
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-      margin: 10px;
-      cursor: pointer;
-      transition: transform 0.3s ease;
-    }
-    .job-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    }
-    /* Modal Popup Styles (matching your dashboard popup dimensions) */
-    .job-modal {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.5);
-      z-index: 1000;
-      overflow-y: auto;
-    }
-    .job-modal-content {
-      position: relative;
-      background: white;
-      margin: 50px auto;
-      padding: 30px;
-      width: 90%;
-      max-width: 800px;
-      border-radius: 15px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    }
-    .job-modal-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .job-modal-close {
-      background: none;
-      border: none;
-      font-size: 24px;
-      cursor: pointer;
-    }
-    .job-modal-body {
-      margin-top: 20px;
-    }
-    .job-modal-body .company-logo {
-      width: 80px;
-      height: 80px;
-      border-radius: 12px;
-      overflow: hidden;
-      margin-bottom: 10px;
-    }
-    .job-modal-body .company-logo img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    .job-modal-body ul {
-      list-style-type: disc;
-      padding-left: 20px;
-    }
-  </style>
+  <!-- Include Chart.js for the radar chart -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
   <header>
@@ -189,25 +119,36 @@
     </main>
   </div>
 
-  <!-- Modal Popup for Job Details -->
-  <div class="job-modal" id="job-details-modal">
-    <div class="job-modal-content">
-      <div class="job-modal-header">
-        <h2 id="job-modal-title">Job Title</h2>
-        <button class="job-modal-close" onclick="hideJobDetails()">&times;</button>
+  <!-- Radar Chart Modal Popup for Skills Gap Analysis -->
+  <div class="modal" id="comparison-modal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="hideComparisonModal()">&times;</button>
+      <div class="comparison-chart">
+        <canvas id="comparisonChart"></canvas>
       </div>
-      <div class="job-modal-body">
-        <div class="company-logo">
-          <img id="job-modal-logo" src="default-logo.png" alt="Company Logo">
+      <div class="gap-analysis">
+        <h2>Skills Gap Analysis</h2>
+        <div class="gap-item">
+          <strong>Strong Match:</strong> Your technical skills align well with the job requirements.
         </div>
-        <p class="company-name" id="job-modal-company">Company Name</p>
-        <p class="job-location" id="job-modal-location">Location</p>
-        <p class="package" id="job-modal-salary">Salary Range</p>
-        <p class="job-description" id="job-modal-description">Job Description</p>
-        <p class="job-availability" id="job-modal-availability">Availability</p>
-        <div class="job-requirements">
-          <h3>Requirements:</h3>
-          <ul id="job-modal-requirements"></ul>
+        <div class="gap-item improvement">
+          <strong>Need Improvement:</strong> Consider enhancing your AWS skills.
+        </div>
+        <div class="gap-item">
+          <strong>Action Items:</strong>
+          <ul class="action-list">
+            <li>Enroll in an AWS certification course</li>
+            <li>Practice cloud architecture patterns</li>
+            <li>Build portfolio projects using AWS services</li>
+          </ul>
+        </div>
+        <div class="modal-actions">
+          <button class="action-button watchlist-btn">
+            Add to Watchlist
+          </button>
+          <button class="action-button apply-btn">
+            Apply Now
+          </button>
         </div>
       </div>
     </div>
@@ -215,8 +156,9 @@
 
   <script>
     console.log('js component is running...');
+    let comparisonChart = null;
+
     document.addEventListener('DOMContentLoaded', () => {
-      // The 'root' element will contain our job cards along with feedback elements.
       const jobsGrid = document.getElementById('root');
       const loadingDiv = document.getElementById('loading');
       const errorDiv = document.getElementById('error');
@@ -244,7 +186,7 @@
       }
 
       function displayJobs(jobs) {
-        // Remove any previously added job cards while preserving the loading/error elements.
+        // Remove any previously added job cards while preserving feedback elements.
         Array.from(jobsGrid.children).forEach(child => {
           if (!['loading', 'error', 'retry-btn'].includes(child.id)) {
             jobsGrid.removeChild(child);
@@ -281,8 +223,8 @@
             </div>
             <div class="availability">${job.availability_needed}</div>
           `;
-          // Add click event to show the modal with detailed job info.
-          jobCard.addEventListener('click', () => showJobDetails(job));
+          // Clicking the job card will trigger the radar chart popup
+          jobCard.addEventListener('click', () => showJobComparison(job));
           jobsGrid.appendChild(jobCard);
         });
       }
@@ -303,43 +245,70 @@
       setInterval(fetchJobs, 30000);
     });
 
-    // Function to show job details in the modal popup
-    function showJobDetails(job) {
-      const modal = document.getElementById('job-details-modal');
-      document.getElementById('job-modal-title').textContent = job.job_type;
-      document.getElementById('job-modal-company').textContent = job.company_name;
-      document.getElementById('job-modal-location').textContent = job.location;
-      document.getElementById('job-modal-salary').textContent = job.salary_range;
-      // Use job.description if available, otherwise fallback text.
-      document.getElementById('job-modal-description').textContent = job.description || 'No description available';
-      document.getElementById('job-modal-availability').textContent = job.availability_needed;
-      const logoImg = document.getElementById('job-modal-logo');
-      logoImg.src = job.logo_filename || 'default-logo.png';
+    // Function to show the radar chart popup (Skills Gap Analysis)
+    function showJobComparison(job) {
+      // (Optionally, you could update the gap analysis text based on the job details.)
+      const modal = document.getElementById('comparison-modal');
       
-      // Populate requirements list.
-      const reqList = document.getElementById('job-modal-requirements');
-      reqList.innerHTML = '';
-      job.requirements.split(',').forEach(req => {
-        const li = document.createElement('li');
-        li.textContent = req.trim();
-        reqList.appendChild(li);
+      // Initialize or update the radar chart
+      const ctx = document.getElementById('comparisonChart').getContext('2d');
+      if (comparisonChart) {
+        comparisonChart.destroy();
+      }
+      comparisonChart = new Chart(ctx, {
+        type: 'radar',
+        data: {
+          labels: ['Communication', 'Technical Skills', 'Problem Solving', 'Leadership', 'Creativity'],
+          datasets: [{
+            label: 'Your Skills',
+            data: [65, 85, 70, 60, 75],
+            fill: true,
+            backgroundColor: 'rgba(46, 196, 182, 0.2)',
+            borderColor: '#40C9A2',
+            pointBackgroundColor: '#20A4F3',
+            pointBorderColor: '#fff'
+          },
+          {
+            label: 'Required Skills',
+            data: [70, 90, 80, 65, 70],
+            fill: true,
+            backgroundColor: 'rgba(255, 82, 82, 0.2)',
+            borderColor: '#FF5252',
+            pointBackgroundColor: '#FF5252',
+            pointBorderColor: '#fff'
+          }]
+        },
+        options: {
+          elements: {
+            line: { borderWidth: 3 }
+          },
+          maintainAspectRatio: false,
+          scales: {
+            r: {
+              angleLines: { color: 'rgba(0, 0, 0, 0.1)' },
+              grid: { color: 'rgba(0, 0, 0, 0.1)' },
+              pointLabels: { color: '#2A2D34' },
+              ticks: { backdropColor: 'transparent' }
+            }
+          }
+        }
       });
       
       modal.style.display = 'block';
       document.body.style.overflow = 'hidden';
     }
 
-    // Function to hide the modal popup
-    function hideJobDetails() {
-      document.getElementById('job-details-modal').style.display = 'none';
+    // Function to hide the radar chart popup
+    function hideComparisonModal() {
+      document.getElementById('comparison-modal').style.display = 'none';
       document.body.style.overflow = '';
     }
 
     // Hide modal when clicking outside of it.
     window.onclick = function(event) {
-      const jobModal = document.getElementById('job-details-modal');
-      if (event.target === jobModal) {
-        hideJobDetails();
+      const modal = document.getElementById('comparison-modal');
+      if (event.target === modal) {
+        hideComparisonModal();
       }
     }
   </script>
