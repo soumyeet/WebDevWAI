@@ -458,6 +458,418 @@
             font-size: 0.85rem;
             color: #666;
         }
+
+        .companies-heading {
+            padding: 0 30px;
+            margin: 40px 0 20px;
+            font-size: 24px;
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .companies-grid {
+            padding: 0 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .company-card {
+            background: var(--lighter-bg);
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .company-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .applicant-card {
+            background: var(--lighter-bg);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .applicant-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex: 1;
+        }
+
+        .applicant-avatar {
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            overflow: hidden;
+        }
+
+        .applicant-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .applicant-details {
+            flex: 1;
+        }
+
+        .applicant-name {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .applicant-position {
+            color: var(--text);
+            font-size: 0.9em;
+        }
+
+        .match-rate {
+            background: rgba(60, 186, 146, 0.1);
+            color: var(--success);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+
+        .generate-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .generate-btn:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+        }
+
+        .job-openings {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            padding: 0 30px;
+            margin-bottom: 40px;
+        }
+
+        .job-card {
+            background: var(--lighter-bg);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .job-title {
+            font-size: 1.2em;
+            font-weight: 500;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .job-stats {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+            font-size: 0.9em;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .questions-sidebar {
+            position: fixed;
+            right: -400px;
+            top: 0;
+            width: 400px;
+            height: 100vh;
+            background: white;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+            padding: 30px;
+            transition: right 0.3s ease;
+            overflow-y: auto;
+        }
+
+        .questions-sidebar.active {
+            right: 0;
+        }
+
+        .question-item {
+            background: var(--lighter-bg);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .close-sidebar {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text);
+        }
+
+        .applicants-section {
+            padding: 0 30px;
+        }
+
+        .applicants-grid {
+            display: grid;
+            gap: 20px;
+        }
+
+        .skills-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .skill-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 5px;
+        }
+
+        .skill-icon.present {
+            color: var(--success);
+            font-family: 'Material Icons';
+            font-size: 1.2em;
+        }
+
+        .skill-icon.missing {
+            color: var(--error);
+            font-family: 'Material Icons';
+            font-size: 1.2em;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            position: relative;
+            background: var(--lighter-bg);
+            margin: 50px auto;
+            padding: 30px;
+            width: 90%;
+            max-width: 800px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .modal-close {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            font-size: 24px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: var(--text);
+        }
+
+        .applicant-name {
+            font-size: 1.2em;
+            font-weight: 500;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .match-rate {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 15px;
+            background: rgba(60, 186, 146, 0.1);
+            color: var(--success);
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+
+        .interview-date {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(0,0,0,0.1);
+            color: var(--text);
+        }
+
+        .job-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+        }
+
+        .job-modal-content {
+            position: relative;
+            background: white;
+            margin: 50px auto;
+            padding: 30px;
+            width: 90%;
+            max-width: 800px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .job-modal-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .job-modal-company {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .job-modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text);
+        }
+
+        .job-description, .requirements {
+            margin-bottom: 20px;
+        }
+
+        .job-description h3, .requirements h3 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .requirements-list {
+            padding-left: 20px;
+        }
+
+        .requirements-list li {
+            margin-bottom: 8px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .action-button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .watchlist-btn {
+            background: rgba(60, 186, 196, 0.1);
+            color: var(--primary);
+        }
+
+        .apply-btn {
+            background: var(--primary);
+            color: white;
+        }
+
+        .action-button:hover {
+            transform: translateY(-2px);
+        }
+
+        .applicant-stats {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .applicant-stat {
+            flex: 1;
+            background: rgba(60, 186, 196, 0.05);
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .applicant-stat-value {
+            font-size: 1.5em;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .applicant-stat-label {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .job-progress {
+            height: 8px;
+            background: rgba(60, 186, 196, 0.1);
+            border-radius: 4px;
+            margin-top: 15px;
+            overflow: hidden;
+        }
+
+        .job-progress-bar {
+            height: 100%;
+            background: var(--primary);
+            border-radius: 4px;
+        }
+
+        .job-status {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px;
+            font-size: 0.8em;
+            color: #666;
+        }
+
+        .job-status-item {
+            text-align: center;
+        }
+
+        .job-status-item.active {
+            color: var(--primary);
+            font-weight: 500;
+        }
     </style>
 </head>
 <body>
@@ -466,7 +878,7 @@
         <div class="nav-items">
             <div class="tabs">
                 <div class="tab active">Dashboard</div>
-                <div class="tab" onclick="window.location.href='index_scout.html'">Scout</div>
+                <div class="tab">Jobs</div>
             </div>
             <div class="account-btn">
                 <span class="material-icons">account_circle</span>
@@ -474,370 +886,667 @@
         </div>
     </header>
 
-    <div class="dashboard-container">
-        <div class="company-header">
-            <div class="company-logo">
-                <span class="material-icons">business</span>
-            </div>
-            <div>
-                <h1 style="margin: 0;">TechCorp Dashboard</h1>
-                <p style="margin: 0.5rem 0 0; color: #666;">Enterprise Technology Solutions</p>
-            </div>
+    <h2 class="companies-heading">TechCorp Inc.</h2>
+    <div class="companies-grid">
+        <div class="company-card">
+            <div class="company-name">Active Job Postings</div>
+            <div class="match-rate">5 Active</div>
         </div>
-
-        <div class="dashboard-grid">
-            <div class="dashboard-card">
-                <div class="metric-value">50</div>
-                <div class="metric-label">Job Postings</div>
-            </div>
-            <div class="dashboard-card">
-                <div class="metric-value">250</div>
-                <div class="metric-label">Total Applicants</div>
-            </div>
-            <div class="dashboard-card">
-                <div class="metric-value">85%</div>
-                <div class="metric-label">Response Rate</div>
-            </div>
-            <div class="dashboard-card">
-                <div class="metric-value">4.8</div>
-                <div class="metric-label">Company Rating</div>
-            </div>
+        <div class="company-card">
+            <div class="company-name">Total Applicants</div>
+            <div class="match-rate">156 Applications</div>
         </div>
-
-        <div class="chart-grid">
-            <div class="chart-container">
-                <h2>Applicants per Job</h2>
-                <canvas id="applicantChart"></canvas>
-            </div>
-            <div class="chart-container">
-                <h2>Hiring Timeline</h2>
-                <canvas id="timelineChart"></canvas>
-            </div>
+        <div class="company-card">
+            <div class="company-name">Interviews Scheduled</div>
+            <div class="match-rate">12 This Week</div>
         </div>
+    </div>
 
-        <div class="dashboard-grid">
-            <div class="feature-card">
-                <div class="feature-icon icon-purple">
-                    <span class="material-icons">groups</span>
-                </div>
-                <h3>Community Reviews</h3>
-                <div class="review-card">
-                    <div class="review-header">
-                        <div class="review-avatar">
-                            <span class="material-icons">person</span>
-                        </div>
-                        <div>
-                            <div style="font-weight: 500;">Sarah M.</div>
-                            <div style="color: var(--warning);">
-                                <span class="material-icons">star</span>
-                                <span class="material-icons">star</span>
-                                <span class="material-icons">star</span>
-                                <span class="material-icons">star</span>
-                                <span class="material-icons">star_half</span>
-                            </div>
-                        </div>
+    <h2 class="companies-heading">Top Applicants</h2>
+    <div class="applications-grid" style="padding: 0 30px; margin-bottom: 40px;">
+        <div class="application-card">
+            <div class="application-header">
+                <div class="applicant-info">
+                    <div class="applicant-avatar">
+                        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Alice Smith">
                     </div>
-                    <p>"Great work environment and culture!"</p>
+                    <div>
+                        <h3>Alice Smith</h3>
+                        <span class="position-applied">Senior Full Stack Developer</span>
+                    </div>
                 </div>
-                <button class="view-more-btn">
-                    <span class="material-icons">visibility</span>
-                    View More Reviews
+                <div class="application-status status-new">95% Match</div>
+            </div>
+            <div class="application-details">
+                <div class="detail-item">
+                    <span class="material-icons">mail</span>
+                    alice.smith@email.com
+                </div>
+                <div class="detail-item">
+                    <span class="material-icons">phone</span>
+                    +1 212 555 1234
+                </div>
+                <div class="detail-item">
+                    <span class="material-icons">school</span>
+                    Master's in Computer Science
+                </div>
+                <div class="detail-item">
+                    <span class="material-icons">work</span>
+                    7+ years experience
+                </div>
+            </div>
+            <div class="skill-tags">
+                <span class="skill-tag">React</span>
+                <span class="skill-tag">TypeScript</span>
+                <span class="skill-tag">Node.js</span>
+                <span class="skill-tag">AWS</span>
+            </div>
+            <div class="interview-date">
+                <span class="material-icons">calendar_today</span>
+                Interview: Dec 15, 2023
+            </div>
+            <div class="application-actions">
+                <button class="action-btn view-btn" onclick="showQuestions()">
+                    <span class="material-icons">question_answer</span>
+                    Interview Questions
+                </button>
+                <button class="action-btn schedule-btn">
+                    <span class="material-icons">calendar_today</span>
+                    Schedule Interview
                 </button>
             </div>
+        </div>
 
-            <div class="feature-card">
-                <div class="feature-icon icon-primary">
-                    <span class="material-icons">analytics</span>
+        <div class="application-card">
+            <div class="application-header">
+                <div class="applicant-info">
+                    <div class="applicant-avatar">
+                        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Bob Johnson">
+                    </div>
+                    <div>
+                        <h3>Bob Johnson</h3>
+                        <span class="position-applied">ML Engineer</span>
+                    </div>
                 </div>
-                <h3>Analytics</h3>
-                <canvas id="analyticsChart"></canvas>
+                <div class="application-status status-new">92% Match</div>
             </div>
-
-            <div class="feature-card">
-                <div class="feature-icon icon-secondary">
-                    <span class="material-icons">event</span>
+            <div class="application-details">
+                <div class="detail-item">
+                    <span class="material-icons">mail</span>
+                    bob.johnson@email.com
                 </div>
-                <h3>Up Next</h3>
-                <div class="events-list">
-                    <div class="event-item">
-                        <div class="event-time">
-                            <span class="material-icons">schedule</span>
-                            Today, 2:00 PM
-                        </div>
-                        <div class="event-details">
-                            <h4>Interview: John Doe</h4>
-                            <p>Full Stack Developer Position</p>
-                        </div>
-                    </div>
-                    <div class="event-item">
-                        <div class="event-time">
-                            <span class="material-icons">schedule</span>
-                            Tomorrow, 10:00 AM
-                        </div>
-                        <div class="event-details">
-                            <h4>Team Review: Sarah Smith</h4>
-                            <p>UX Designer Application</p>
-                        </div>
-                    </div>
+                <div class="detail-item">
+                    <span class="material-icons">phone</span>
+                    +1 415 555 6789
+                </div>
+                <div class="detail-item">
+                    <span class="material-icons">school</span>
+                    PhD in Computer Science
+                </div>
+                <div class="detail-item">
+                    <span class="material-icons">work</span>
+                    5+ years experience
                 </div>
             </div>
-
-            <div class="feature-card">
-                <div class="feature-icon icon-success">
-                    <span class="material-icons">business_center</span>
-                </div>
-                <h3>Employer Profile</h3>
-                <div style="margin-top: 1rem;">
-                    <div style="margin-bottom: 0.5rem;">
-                        <strong>Industry:</strong> Technology
-                    </div>
-                    <div style="margin-bottom: 0.5rem;">
-                        <strong>Size:</strong> 1000+ employees
-                    </div>
-                    <div style="margin-bottom: 0.5rem;">
-                        <strong>Location:</strong> Global
-                    </div>
-                    <button style="background: var(--purple); color: white; border: none; padding: 0.5rem 1rem; border-radius: 8px; margin-top: 1rem;">
-                        Edit Profile
-                    </button>
-                </div>
+            <div class="skill-tags">
+                <span class="skill-tag">Python</span>
+                <span class="skill-tag">Machine Learning</span>
+                <span class="skill-tag">Data Analysis</span>
+                <span class="skill-tag">TensorFlow</span>
+            </div>
+            <div class="interview-date">
+                <span class="material-icons">calendar_today</span>
+                Interview: Dec 18, 2023
+            </div>
+            <div class="application-actions">
+                <button class="action-btn view-btn" onclick="showQuestions()">
+                    <span class="material-icons">question_answer</span>
+                    Interview Questions
+                </button>
+                <button class="action-btn schedule-btn">
+                    <span class="material-icons">calendar_today</span>
+                    Schedule Interview
+                </button>
             </div>
         </div>
 
-        <div class="applications-section">
-            <h2 class="section-title">Recent Applications</h2>
-            <div class="applications-grid">
-                <div class="application-card">
-                    <div class="application-header">
-                        <div class="applicant-info">
-                            <div class="applicant-avatar">
-                                <span class="material-icons">person</span>
-                            </div>
-                            <div>
-                                <h3>John Doe</h3>
-                                <span class="position-applied">Full Stack Developer</span>
-                            </div>
-                        </div>
-                        <div class="application-status status-new">New</div>
+        <div class="application-card">
+            <div class="application-header">
+                <div class="applicant-info">
+                    <div class="applicant-avatar">
+                        <img src="https://randomuser.me/api/portraits/men/68.jpg" alt="Charlie Brown">
                     </div>
-                    <div class="application-details">
-                        <div class="detail-item">
-                            <span class="material-icons">mail</span>
-                            john.doe@email.com
-                        </div>
-                        <div class="detail-item">
-                            <span class="material-icons">phone</span>
-                            +1 234 567 8900
-                        </div>
-                        <div class="detail-item">
-                            <span class="material-icons">school</span>
-                            Master's in Computer Science
-                        </div>
-                        <div class="detail-item">
-                            <span class="material-icons">work</span>
-                            5 years experience
-                        </div>
-                    </div>
-                    <div class="skill-tags">
-                        <span class="skill-tag">React</span>
-                        <span class="skill-tag">Node.js</span>
-                        <span class="skill-tag">Python</span>
-                        <span class="skill-tag">AWS</span>
-                    </div>
-                    <div class="application-actions">
-                        <button class="action-btn view-btn">
-                            <span class="material-icons">visibility</span>
-                            View Profile
-                        </button>
-                        <button class="action-btn schedule-btn">
-                            <span class="material-icons">calendar_today</span>
-                            Schedule Interview
-                        </button>
+                    <div>
+                        <h3>Charlie Brown</h3>
+                        <span class="position-applied">DevOps Engineer</span>
                     </div>
                 </div>
-
-                <div class="application-card">
-                    <div class="application-header">
-                        <div class="applicant-info">
-                            <div class="applicant-avatar">
-                                <span class="material-icons">person</span>
-                            </div>
-                            <div>
-                                <h3>Sarah Smith</h3>
-                                <span class="position-applied">UX Designer</span>
-                            </div>
-                        </div>
-                        <div class="application-status status-interview">Interview Scheduled</div>
-                    </div>
-                    <div class="application-details">
-                        <div class="detail-item">
-                            <span class="material-icons">mail</span>
-                            sarah.smith@email.com
-                        </div>
-                        <div class="detail-item">
-                            <span class="material-icons">phone</span>
-                            +1 234 567 8901
-                        </div>
-                        <div class="detail-item">
-                            <span class="material-icons">school</span>
-                            Bachelor's in Design
-                        </div>
-                        <div class="detail-item">
-                            <span class="material-icons">work</span>
-                            3 years experience
-                        </div>
-                    </div>
-                    <div class="skill-tags">
-                        <span class="skill-tag">Figma</span>
-                        <span class="skill-tag">Adobe XD</span>
-                        <span class="skill-tag">UI/UX</span>
-                        <span class="skill-tag">Prototyping</span>
-                    </div>
-                    <div class="application-actions">
-                        <button class="action-btn view-btn">
-                            <span class="material-icons">visibility</span>
-                            View Profile
-                        </button>
-                        <button class="action-btn message-btn">
-                            <span class="material-icons">message</span>
-                            Message
-                        </button>
-                    </div>
+                <div class="application-status status-new">88% Match</div>
+            </div>
+            <div class="application-details">
+                <div class="detail-item">
+                    <span class="material-icons">mail</span>
+                    charlie.brown@email.com
+                </div>
+                <div class="detail-item">
+                    <span class="material-icons">phone</span>
+                    +1 650 555 4321
+                </div>
+                <div class="detail-item">
+                    <span class="material-icons">school</span>
+                    Bachelor's in Computer Engineering
+                </div>
+                <div class="detail-item">
+                    <span class="material-icons">work</span>
+                    8+ years experience
                 </div>
             </div>
-            <button class="view-all-btn">View All Applications</button>
+            <div class="skill-tags">
+                <span class="skill-tag">AWS</span>
+                <span class="skill-tag">Docker</span>
+                <span class="skill-tag">Kubernetes</span>
+                <span class="skill-tag">CI/CD</span>
+            </div>
+            <div class="interview-date">
+                <span class="material-icons">calendar_today</span>
+                Interview: Dec 20, 2023
+            </div>
+            <div class="application-actions">
+                <button class="action-btn view-btn" onclick="showQuestions()">
+                    <span class="material-icons">question_answer</span>
+                    Interview Questions
+                </button>
+                <button class="action-btn schedule-btn">
+                    <span class="material-icons">calendar_today</span>
+                    Schedule Interview
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="companies-heading">Current Job Openings</h2>
+    <div class="companies-grid">
+        <div class="company-card" onclick="showJobDetails('senior-dev')">
+            <div class="company-logo" style="background-image: url('https://ui-avatars.com/api/?name=Tech+Corp&background=0D8ABC&color=fff')"></div>
+            <div class="applicant-name">Senior Full Stack Developer</div>
+            <div class="skills-matched">
+                <ul class="skills-list">
+                    <li class="skill-item">
+                        <span class="skill-icon present">people</span>
+                        45 Applicants
+                    </li>
+                    <li class="skill-item">
+                        <span class="skill-icon present">star</span>
+                        8 Shortlisted
+                    </li>
+                </ul>
+            </div>
+            <div class="interview-date">Posted: 5 days ago</div>
+            <div class="job-progress">
+                <div class="job-progress-bar" style="width: 60%;"></div>
+            </div>
+            <div class="job-status">
+                <span class="job-status-item active">Sourcing</span>
+                <span class="job-status-item active">Screening</span>
+                <span class="job-status-item">Interviewing</span>
+                <span class="job-status-item">Offer</span>
+            </div>
         </div>
 
-        <button class="post-job-btn">Post New Job</button>
+        <div class="company-card" onclick="showJobDetails('ml-engineer')">
+            <div class="company-logo" style="background-image: url('https://ui-avatars.com/api/?name=Tech+Corp&background=0D8ABC&color=fff')"></div>
+            <div class="applicant-name">ML Engineer</div>
+            <div class="skills-matched">
+                <ul class="skills-list">
+                    <li class="skill-item">
+                        <span class="skill-icon present">people</span>
+                        32 Applicants
+                    </li>
+                    <li class="skill-item">
+                        <span class="skill-icon present">star</span>
+                        5 Shortlisted
+                    </li>
+                </ul>
+            </div>
+            <div class="interview-date">Posted: 3 days ago</div>
+            <div class="job-progress">
+                <div class="job-progress-bar" style="width: 40%;"></div>
+            </div>
+            <div class="job-status">
+                <span class="job-status-item active">Sourcing</span>
+                <span class="job-status-item active">Screening</span>
+                <span class="job-status-item">Interviewing</span>
+                <span class="job-status-item">Offer</span>
+            </div>
+        </div>
+
+        <div class="company-card" onclick="showJobDetails('devops')">
+            <div class="company-logo" style="background-image: url('https://ui-avatars.com/api/?name=Tech+Corp&background=0D8ABC&color=fff')"></div>
+            <div class="applicant-name">DevOps Engineer</div>
+            <div class="skills-matched">
+                <ul class="skills-list">
+                    <li class="skill-item">
+                        <span class="skill-icon present">people</span>
+                        28 Applicants
+                    </li>
+                    <li class="skill-item">
+                        <span class="skill-icon present">star</span>
+                        4 Shortlisted
+                    </li>
+                </ul>
+            </div>
+            <div class="interview-date">Posted: 1 week ago</div>
+            <div class="job-progress">
+                <div class="job-progress-bar" style="width: 25%;"></div>
+            </div>
+            <div class="job-status">
+                <span class="job-status-item active">Sourcing</span>
+                <span class="job-status-item">Screening</span>
+                <span class="job-status-item">Interviewing</span>
+                <span class="job-status-item">Offer</span>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="companies-heading">All Applicants</h2>
+    <div class="applications-grid" style="padding: 0 30px; margin-bottom: 40px;">
+        <div class="application-card">
+            <div class="application-header">
+                <div class="applicant-info">
+                    <div class="applicant-avatar">
+                        <img src="https://randomuser.me/api/portraits/women/65.jpg" alt="Diana Miller">
+                    </div>
+                    <div>
+                        <h3>Diana Miller</h3>
+                        <span class="position-applied">UX Designer</span>
+                    </div>
+                </div>
+                <div class="application-status status-interview">85% Match</div>
+            </div>
+            <div class="application-details">
+                <div class="detail-item">
+                    <span class="material-icons">mail</span>
+                    diana.miller@email.com
+                </div>
+                <div class="detail-item">
+                    <span class="material-icons">phone</span>
+                    +44 20 7946 0958
+                </div>
+                <div class="detail-item">
+                    <span class="material-icons">school</span>
+                    Bachelor's in Design
+                </div>
+                <div class="detail-item">
+                    <span class="material-icons">work</span>
+                    4+ years experience
+                </div>
+            </div>
+            <div class="skill-tags">
+                <span class="skill-tag">UI/UX</span>
+                <span class="skill-tag">Figma</span>
+                <span class="skill-tag">User Research</span>
+                <span class="skill-tag">Prototyping</span>
+            </div>
+            <div class="application-actions">
+                <button class="action-btn view-btn" onclick="showQuestions()">
+                    <span class="material-icons">question_answer</span>
+                    Interview Questions
+                </button>
+                <button class="action-btn message-btn">
+                    <span class="material-icons">message</span>
+                    Contact Now
+                </button>
+            </div>
+        </div>
+
+        <div class="application-card">
+            <div class="application-header">
+                <div class="applicant-info">
+                    <div class="applicant-avatar">
+                        <img src="https://randomuser.me/api/portraits/men/42.jpg" alt="Ethan Davis">
+                    </div>
+                    <div>
+                        <h3>Ethan Davis</h3>
+                        <span class="position-applied">ML Engineer</span>
+                    </div>
+                </div>
+                <div class="application-status status-interview">82% Match</div>
+            </div>
+            <div class="application-details">
+                <div class="detail-item">
+                    <span class="material-icons">mail</span>
+                    ethan.davis@email.com
+                </div>
+                <div class="detail-item">
+                    <span class="material-icons">phone</span>
+                    +1 617 555 8765
+                </div>
+                <div class="detail-item">
+                    <span class="material-icons">school</span>
+                    Master's in Data Science
+                </div>
+                <div class="detail-item">
+                    <span class="material-icons">work</span>
+                    3+ years experience
+                </div>
+            </div>
+            <div class="skill-tags">
+                <span class="skill-tag">Python</span>
+                <span class="skill-tag">TensorFlow</span>
+                <span class="skill-tag">NLP</span>
+                <span class="skill-tag">Deep Learning</span>
+            </div>
+            <div class="application-actions">
+                <button class="action-btn view-btn" onclick="showQuestions()">
+                    <span class="material-icons">question_answer</span>
+                    Interview Questions
+                </button>
+                <button class="action-btn message-btn">
+                    <span class="material-icons">message</span>
+                    Contact Now
+                </button>
+            </div>
+        </div>
+
+        <div class="application-card">
+            <div class="application-header">
+                <div class="applicant-info">
+                    <div class="applicant-avatar">
+                        <img src="https://randomuser.me/api/portraits/men/91.jpg" alt="Frank Wilson">
+                    </div>
+                    <div>
+                        <h3>Frank Wilson</h3>
+                        <span class="position-applied">Mobile Developer</span>
+                    </div>
+                </div>
+                <div class="application-status status-interview">78% Match</div>
+            </div>
+            <div class="application-details">
+                <div class="detail-item">
+                    <span class="material-icons">mail</span>
+                    frank.wilson@email.com
+                </div>
+                <div class="detail-item">
+                    <span class="material-icons">phone</span>
+                    +1 312 555 9876
+                </div>
+                <div class="detail-item">
+                    <span class="material-icons">school</span>
+                    Bachelor's in Computer Science
+                </div>
+                <div class="detail-item">
+                    <span class="material-icons">work</span>
+                    5+ years experience
+                </div>
+            </div>
+            <div class="skill-tags">
+                <span class="skill-tag">React Native</span>
+                <span class="skill-tag">Mobile Dev</span>
+                <span class="skill-tag">JavaScript</span>
+                <span class="skill-tag">Swift</span>
+            </div>
+            <div class="application-actions">
+                <button class="action-btn view-btn" onclick="showQuestions()">
+                    <span class="material-icons">question_answer</span>
+                    Interview Questions
+                </button>
+                <button class="action-btn message-btn">
+                    <span class="material-icons">message</span>
+                    Contact Now
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="job-modal" id="job-details-modal">
+        <div class="job-modal-content">
+            <div class="job-modal-header">
+                <div>
+                    <h2 class="job-title" id="job-modal-title">Senior Full Stack Developer</h2>
+                    <div class="job-modal-company">
+                        <div class="company-logo" style="background-image: url('https://ui-avatars.com/api/?name=Tech+Corp&background=0D8ABC&color=fff')"></div>
+                        <div>
+                            <div class="company-name">TechCorp Inc.</div>
+                            <div class="job-location">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" 
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                    <circle cx="12" cy="10" r="3"></circle>
+                                </svg>
+                                <span id="job-modal-location">New York (Hybrid)</span>
+                            </div>
+                            <div class="package" id="job-modal-salary">$120,000 - $150,000</div>
+                        </div>
+                    </div>
+                </div>
+                <button class="job-modal-close" onclick="hideJobDetails()">&times;</button>
+            </div>
+
+            <div class="applicant-stats">
+                <div class="applicant-stat">
+                    <div class="applicant-stat-value" id="job-modal-applicants">45</div>
+                    <div class="applicant-stat-label">Total Applicants</div>
+                </div>
+                <div class="applicant-stat">
+                    <div class="applicant-stat-value" id="job-modal-shortlisted">8</div>
+                    <div class="applicant-stat-label">Shortlisted</div>
+                </div>
+                <div class="applicant-stat">
+                    <div class="applicant-stat-value" id="job-modal-interviews">4</div>
+                    <div class="applicant-stat-label">Interviews</div>
+                </div>
+                <div class="applicant-stat">
+                    <div class="applicant-stat-value" id="job-modal-offers">0</div>
+                    <div class="applicant-stat-label">Offers Sent</div>
+                </div>
+            </div>
+
+            <div class="job-description">
+                <h3>Job Description</h3>
+                <p id="job-modal-description">We are looking for a Senior Full Stack Developer to join our growing team. The ideal candidate will have experience with modern web technologies and be able to work on both frontend and backend development.</p>
+            </div>
+
+            <div class="requirements">
+                <h3>Requirements</h3>
+                <ul class="requirements-list" id="job-modal-requirements">
+                    <li>5+ years of experience in full stack development</li>
+                    <li>Strong proficiency in JavaScript, including DOM manipulation and the JavaScript object model</li>
+                    <li>Experience with React.js and its core principles</li>
+                    <li>Experience with Node.js and Express</li>
+                    <li>Experience with RESTful APIs</li>
+                    <li>Knowledge of modern authorization mechanisms, such as JSON Web Token</li>
+                    <li>Familiarity with modern front-end build pipelines and tools</li>
+                    <li>Experience with common front-end development tools such as Babel, Webpack, NPM, etc.</li>
+                </ul>
+            </div>
+
+            <div class="requirements">
+                <h3>Responsibilities</h3>
+                <ul class="requirements-list" id="job-modal-responsibilities">
+                    <li>Design and implement new features and functionality</li>
+                    <li>Build reusable code and libraries for future use</li>
+                    <li>Ensure the technical feasibility of UI/UX designs</li>
+                    <li>Optimize application for maximum speed and scalability</li>
+                    <li>Collaborate with other team members and stakeholders</li>
+                    <li>Maintain code quality, organization, and automatization</li>
+                </ul>
+            </div>
+
+            <div class="action-buttons">
+                <button class="action-button watchlist-btn">Edit Job Posting</button>
+                <button class="action-button apply-btn">View All Applicants</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="questions-modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="hideQuestions()">&times;</button>
+            <h2 style="color: var(--primary); margin-bottom: 20px;">Generated Interview Questions</h2>
+            <div class="gap-item">
+                <strong>Technical Questions:</strong>
+                <ul style="margin-top: 10px; margin-left: 20px;">
+                    <li>Explain the concept of React hooks and their advantages.</li>
+                    <li>How would you optimize a React application's performance?</li>
+                    <li>Describe your experience with microservices architecture.</li>
+                </ul>
+            </div>
+            <div class="gap-item">
+                <strong>System Design Questions:</strong>
+                <ul style="margin-top: 10px; margin-left: 20px;">
+                    <li>Design a real-time chat application.</li>
+                    <li>How would you scale a web application to handle millions of users?</li>
+                </ul>
+            </div>
+            <div class="gap-item">
+                <strong>Behavioral Questions:</strong>
+                <ul style="margin-top: 10px; margin-left: 20px;">
+                    <li>Describe a challenging project you've worked on.</li>
+                    <li>How do you handle disagreements in your team?</li>
+                </ul>
+            </div>
+        </div>
     </div>
 
     <script>
-        // Update chart options for better spacing
-        const chartOptions = {
-            maintainAspectRatio: false,
-            layout: {
-                padding: {
-                    left: 10,
-                    right: 10,
-                    top: 10,
-                    bottom: 10
-                }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: 'Number of Applications'
-                    }
-                },
-                x: {
-                    ticks: {
-                        maxRotation: 45,
-                        minRotation: 45
-                    }
-                }
-            }
-        };
+        function showQuestions() {
+            document.getElementById('questions-modal').style.display = 'block';
+        }
 
-        // Update Applicant Chart
-        const ctx = document.getElementById('applicantChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: ['Full Stack Developer', 'UX Designer', 'Product Manager', 'Data Scientist', 'DevOps Engineer'],
-                datasets: [{
-                    label: 'Applications Received',
-                    data: [84, 45, 62, 38, 56],
-                    backgroundColor: '#3cbac4',
-                    borderColor: '#298086',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                ...chartOptions,
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'Applications per Position (Last 30 Days)',
-                        padding: {
-                            top: 10,
-                            bottom: 20
-                        }
-                    }
-                }
-            }
-        });
+        function hideQuestions() {
+            document.getElementById('questions-modal').style.display = 'none';
+        }
 
-        // Update Timeline Chart
-        const timelineCtx = document.getElementById('timelineChart').getContext('2d');
-        new Chart(timelineCtx, {
-            type: 'line',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                datasets: [{
-                    label: 'Average Time to Hire (Days)',
-                    data: [42, 38, 35, 31, 28, 25],
-                    borderColor: '#6c5ce7',
-                    backgroundColor: 'rgba(108, 92, 231, 0.1)',
-                    tension: 0.4,
-                    fill: true
-                }]
-            },
-            options: {
-                ...chartOptions,
-                scales: {
-                    ...chartOptions.scales,
-                    y: {
-                        beginAtZero: false,
-                        title: {
-                            display: true,
-                            text: 'Days'
-                        }
-                    }
-                },
-                plugins: {
-                    title: {
-                        display: true,
-                        text: 'Hiring Timeline Improvement',
-                        padding: {
-                            top: 10,
-                            bottom: 20
-                        }
-                    }
-                }
-            }
-        });
+        function showJobDetails(jobId) {
+            const modal = document.getElementById('job-details-modal');
+            const title = document.getElementById('job-modal-title');
+            const location = document.getElementById('job-modal-location');
+            const salary = document.getElementById('job-modal-salary');
+            const applicants = document.getElementById('job-modal-applicants');
+            const shortlisted = document.getElementById('job-modal-shortlisted');
+            const interviews = document.getElementById('job-modal-interviews');
+            const offers = document.getElementById('job-modal-offers');
+            const description = document.getElementById('job-modal-description');
+            const requirements = document.getElementById('job-modal-requirements');
+            const responsibilities = document.getElementById('job-modal-responsibilities');
 
-        // Analytics Chart
-        const analyticsCtx = document.getElementById('analyticsChart').getContext('2d');
-        new Chart(analyticsCtx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Hired', 'In Process', 'Rejected', 'Withdrawn'],
-                datasets: [{
-                    data: [32, 45, 18, 5],
-                    backgroundColor: [
-                        '#4CAF50',  // Hired - Green
-                        '#6c5ce7',  // In Process - Purple
-                        '#FF5252',  // Rejected - Red
-                        '#95a5a6'   // Withdrawn - Gray
-                    ]
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                    },
-                    title: {
-                        display: true,
-                        text: 'Application Status Distribution'
-                    }
-                }
+            // Set job details based on job ID
+            if (jobId === 'senior-dev') {
+                title.textContent = 'Senior Full Stack Developer';
+                location.textContent = 'New York (Hybrid)';
+                salary.textContent = '$120,000 - $150,000';
+                applicants.textContent = '45';
+                shortlisted.textContent = '8';
+                interviews.textContent = '4';
+                offers.textContent = '0';
+                description.textContent = 'We are looking for a Senior Full Stack Developer to join our growing team. The ideal candidate will have experience with modern web technologies and be able to work on both frontend and backend development.';
+                
+                requirements.innerHTML = `
+                    <li>5+ years of experience in full stack development</li>
+                    <li>Strong proficiency in JavaScript, including DOM manipulation and the JavaScript object model</li>
+                    <li>Experience with React.js and its core principles</li>
+                    <li>Experience with Node.js and Express</li>
+                    <li>Experience with RESTful APIs</li>
+                    <li>Knowledge of modern authorization mechanisms, such as JSON Web Token</li>
+                    <li>Familiarity with modern front-end build pipelines and tools</li>
+                    <li>Experience with common front-end development tools such as Babel, Webpack, NPM, etc.</li>
+                `;
+                
+                responsibilities.innerHTML = `
+                    <li>Design and implement new features and functionality</li>
+                    <li>Build reusable code and libraries for future use</li>
+                    <li>Ensure the technical feasibility of UI/UX designs</li>
+                    <li>Optimize application for maximum speed and scalability</li>
+                    <li>Collaborate with other team members and stakeholders</li>
+                    <li>Maintain code quality, organization, and automatization</li>
+                `;
+            } else if (jobId === 'ml-engineer') {
+                title.textContent = 'ML Engineer';
+                location.textContent = 'Remote';
+                salary.textContent = '$130,000 - $160,000';
+                applicants.textContent = '32';
+                shortlisted.textContent = '5';
+                interviews.textContent = '2';
+                offers.textContent = '0';
+                description.textContent = 'We are seeking a talented Machine Learning Engineer to join our AI team. You will be responsible for developing and implementing machine learning models and algorithms to solve complex business problems.';
+                
+                requirements.innerHTML = `
+                    <li>3+ years of experience in machine learning or related field</li>
+                    <li>Strong programming skills in Python</li>
+                    <li>Experience with machine learning frameworks (TensorFlow, PyTorch, etc.)</li>
+                    <li>Experience with data processing and analysis</li>
+                    <li>Understanding of data structures, data modeling, and software architecture</li>
+                    <li>Knowledge of mathematics, probability, statistics, and algorithms</li>
+                    <li>Experience with cloud platforms (AWS, GCP, Azure)</li>
+                    <li>MS or PhD in Computer Science, Mathematics, or related field</li>
+                `;
+                
+                responsibilities.innerHTML = `
+                    <li>Design and implement machine learning models</li>
+                    <li>Research and implement appropriate ML algorithms and tools</li>
+                    <li>Develop machine learning applications according to requirements</li>
+                    <li>Select appropriate datasets and data representation methods</li>
+                    <li>Run machine learning tests and experiments</li>
+                    <li>Perform statistical analysis and fine-tuning using test results</li>
+                    <li>Train and retrain systems when necessary</li>
+                    <li>Extend existing ML libraries and frameworks</li>
+                `;
+            } else if (jobId === 'devops') {
+                title.textContent = 'DevOps Engineer';
+                location.textContent = 'San Francisco (On-site)';
+                salary.textContent = '$140,000 - $170,000';
+                applicants.textContent = '28';
+                shortlisted.textContent = '4';
+                interviews.textContent = '1';
+                offers.textContent = '0';
+                description.textContent = 'We are looking for a DevOps Engineer to help us build and maintain our cloud infrastructure. The ideal candidate will have experience with cloud platforms, containerization, and CI/CD pipelines.';
+                
+                requirements.innerHTML = `
+                    <li>4+ years of experience in DevOps or related field</li>
+                    <li>Strong experience with AWS, Azure, or GCP</li>
+                    <li>Experience with containerization technologies (Docker, Kubernetes)</li>
+                    <li>Experience with CI/CD tools (Jenkins, GitLab CI, GitHub Actions)</li>
+                    <li>Knowledge of infrastructure as code (Terraform, CloudFormation)</li>
+                    <li>Experience with monitoring and logging tools</li>
+                    <li>Strong scripting skills (Bash, Python)</li>
+                    <li>Understanding of networking and security concepts</li>
+                `;
+                
+                responsibilities.innerHTML = `
+                    <li>Design, implement, and maintain CI/CD pipelines</li>
+                    <li>Manage and optimize cloud infrastructure</li>
+                    <li>Implement and maintain containerization strategies</li>
+                    <li>Automate deployment processes</li>
+                    <li>Monitor system performance and troubleshoot issues</li>
+                    <li>Implement security best practices</li>
+                    <li>Collaborate with development teams to improve deployment processes</li>
+                    <li>Document infrastructure and processes</li>
+                `;
             }
-        });
+
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function hideJobDetails() {
+            document.getElementById('job-details-modal').style.display = 'none';
+            document.body.style.overflow = '';
+        }
+
+        window.onclick = function(event) {
+            const jobModal = document.getElementById('job-details-modal');
+            const questionsModal = document.getElementById('questions-modal');
+            
+            if (event.target === jobModal) {
+                jobModal.style.display = 'none';
+                document.body.style.overflow = '';
+            }
+            
+            if (event.target === questionsModal) {
+                questionsModal.style.display = 'none';
+                document.body.style.overflow = '';
+            }
+        }
     </script>
 </body>
 </html>

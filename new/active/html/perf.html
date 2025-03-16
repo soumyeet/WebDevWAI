@@ -22,6 +22,123 @@
 
         @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
 
+        .profile-section {
+            margin: 50px 30px;
+            background: var(--lighter-bg);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .resume-section {
+            width: 100%;
+            margin-bottom: 0;
+            background: var(--lighter-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .section-header {
+            padding: 15px 20px;
+            background: var(--lighter-bg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            font-size: 1.1em;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .add-new-btn {
+            padding: 6px 12px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .add-new-btn:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+        }
+
+        .section-content {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .resume-section.active .section-content {
+            padding: 20px;
+            max-height: 500px;
+        }
+
+        .bullet-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .bullet-list li {
+            padding: 10px 15px;
+            margin-bottom: 10px;
+            background: rgba(60, 186, 196, 0.1);
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .bullet-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .edit-icons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .edit-icons span {
+            cursor: pointer;
+            color: var(--text);
+            opacity: 0.6;
+            transition: all 0.3s ease;
+        }
+
+        .edit-icons span:hover {
+            opacity: 1;
+            color: var(--primary);
+        }
+
+        .skills-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .skill-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 5px;
+        }
+
         .companies-heading {
             padding: 0 30px;
             margin: 40px 0 20px;
@@ -57,6 +174,14 @@
             background: var(--lighter-bg);
             border-radius: 12px;
             box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        .resume-heading {
+            padding: 0 30px;
+            margin: 40px 0 20px;
+            font-size: 24px;
+            font-weight: 500;
+            color: var(--text);
         }
 
         .carousel-container {
@@ -111,25 +236,6 @@
             transform: scale(1.1);
         }
 
-        .watchlist-btn {
-            margin-top: 15px;
-            padding: 8px 16px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.2s ease;
-        }
-
-        .watchlist-btn:hover {
-            background: var(--secondary);
-            transform: translateY(-2px);
-        }
-
         @media (max-width: 1200px) {
             .carousel-item {
                 min-width: calc(50% - 20px);
@@ -140,19 +246,6 @@
             .carousel-item {
                 min-width: calc(100% - 20px);
             }
-        }
-
-        .skills-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .skill-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 8px;
         }
     </style>
 </head>
@@ -258,7 +351,7 @@
         <div class="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item">
-                    <div class="company-card">
+                    <div class="company-card" onclick="showComparison({})">
                         <div class="company-logo"></div>
                         <div class="company-name">InnovateTech</div>
                         <div class="skills-matched">
@@ -282,14 +375,10 @@
                             </ul>
                         </div>
                         <div class="interview-date">Match Rate: 85%</div>
-                        <button class="watchlist-btn">
-                            <span class="material-icons">add_circle_outline</span>
-                            Add to Watchlist
-                        </button>
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <div class="company-card">
+                    <div class="company-card" onclick="showComparison({})">
                         <div class="company-logo"></div>
                         <div class="company-name">WebFlow Systems</div>
                         <div class="skills-matched">
@@ -313,14 +402,10 @@
                             </ul>
                         </div>
                         <div class="interview-date">Match Rate: 80%</div>
-                        <button class="watchlist-btn">
-                            <span class="material-icons">add_circle_outline</span>
-                            Add to Watchlist
-                        </button>
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <div class="company-card">
+                    <div class="company-card" onclick="showComparison({})">
                         <div class="company-logo"></div>
                         <div class="company-name">CloudNet Solutions</div>
                         <div class="skills-matched">
@@ -344,14 +429,10 @@
                             </ul>
                         </div>
                         <div class="interview-date">Match Rate: 78%</div>
-                        <button class="watchlist-btn">
-                            <span class="material-icons">add_circle_outline</span>
-                            Add to Watchlist
-                        </button>
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <div class="company-card">
+                    <div class="company-card" onclick="showComparison({})">
                         <div class="company-logo"></div>
                         <div class="company-name">DataViz Corp</div>
                         <div class="skills-matched">
@@ -375,14 +456,10 @@
                             </ul>
                         </div>
                         <div class="interview-date">Match Rate: 75%</div>
-                        <button class="watchlist-btn">
-                            <span class="material-icons">add_circle_outline</span>
-                            Add to Watchlist
-                        </button>
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <div class="company-card">
+                    <div class="company-card" onclick="showComparison({})">
                         <div class="company-logo"></div>
                         <div class="company-name">AI Dynamics</div>
                         <div class="skills-matched">
@@ -406,14 +483,10 @@
                             </ul>
                         </div>
                         <div class="interview-date">Match Rate: 72%</div>
-                        <button class="watchlist-btn">
-                            <span class="material-icons">add_circle_outline</span>
-                            Add to Watchlist
-                        </button>
                     </div>
                 </div>
                 <div class="carousel-item">
-                    <div class="company-card">
+                    <div class="company-card" onclick="showComparison({})">
                         <div class="company-logo"></div>
                         <div class="company-name">SecureNet</div>
                         <div class="skills-matched">
@@ -437,10 +510,6 @@
                             </ul>
                         </div>
                         <div class="interview-date">Match Rate: 70%</div>
-                        <button class="watchlist-btn">
-                            <span class="material-icons">add_circle_outline</span>
-                            Add to Watchlist
-                        </button>
                     </div>
                 </div>
             </div>
@@ -488,6 +557,7 @@
             </div>
         </div>
     </div>
+
 
     <div class="modal" id="comparison-modal">
         <div class="modal-content">
@@ -577,8 +647,87 @@
             }
         });
 
+        document.querySelectorAll('.section-header').forEach(header => {
+            header.addEventListener('click', (e) => {
+                if (e.target.closest('.add-new-btn')) return;
+                
+                const section = header.closest('.resume-section');
+                section.classList.toggle('active');
+            });
+        });
+
+        let comparisonChart = null;
+
+        function showComparison(companyData) {
+            const modal = document.getElementById('comparison-modal');
+            modal.style.display = 'block';
+
+            if (comparisonChart) {
+                comparisonChart.destroy();
+            }
+
+            const ctx = document.getElementById('comparisonChart');
+            comparisonChart = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['Communication', 'Technical Skills', 'Problem Solving', 'Leadership', 'Creativity'],
+                    datasets: [{
+                        label: 'Your Skills',
+                        data: [65, 85, 70, 60, 75],
+                        fill: true,
+                        backgroundColor: 'rgba(64, 201, 162, 0.2)',
+                        borderColor: '#40C9A2',
+                        pointBackgroundColor: '#40C9A2',
+                        pointBorderColor: '#fff',
+                    },
+                    {
+                        label: 'Required Skills',
+                        data: [70, 90, 80, 65, 70],
+                        fill: true,
+                        backgroundColor: 'rgba(255, 82, 82, 0.2)',
+                        borderColor: '#FF5252',
+                        pointBackgroundColor: '#FF5252',
+                        pointBorderColor: '#fff',
+                    }]
+                },
+                options: {
+                    scales: {
+                        r: {
+                            angleLines: { color: 'rgba(0, 0, 0, 0.1)' },
+                            grid: { color: 'rgba(0, 0, 0, 0.1)' },
+                            pointLabels: { color: '#2A2D34' },
+                            ticks: { backdropColor: 'transparent' }
+                        }
+                    }
+                }
+            });
+        }
+
+        let currentPosition = 0;
+        const carousel = document.querySelector('.carousel-inner');
+        const items = document.querySelectorAll('.carousel-item');
+        const itemWidth = items[0].offsetWidth;
+        const itemsPerView = window.innerWidth > 1200 ? 3 : window.innerWidth > 768 ? 2 : 1;
+        const maxPosition = items.length - itemsPerView;
+
+        function moveCarousel(direction) {
+            currentPosition = Math.max(Math.min(currentPosition + direction, maxPosition), 0);
+            carousel.style.transform = `translateX(-${currentPosition * (itemWidth + 20)}px)`;
+        }
+
+        window.addEventListener('resize', () => {
+            const newItemsPerView = window.innerWidth > 1200 ? 3 : window.innerWidth > 768 ? 2 : 1;
+            if (newItemsPerView !== itemsPerView) {
+                currentPosition = 0;
+                carousel.style.transform = 'translateX(0)';
+            }
+        });
+
         document.querySelectorAll('.company-card').forEach(card => {
-            card.addEventListener('click', () => showComparison({}));
+            card.addEventListener('click', (e) => {
+                e.stopPropagation();
+                showComparison({});
+            });
         });
 
         document.querySelector('.modal-close').addEventListener('click', () => {
@@ -603,26 +752,6 @@
                     window.location.href = 'home.html';
                 }
             });
-        });
-
-        let currentPosition = 0;
-        const carousel = document.querySelector('.carousel-inner');
-        const items = document.querySelectorAll('.carousel-item');
-        const itemWidth = items[0].offsetWidth;
-        const itemsPerView = window.innerWidth > 1200 ? 3 : window.innerWidth > 768 ? 2 : 1;
-        const maxPosition = items.length - itemsPerView;
-
-        function moveCarousel(direction) {
-            currentPosition = Math.max(Math.min(currentPosition + direction, maxPosition), 0);
-            carousel.style.transform = `translateX(-${currentPosition * (itemWidth + 20)}px)`;
-        }
-
-        window.addEventListener('resize', () => {
-            const newItemsPerView = window.innerWidth > 1200 ? 3 : window.innerWidth > 768 ? 2 : 1;
-            if (newItemsPerView !== itemsPerView) {
-                currentPosition = 0;
-                carousel.style.transform = 'translateX(0)';
-            }
         });
     </script>
 </body>
