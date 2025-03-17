@@ -225,6 +225,7 @@
             }
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
     <div class="background-shapes">
@@ -293,5 +294,99 @@
             }
         }
     </script>
+    <script>
+    // Initialize Supabase client
+    const supabase = supabase.createClient(
+        'https://ialndgfbbtnbccqrcara.supabase.co',
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlhbG5kZ2ZiYnRuYmNjcXJjYXJhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDIxNTQ3MTgsImV4cCI6MjA1NzczMDcxOH0.sj7fMwpRvBqrPT1w3jCyeil2oZBDWc-BCxZ3edWlD7M'
+    );
+
+    // Handle form submission
+    document.querySelector('form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const formData = {
+            first_name: document.getElementById('firstName').value,
+            surname: document.getElementById('surname').value,
+            email: document.getElementById('email').value,
+            phone: document.getElementById('phone').value,
+            role: document.getElementById('role').value
+        };
+
+        try {
+            // Get the current user's session
+            const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+            if (sessionError) throw sessionError;
+
+            if (!session) {
+                alert('Please log in first');
+                window.location.href = 'index_login.html';
+                return;
+            }
+
+            // Upload resume if it exists
+            let resumeUrl = null;
+            if (formData.role === 'applicant') {
+                const resumeFile = document.getElementById('resume').files[0];
+                if (resumeFile) {
+                    const { data: fileData, error: fileError } = await supabase.storage
+                        .from('resumes')
+                        .upload(`${session.user.id}/${resumeFile.name}`, resumeFile);
+                    
+                    if (fileError) throw fileError;
+                    resumeUrl = fileData.path;
+                }
+            }
+
+            // Insert user data into the profiles table
+            const { data, error } = await supabase
+                .from('profiles')
+                .upsert([
+                    {
+                        id: session.user.id,
+                        ...formData,
+                        resume_url: resumeUrl,
+                        updated_at: new Date().toISOString()
+                    }
+                ]);
+
+            if (error) throw error;
+
+            // Redirect based on role
+            if (formData.role === 'applicant') {
+                window.location.href = 'perf.html';
+            } else {
+                window.location.href = 'recruiter_dashboard.html';
+            }
+
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred while saving your information. Please try again.');
+        }
+    });
+
+    // Social media integration
+    document.querySelector('.social-button:nth-child(1)').addEventListener('click', async function(e) {
+        e.preventDefault();
+        const { data, error } = await supabase.auth.signInWithOAuth({
+            provider: 'linkedin'
+        });
+    });
+
+    document.querySelector('.social-button:nth-child(2)').addEventListener('click', async function(e) {
+        e.preventDefault();
+        const { data, error } = await supabase.auth.signInWithOAuth({
+            provider: 'github'
+        });
+    });
+
+    // Check authentication status on page load
+    window.addEventListener('load', async () => {
+        const { data: { session }, error } = await supabase.auth.getSession();
+        if (!session) {
+            window.location.href = 'index_login.html';
+        }
+    });
+</script>
 </body>
 </html>
