@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="main.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Recruitment Helper - Jobs</title>
+  <!-- Include Chart.js for the radar chart -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header>
+    <h1><i>Conexio</i></h1>
+    <div class="nav-items">
+      <div class="tabs">
+        <div class="tab" onclick="window.location.href='perf.html'">Performance</div>
+        <div class="tab active">Jobs</div>
+      </div>
+      <div class="account-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+        </svg>
+      </div>
+    </div>
+  </header>
+
+  <div class="main-container">
+    <button class="filter-toggle">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" 
+           stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="4" y1="21" x2="4" y2="14"></line>
+        <line x1="4" y1="10" x2="4" y2="3"></line>
+        <line x1="12" y1="21" x2="12" y2="12"></line>
+        <line x1="12" y1="8" x2="12" y2="3"></line>
+        <line x1="20" y1="21" x2="20" y2="16"></line>
+        <line x1="20" y1="12" x2="20" y2="3"></line>
+        <line x1="1" y1="14" x2="7" y2="14"></line>
+        <line x1="9" y1="8" x2="15" y2="8"></line>
+        <line x1="17" y1="16" x2="23" y2="16"></line>
+      </svg>
+      Filters
+    </button>
+
+    <aside class="filter-section">
+      <div class="filter-heading">
+        <span>Filters</span>
+        <div class="filter-actions">
+          <button class="filter-btn filter-clear">Clear all</button>
+          <button class="filter-btn filter-apply">Apply</button>
+        </div>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-group-title">Job Type</div>
+        <label class="filter-option">
+          <input type="checkbox"> Full-time
+        </label>
+        <label class="filter-option">
+          <input type="checkbox"> Part-time
+        </label>
+        <label class="filter-option">
+          <input type="checkbox"> Contract
+        </label>
+        <label class="filter-option">
+          <input type="checkbox"> Internship
+        </label>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-group-title">Experience Level</div>
+        <label class="filter-option">
+          <input type="checkbox"> Entry Level
+        </label>
+        <label class="filter-option">
+          <input type="checkbox"> Mid Level
+        </label>
+        <label class="filter-option">
+          <input type="checkbox"> Senior Level
+        </label>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-group-title">Location</div>
+        <label class="filter-option">
+          <input type="checkbox"> Remote
+        </label>
+        <label class="filter-option">
+          <input type="checkbox"> On-site
+        </label>
+        <label class="filter-option">
+          <input type="checkbox"> Hybrid
+        </label>
+      </div>
+
+      <div class="filter-group">
+        <div class="filter-group-title">Salary Range</div>
+        <label class="filter-option">
+          <input type="checkbox"> $0 - $50k
+        </label>
+        <label class="filter-option">
+          <input type="checkbox"> $50k - $100k
+        </label>
+        <label class="filter-option">
+          <input type="checkbox"> $100k - $150k
+        </label>
+        <label class="filter-option">
+          <input type="checkbox"> $150k+
+        </label>
+      </div>
+    </aside>
+
+    <!-- Main container for job cards -->
+    <main class="jobs-section" id="root">
+      <!-- Feedback elements for loading and errors -->
+      <div id="loading" style="display: none;">Loading...</div>
+      <div id="error" style="display: none;"></div>
+      <button id="retry-btn" style="display: none;">Retry</button>
+    </main>
+  </div>
+
+  <!-- Radar Chart Modal Popup for Skills Gap Analysis -->
+  <div class="modal" id="comparison-modal">
+    <div class="modal-content">
+      <button class="modal-close" onclick="hideComparisonModal()">&times;</button>
+      <div class="comparison-chart">
+        <canvas id="comparisonChart"></canvas>
+      </div>
+      <div class="gap-analysis">
+        <h2>Skills Gap Analysis</h2>
+        <div class="gap-item">
+          <strong>Strong Match:</strong> Your technical skills align well with the job requirements.
+        </div>
+        <div class="gap-item improvement">
+          <strong>Need Improvement:</strong> Consider enhancing your AWS skills.
+        </div>
+        <div class="gap-item">
+          <strong>Action Items:</strong>
+          <ul class="action-list">
+            <li>Enroll in an AWS certification course</li>
+            <li>Practice cloud architecture patterns</li>
+            <li>Build portfolio projects using AWS services</li>
+          </ul>
+        </div>
+        <div class="modal-actions">
+          <button class="action-button watchlist-btn">
+            Add to Watchlist
+          </button>
+          <button class="action-button apply-btn">
+            Apply Now
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    console.log('js component is running...');
+    let comparisonChart = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const jobsGrid = document.getElementById('root');
+      const loadingDiv = document.getElementById('loading');
+      const errorDiv = document.getElementById('error');
+      const retryButton = document.getElementById('retry-btn');
+
+      async function fetchJobs() {
+        try {
+          loadingDiv.style.display = 'block';
+          errorDiv.style.display = 'none';
+          retryButton.style.display = 'none';
+          console.log('Fetching jobs data...');
+          const response = await fetch('http://localhost:8000/api/jobs');
+          const data = await response.json();
+          console.log(data);
+          if (data.status === 'success') {
+            displayJobs(data.data);
+          } else {
+            showError('Failed to load jobs data');
+          }
+        } catch (err) {
+          showError('Failed to connect to the server');
+        } finally {
+          loadingDiv.style.display = 'none';
+        }
+      }
+
+      function displayJobs(jobs) {
+        // Remove any previously added job cards while preserving feedback elements.
+        Array.from(jobsGrid.children).forEach(child => {
+          if (!['loading', 'error', 'retry-btn'].includes(child.id)) {
+            jobsGrid.removeChild(child);
+          }
+        });
+
+        if (jobs.length === 0) {
+          const noJobsDiv = document.createElement('div');
+          noJobsDiv.className = 'no-jobs';
+          noJobsDiv.textContent = 'No jobs found';
+          jobsGrid.appendChild(noJobsDiv);
+          return;
+        }
+
+        jobs.forEach(job => {
+          const jobCard = document.createElement('div');
+          jobCard.className = 'job-card';
+          jobCard.dataset.jobId = job.profile_id; // Add profile_id as data attribute
+          jobCard.innerHTML = `
+            <div class="company-logo">
+              <img src="${job.logo_filename || 'default-logo.png'}" alt="${job.company_name}" onerror="this.src='default-logo.png'">
+            </div>
+            <div class="job-title">${job.job_type}</div>
+            <div class="company-name">${job.company_name}</div>
+            <div class="job-location">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+              ${job.location}
+            </div>
+            <div class="package">${job.salary_range}</div>
+            <div class="skills-container">
+              ${job.requirements.split(',').slice(0, 3).map(skill => `<span class="skills-tag">${skill.trim()}</span>`).join('')}
+            </div>
+            <div class="availability">${job.availability_needed}</div>
+          `;
+          // Clicking the job card will trigger the radar chart popup
+          jobCard.addEventListener('click', () => showJobComparison(job));
+          jobsGrid.appendChild(jobCard);
+        });
+      }
+
+      function showError(message) {
+        errorDiv.style.display = 'block';
+        errorDiv.innerHTML = `Error: ${message}`;
+        retryButton.style.display = 'block';
+      }
+
+      retryButton.addEventListener('click', () => {
+        retryButton.style.display = 'none';
+        fetchJobs();
+      });
+
+      fetchJobs();
+      // Refresh jobs every 30 seconds.
+      setInterval(fetchJobs, 30000);
+    });
+
+    // Function to show the radar chart popup (Skills Gap Analysis)
+    function showJobComparison(job) {
+      // (Optionally, you could update the gap analysis text based on the job details.)
+      const modal = document.getElementById('comparison-modal');
+      
+      // Initialize or update the radar chart
+      const ctx = document.getElementById('comparisonChart').getContext('2d');
+      if (comparisonChart) {
+        comparisonChart.destroy();
+      }
+      comparisonChart = new Chart(ctx, {
+        type: 'radar',
+        data: {
+          labels: ['Communication', 'Technical Skills', 'Problem Solving', 'Leadership', 'Creativity'],
+          datasets: [{
+            label: 'Your Skills',
+            data: [65, 85, 70, 60, 75],
+            fill: true,
+            backgroundColor: 'rgba(46, 196, 182, 0.2)',
+            borderColor: '#40C9A2',
+            pointBackgroundColor: '#20A4F3',
+            pointBorderColor: '#fff'
+          },
+          {
+            label: 'Required Skills',
+            data: [70, 90, 80, 65, 70],
+            fill: true,
+            backgroundColor: 'rgba(255, 82, 82, 0.2)',
+            borderColor: '#FF5252',
+            pointBackgroundColor: '#FF5252',
+            pointBorderColor: '#fff'
+          }]
+        },
+        options: {
+          elements: {
+            line: { borderWidth: 3 }
+          },
+          maintainAspectRatio: false,
+          scales: {
+            r: {
+              angleLines: { color: 'rgba(0, 0, 0, 0.1)' },
+              grid: { color: 'rgba(0, 0, 0, 0.1)' },
+              pointLabels: { color: '#2A2D34' },
+              ticks: { backdropColor: 'transparent' }
+            }
+          }
+        }
+      });
+      
+      modal.style.display = 'block';
+      document.body.style.overflow = 'hidden';
+    }
+
+    // Function to hide the radar chart popup
+    function hideComparisonModal() {
+      document.getElementById('comparison-modal').style.display = 'none';
+      document.body.style.overflow = '';
+    }
+
+    // Hide modal when clicking outside of it.
+    window.onclick = function(event) {
+      const modal = document.getElementById('comparison-modal');
+      if (event.target === modal) {
+        hideComparisonModal();
+      }
+    }
+
+    function addToWatchlist(job) {
+      try {
+          // Send job data to FastAPI endpoint
+          fetch("http://localhost:8000/api/watchlist/add", {
+              method: "POST",
+              headers: {
+                  "Content-Type": "application/json",
+              },
+              body: JSON.stringify(job),
+          })
+          .then(response => {
+              if (!response.ok) {
+                  throw new Error(`HTTP error! Status: ${response.status}`);
+              }
+              return response.json();
+          })
+          .then(data => {
+              showNotification(data.message, data.status);
+          })
+          .catch(error => {
+              console.error("Error adding to watchlist:", error);
+              showNotification("Failed to add job to watchlist", "error");
+          });
+      } catch (error) {
+          console.error("Error adding to watchlist:", error);
+          showNotification("Failed to add job to watchlist", "error");
+      }
+  }
+
+  function showNotification(message, type) {
+      const notification = document.createElement('div');
+      notification.className = `notification ${type}`;
+      notification.textContent = message;
+      document.body.appendChild(notification);
+      
+      // Remove notification after 3 seconds
+      setTimeout(() => {
+          notification.remove();
+      }, 3000);
+  }
+
+  // Update the watchlist button click handler
+  document.querySelector('.watchlist-btn').addEventListener('click', function() {
+      const jobId = this.closest('.job-card').dataset.jobId;
+      const job = allJobs.find(j => j.job_id === jobId);
+      if (job) {
+          addToWatchlist(job);
+      }
+  });
+  </script>
+
+  <style>
+  .notification {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 15px 25px;
+      border-radius: 8px;
+      color: white;
+      font-weight: 500;
+      z-index: 1000;
+      animation: slideIn 0.3s ease;
+  }
+
+  .notification.success {
+      background-color: var(--success);
+  }
+
+  .notification.error {
+      background-color: var(--danger);
+  }
+
+  .notification.info {
+      background-color: var(--primary);
+  }
+
+  @keyframes slideIn {
+      from {
+          transform: translateX(100%);
+          opacity: 0;
+      }
+      to {
+          transform: translateX(0);
+          opacity: 1;
+      }
+  }
+  </style>
+</body>
+</html>
