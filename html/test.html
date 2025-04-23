@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Supabase Applicants Manager</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+</head>
+<body>
+  <h2>🧠 Applicant Manager</h2>
+
+  <!-- Load Applicants -->
+  <button id="load-btn">Load Applicants</button>
+  <div id="applicant-list"></div>
+
+  <!-- Add Applicant -->
+  <h3>Add Applicant</h3>
+  <input type="text" id="name" placeholder="Name" />
+  <input type="text" id="email" placeholder="Email" />
+  <button id="add-btn">Add</button>
+
+  <!-- Update Applicant -->
+  <h3>Update Applicant</h3>
+  <input type="number" id="update-id" placeholder="ID" />
+  <input type="text" id="update-name" placeholder="New Name" />
+  <button id="update-btn">Update</button>
+
+  <!-- Delete Applicant -->
+  <h3>Delete Applicant</h3>
+  <input type="number" id="delete-id" placeholder="ID" />
+  <button id="delete-btn">Delete</button>
+
+  <script>
+    fetch("config.yaml")
+      .then(res => res.text())
+      .then(yamlText => {
+        const config = jsyaml.load(yamlText);
+        const { createClient } = supabase;
+        const supabaseClient = createClient(config.SUPABASE_URL, config.SUPABASE_KEY);
+
+        // FUNCTIONS
+        async function fetchApplicants() {
+          const { data, error } = await supabaseClient.from('account').select('*');
+          const list = document.getElementById('applicant-list');
+          if (error) {
+            console.error(error);
+            list.innerHTML = '<p style="color:red;">Error fetching applicants.</p>';
+            return;
+          }
+          list.innerHTML = data.map(app => `<p>${app.id}: ${app.name} (${app.email})</p>`).join('');
+        }
+
+        async function addApplicant() {
+          const name = document.getElementById('name').value;
+          const email = document.getElementById('email').value;
+          console.log("Adding:", { name, email });
+
+          const { data, error } = await supabaseClient.from('account').insert([{ name, email }]);
+          if (error) console.error("Insert Error:", error);
+          else console.log("Insert Success:", data);
+
+        }
+
+        async function updateApplicant() {
+          const id = document.getElementById('update-id').value;
+          const name = document.getElementById('update-name').value;
+          const { error } = await supabaseClient.from('account').update({ name }).eq('id', id);
+          if (error) {
+            console.error(error);
+            alert('❌ Error updating applicant');
+          } else {
+            alert('✅ Applicant updated');
+            fetchApplicants();
+          }
+        }
+
+        async function deleteApplicant() {
+          const id = document.getElementById('delete-id').value;
+          const { error } = await supabaseClient.from('account').delete().eq('id', id);
+          if (error) {
+            console.error(error);
+            alert('❌ Error deleting applicant');
+          } else {
+            alert('✅ Applicant deleted');
+            fetchApplicants();
+          }
+        }
+
+        // EVENT BINDINGS
+        document.getElementById('load-btn').onclick = fetchApplicants;
+        document.getElementById('add-btn').onclick = addApplicant;
+        document.getElementById('update-btn').onclick = updateApplicant;
+        document.getElementById('delete-btn').onclick = deleteApplicant;
+
+        // Optional: Auto-load on startup
+        // fetchApplicants();
+      })
+      .catch(err => {
+        console.error('❌ Failed to load config.yaml or initialize app:', err);
+        document.body.innerHTML = '<p style="color:red;">Could not load config or initialize app.</p>';
+      });
+  </script>
+</body>
+</html>

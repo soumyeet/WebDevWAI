@@ -1,26 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Conexio Jobs</title>
+  <meta charset="UTF-8" />
+  <title>Conexio Job Scout</title>
   <link rel="stylesheet" href="main.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
-  <style>
-    .filter-toggle {
-      margin-left: 1rem;
-      padding: 0.5rem 1rem;
-      background-color: #eee;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    .filter-toggle:hover {
-      background-color: #ddd;
-    }
-  </style>
 </head>
 <body>
   <header>
@@ -55,6 +41,12 @@
         <label><input type="checkbox" name="job_type" value="Internship" /> Internship</label>
       </div>
       <div class="filter-group">
+        <div class="filter-group-title">Location</div>
+        <label><input type="checkbox" name="location" value="Remote" /> Remote</label>
+        <label><input type="checkbox" name="location" value="On-site" /> On-site</label>
+        <label><input type="checkbox" name="location" value="Hybrid" /> Hybrid</label>
+      </div>
+      <div class="filter-group">
         <div class="filter-group-title">Salary</div>
         <label><input type="checkbox" name="salary" value="0-50000" /> $0 - $50k</label>
         <label><input type="checkbox" name="salary" value="50000-100000" /> $50k - $100k</label>
@@ -84,32 +76,29 @@
       async function fetchFilteredJobs() {
         const searchInput = document.querySelector('.search-input').value.toLowerCase().trim();
         const selectedTypes = Array.from(document.querySelectorAll('input[name="job_type"]:checked')).map(cb => cb.value);
+        const selectedLocations = Array.from(document.querySelectorAll('input[name="location"]:checked')).map(cb => cb.value);
         const selectedSalaries = Array.from(document.querySelectorAll('input[name="salary"]:checked')).map(cb => cb.value);
 
-        const { data: jobs, error } = await supabaseClient.from('jobs').select('job_id, industry, requirements, salary, job_type, company_id');
-        const { data: companies, error: companyError } = await supabaseClient.from('company').select('company_id, company_name');
+        let query = supabaseClient.from('jobs').select('*');
 
+        if (searchInput) {
+          query = query.or(`industry.ilike.%${searchInput}%,requirements.ilike.%${searchInput}%,job_type.ilike.%${searchInput}%`);
+        }
+
+        if (selectedTypes.length > 0) query = query.in('job_type', selectedTypes);
+        if (selectedLocations.length > 0) query = query.in('location', selectedLocations);
+
+        const { data: jobs, error } = await query;
         const container = document.querySelector('.jobs-grid');
-        if (error || companyError) {
-          console.error('Query Error:', error || companyError);
+        if (error) {
+          console.error('Query Error:', error.message);
           container.innerHTML = '<p style="color:red;">Failed to load jobs.</p>';
           return;
         }
 
         let filteredJobs = jobs;
-        if (searchInput) {
-          filteredJobs = filteredJobs.filter(job => {
-            const text = `${job.industry} ${job.requirements} ${job.job_type}`.toLowerCase();
-            return text.includes(searchInput);
-          });
-        }
-
-        if (selectedTypes.length > 0) {
-          filteredJobs = filteredJobs.filter(job => selectedTypes.includes(job.job_type));
-        }
-
         if (selectedSalaries.length > 0) {
-          filteredJobs = filteredJobs.filter(job => {
+          filteredJobs = jobs.filter(job => {
             const jobSalary = parseInt(job.salary.replace(/[^\d]/g, '')) || 0;
             return selectedSalaries.some(range => {
               if (range === '150000') return jobSalary >= 150000;
@@ -121,7 +110,6 @@
 
         container.innerHTML = '';
         filteredJobs.forEach(job => {
-          const companyName = companies.find(c => c.company_id === job.company_id)?.company_name || 'Unknown Company';
           const requirementsTags = job.requirements
             ? job.requirements.split(',').map(item => `<span class="skills-tag">${item.trim()}</span>`).join(' ')
             : '';
@@ -130,7 +118,7 @@
             <div class="job-card">
               <div class="company-logo"></div>
               <div class="job-title">${job.industry || 'Job Title'}</div>
-              <div class="company-name">${companyName}</div>
+              <div class="company-name">Job ID: ${job.job_id}</div>
               <div class="job-location">${job.job_type || 'Job Type'}</div>
               <div class="package">${job.salary || 'N/A'}</div>
               <div class="interview-date">${requirementsTags}</div>

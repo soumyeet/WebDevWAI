@@ -296,10 +296,6 @@
           <img src="assets/google-logo.svg" alt="Google">
           Google
         </button>
-        <button class="social-btn">
-          <img src="assets/linkedin-logo.svg" alt="LinkedIn">
-          LinkedIn
-        </button>
       </div>
 
       <form id="signup-form">
@@ -314,7 +310,7 @@
       </form>
 
       <p class="login-link">
-        Already have an account? <a href="index_login.html">Log in</a>
+        Already have an account? <a href="login.html">Log in</a>
       </p>
     </div>
   </div>
@@ -348,7 +344,7 @@
               email,
               password,
               options: {
-                  emailRedirectTo: `${window.location.origin}/index_info2.html`
+                  emailRedirectTo: `${window.location.origin}/user_info.html`
               }
           });
 
@@ -364,8 +360,24 @@
               console.log('Signup successful:', data.user);
               alert(`Success! Please check your email (${email}) to confirm your account.`);
               // Store user info in localStorage if needed
+              try {
+                const { error: insertError } = await supabaseClient
+                  .from('account')
+                  .insert([{ email, password }]);  // Saving password (plaintext for now)
+
+                if (insertError) {
+                  console.error('Error inserting to account table:', insertError.message);
+                  alert('Account created but storing user info failed.');
+                } else {
+                  alert('Account info saved to database.');
+                }
+              } catch (err) {
+                console.error('DB insert error:', err.message);
+                alert('Unexpected error saving to database.');
+              }
+
               localStorage.setItem('userEmail', email);
-              window.location.href = "index_info2.html";
+              window.location.href = "user_info.html";
           } else {
               console.warn('No user data received');
               alert('Signup completed but no user data received. Please try logging in.');
